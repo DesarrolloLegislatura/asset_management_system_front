@@ -84,3 +84,13 @@ front-ficha-tecnica/
   - `refactor`: refactorización sin nuevas funcionalidades ni fixes (e.g. `refactor(login): mejorar validación`).
 - Ejemplo: `feat(login): agregar validación de contraseña`.
 - Mensaje de commit debe ser claro, en tiempo presente y mantener el scope.
+
+# Solucion de Error
+
+Si no funciona el comando `npm i` ejecutar el siguiente comando:
+
+```bash
+npm install @vitejs/plugin-react-swc@latest --save-dev
+```
+
+Esto soluciona el error de que esta desactualizado el plugin de react-swc.
