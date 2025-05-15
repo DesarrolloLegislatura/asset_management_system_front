@@ -67,7 +67,7 @@ front-ficha-tecnica/
 
 ### Ramas
 
-- `main` o `master`: rama de producción.
+- `main` rama de producción.
 - `develop`: integración de features antes de release.
 - `feature/<descripcion-corta>`: nuevas funcionalidades.
 - `fix/<descripcion-corta>`: correcciones de bugs.
