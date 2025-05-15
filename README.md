@@ -69,18 +69,18 @@ front-ficha-tecnica/
 
 - `main` rama de producción.
 - `develop`: integración de features antes de release.
-- `feature/<descripcion-corta>`: nuevas funcionalidades.
-- `fix/<descripcion-corta>`: correcciones de bugs.
-- `chore/<descripcion-corta>`: tareas de mantenimiento.
+- `feature/<descripcion-corta>`: nuevas funcionalidades (e.g. `feature/impresion-ficha-tecnica`). En este caso, `impresion-ficha-tecnica` es una rama que se crea desde la rama `develop`, y en ella se va a trabajar en la implementación de la impresión de la ficha técnica. Cuando se complete la implementación, se hace un pull request para fusionarla con la rama `develop`.
+- `fix/<descripcion-corta>`: correcciones de bugs (e.g. `fix/bug-login`). En este caso, `bug-login` es una rama que se crea desde la rama `develop`, y en ella se va a trabajar en la corrección del bug de login. Cuando se complete la corrección, se hace un pull request para fusionarla con la rama `develop`.
+- `chore/<descripcion-corta>`: tareas de mantenimiento (e.g. `chore/actualizacion-dependencias`). En este caso, `actualizacion-dependencias` es una rama que se crea desde la rama `develop`, y en ella se va a trabajar en la actualización de las dependencias. Cuando se complete la actualización, se hace un pull request para fusionarla con la rama `develop`.
 
 ### Commits (Conventional Commits)
 
 - Formato: `<tipo>(<ámbito>): <descripción corta>`
 - Tipos comunes:
-  - `feat`: nueva funcionalidad.
-  - `fix`: solución de bug.
-  - `chore`: cambios de infraestructura o mantenimiento.
-  - `docs`: cambios en documentación.
-  - `refactor`: refactorización sin nuevas funcionalidades ni fixes.
+  - `feat`: nueva funcionalidad (e.g. `feat(login): agregar validación de contraseña`).
+  - `fix`: solución de bug (e.g. `fix(login): corregir error de validación`).
+  - `chore`: cambios de infraestructura o mantenimiento (e.g. `chore(dependencias): actualizar dependencias`).
+  - `docs`: cambios en documentación (e.g. `docs(readme): actualizar documentación`).
+  - `refactor`: refactorización sin nuevas funcionalidades ni fixes (e.g. `refactor(login): mejorar validación`).
 - Ejemplo: `feat(login): agregar validación de contraseña`.
 - Mensaje de commit debe ser claro, en tiempo presente y mantener el scope.
