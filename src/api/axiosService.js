@@ -1,8 +1,11 @@
 import { useAuthStore } from "@/store/authStore";
 import axios from "axios";
 
+const API_URL_DEV = import.meta.env.VITE_API_URL_DEV;
+// const API_URL_PROD = import.meta.env.VITE_API_URL_PROD;
+
 const axiosService = axios.create({
-  baseURL: "http://10.12.9.24:9090/api",
+  baseURL: API_URL_DEV,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",

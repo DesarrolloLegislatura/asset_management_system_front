@@ -1,4 +1,3 @@
-import axios from "axios";
 import axiosService from "./axiosService";
 const authService = {
   auth: async (username, password) => {
@@ -26,7 +25,7 @@ const authService = {
       };
       return response;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
+      if (axiosService.isAxiosError(error)) {
         throw error;
       }
       throw new Error("Falló la autenticación");

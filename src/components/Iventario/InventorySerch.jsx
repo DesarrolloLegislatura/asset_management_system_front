@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef, useMemo, useCallback } from "react";
-import { useParte } from "../../hooks/useParte";
+import { useAsset } from "../../hooks/useAsset";
 import { Search } from "lucide-react";
 
-const InventarioSerch = ({
+export const InventorySerch = ({
   value,
   onChange,
   onDescriptionChange,
@@ -11,8 +11,11 @@ const InventarioSerch = ({
 }) => {
   const [inputValue, setInputValue] = useState(value || "");
   const [isOpen, setIsOpen] = useState(false);
-  const { partes, loading } = useParte();
+  const { assets, loading } = useAsset();
   const dropdownRef = useRef(null);
+
+  //los assets vienen de la api y son un array de objetos,
+  console.log("los assets", assets);
 
   // Actualizar el valor del input cuando cambia el prop value
   useEffect(() => {
@@ -52,10 +55,10 @@ const InventarioSerch = ({
   // Memorizar la función handleSelectPart
   const handleSelectPart = useCallback(
     (part) => {
-      setInputValue(part.partNumber);
-      onChange(part.partNumber);
-      if (onDescriptionChange && part.descripcion) {
-        onDescriptionChange(part.descripcion);
+      setInputValue(part.inventory);
+      onChange(part.inventory);
+      if (onDescriptionChange && part.typeasset?.name) {
+        onDescriptionChange(part.typeasset.name);
       }
       setIsOpen(false);
     },
@@ -63,31 +66,34 @@ const InventarioSerch = ({
   );
 
   // Memorizar las partes filtradas para evitar recalcularlas en cada render
-  const filteredParts = useMemo(() => {
-    if (!inputValue.trim() || !partes.length) return [];
+  const filteredInventory = useMemo(() => {
+    if (!inputValue.trim() || !assets.length) return [];
 
-    return partes.filter((part) =>
-      part.partNumber.toLowerCase().includes(inputValue.toLowerCase())
+    // TODO: Verificar por que algunos assets.inventory son null, xq funciona bien cuando agrego la restriccion de !== null
+    return assets.filter(
+      (asset) =>
+        asset.inventory !== null &&
+        asset.inventory.toString().includes(inputValue)
     );
-  }, [inputValue, partes]);
+  }, [inputValue, assets]);
 
   // Memorizar el contenido del dropdown para evitar recrearlo en cada render
   const dropdownContent = useMemo(() => {
     if (!isOpen) return null;
 
-    if (filteredParts.length > 0) {
+    if (filteredInventory.length > 0) {
       return (
         <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
-          {filteredParts.map((part, index) => (
+          {filteredInventory.map((part, index) => (
             <div
               key={index}
               className="px-4 py-2 cursor-pointer hover:bg-gray-100"
               onClick={() => handleSelectPart(part)}
             >
-              <div className="font-medium">{part.partNumber}</div>
-              {part.descripcion && (
+              <div className="font-medium">{part.inventory}</div>
+              {part.typeasset?.name && (
                 <div className="text-sm text-gray-500 truncate">
-                  {part.descripcion}
+                  {part.typeasset.name}
                 </div>
               )}
             </div>
@@ -100,24 +106,24 @@ const InventarioSerch = ({
       return (
         <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg p-4 text-center">
           <p className="text-gray-500">
-            No se encontraron resultados. Puedes ingresar un nuevo PartNumber.
+            No se encontraron resultados. Puedes ingresar un nuevo Inventory.
           </p>
         </div>
       );
     }
 
     return null;
-  }, [isOpen, filteredParts, inputValue, handleSelectPart]);
+  }, [isOpen, filteredInventory, inputValue, handleSelectPart]);
 
   return (
     <div className="relative" ref={dropdownRef}>
       <div className="flex items-center relative">
         <input
-          type="text"
+          type="number"
           value={inputValue}
           onChange={handleInputChange}
           onFocus={() => inputValue.trim() && setIsOpen(true)}
-          placeholder="Buscar o ingresar PartNumber..."
+          placeholder="Ingresar Numero de Inventario"
           className={`w-full px-4 py-2 pr-10 border ${
             error ? "border-red-500" : "border-gray-300"
           } rounded-md`}
@@ -142,5 +148,3 @@ const InventarioSerch = ({
     </div>
   );
 };
-
-export default PartNumberInput;

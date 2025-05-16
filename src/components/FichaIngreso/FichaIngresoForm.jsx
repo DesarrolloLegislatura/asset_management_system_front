@@ -15,14 +15,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useDependencias } from "@/hooks/useDependencia";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect, useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import { Loader2 } from "lucide-react";
-import { TIPOS_BIENES } from "@/constants/typeBienes";
+import { InventorySerch } from "../Iventario/InventorySerch";
 
 export function FichaIngresoForm() {
   const { idFichaIngreso } = useParams();
@@ -30,12 +29,8 @@ export function FichaIngresoForm() {
   const [isEditMode, setIsEditMode] = useState(false);
 
   const navigate = useNavigate();
-  const {
-    fichaTecnicaById,
-    createFichaTecnica,
-    updateFichaTecnica,
-    fetchByIdFichaTecnica,
-  } = useFichaTecnica();
+  const { fichaTecnicaById, createFichaTecnica, updateFichaTecnica } =
+    useFichaTecnica();
   const form = useForm({
     defaultValues: {
       numero_patrimonio: "",
@@ -55,31 +50,6 @@ export function FichaIngresoForm() {
   const { control, handleSubmit, setValue, reset } = form;
 
   const user = useAuthStore((state) => state.user);
-  const selectedDepGral = useWatch({
-    control,
-    name: "dependencia",
-    exact: true,
-  });
-
-  const { dependencias, dependenciasInternas } =
-    useDependencias(selectedDepGral);
-  useEffect(() => {
-    const loadFichaTecnica = async () => {
-      if (idFichaIngreso) {
-        setIsEditMode(true);
-        setIsLoading(true);
-        try {
-          await fetchByIdFichaTecnica(+idFichaIngreso);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    loadFichaTecnica();
-  }, [idFichaIngreso, fetchByIdFichaTecnica]);
 
   useEffect(() => {
     if (
@@ -116,33 +86,6 @@ export function FichaIngresoForm() {
     }
   }, [isEditMode, fichaTecnicaById, reset, setValue]);
 
-  // Reset dependencia interna when dependencia changes
-  useEffect(() => {}, [selectedDepGral, setValue, isLoading]);
-  useEffect(() => {
-    if (selectedDepGral !== undefined && !isLoading) {
-      setValue("id_dependencia_int_fk", "");
-    }
-    if (
-      isEditMode &&
-      fichaTecnicaById &&
-      selectedDepGral && // Important - only run when main dependencia is selected
-      dependenciasInternas.length > 0 // Important - only run when options are loaded
-    ) {
-      if (fichaTecnicaById.dependencia_interna?.id_dependencia_interna) {
-        setValue(
-          "id_dependencia_int_fk",
-          fichaTecnicaById.dependencia_interna.id_dependencia_interna.toString()
-        );
-      }
-    }
-  }, [
-    isEditMode,
-    fichaTecnicaById,
-    dependenciasInternas,
-    selectedDepGral,
-    setValue,
-    isLoading,
-  ]);
   const onSubmit = async (data) => {
     console.log(user);
 
@@ -166,6 +109,13 @@ export function FichaIngresoForm() {
     }
   };
 
+  const handleInventoryChange = (value) => {
+    setValue("inventory", value, { shouldValidate: true });
+  };
+
+  const handleTypeassetChange = (description) => {
+    setValue("typeasset", description, { shouldValidate: true });
+  };
   return (
     <div className="max-w-4xl mx-auto">
       <h2 className="text-xl font-semibold mb-6">
@@ -195,6 +145,85 @@ export function FichaIngresoForm() {
                 {/* Contenido colapsable */}
                 <div className="transition-all duration-300 max-h-full p-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Numero de Patrimono */}
+
+                    <FormField
+                      control={control}
+                      name="inventory"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Numero de Patrimonio</FormLabel>
+                          <FormControl>
+                            <InventorySerch
+                              value={field.value}
+                              onChange={handleInventoryChange}
+                              onDescriptionChange={handleTypeassetChange}
+                              // disabled={isEditMode}
+                              // error={errors.inventory?.message}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Tipo de */}
+                    <FormField
+                      control={control}
+                      name="tipo_de_bien"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Tipo de Bien </FormLabel>
+                          <FormControl>
+                            <Input
+                              type={"text"}
+                              {...field}
+                              className="w-full"
+                              placeholder="Tipo de Bien del patrimonio"
+                              disabled={true}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Area */}
+                    <FormField
+                      control={control}
+                      name="area"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Area</FormLabel>
+                          <Input
+                            type={"text"}
+                            {...field}
+                            className="w-full"
+                            placeholder="Area que pertenece el bien"
+                            disabled={true}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    {/* Edificio */}
+                    <FormField
+                      control={control}
+                      name="edificio"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Edificio </FormLabel>
+                          <Input
+                            type={"text"}
+                            {...field}
+                            className="w-full"
+                            placeholder="Edificio que pertenece el bien"
+                            disabled={true}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                     {/* Medio Solicitud  */}
                     <FormField
                       control={control}
@@ -221,35 +250,6 @@ export function FichaIngresoForm() {
                               <SelectItem value="telefono">
                                 📱 Telefono
                               </SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    {/* Tipo de */}
-                    <FormField
-                      control={control}
-                      name="tipo_de_bien"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Tipo de Bien </FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            value={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Seleccione de Tipos de Bien" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {TIPOS_BIENES.map((bien) => (
-                                <SelectItem key={bien.value} value={bien.value}>
-                                  {bien.label}
-                                </SelectItem>
-                              ))}
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -285,25 +285,6 @@ export function FichaIngresoForm() {
                           </FormItem>
                         );
                       }}
-                    />
-                    {/* Numero de Patrimono */}
-                    <FormField
-                      control={control}
-                      name="numero_patrimonio"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Numero de Patrimonio</FormLabel>
-                          <FormControl>
-                            <Input
-                              type={"number"}
-                              {...field}
-                              className="w-full"
-                              placeholder="Ingrese el numero de patrimonio"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
                     />
 
                     {/* Fecha Ingreso */}
@@ -351,84 +332,6 @@ export function FichaIngresoForm() {
                                   </SelectItem>
                                 </>
                               )}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {/* Dependencia */}
-
-                    <FormField
-                      control={control}
-                      name="dependencia"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Dependencia</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            value={field.value} // Add this critical prop
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Seleccione la dependencia " />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {dependencias.map((dependencia) => (
-                                <SelectItem
-                                  key={dependencia.id_dependencia}
-                                  value={dependencia.id_dependencia.toString()}
-                                >
-                                  {dependencia.dep_gral}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    {/* Dependencia Interna*/}
-                    <FormField
-                      control={control}
-                      // name="dependenciaInterna" //id_dependencia_int_fk
-                      name="id_dependencia_int_fk"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Dependencia Interna</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            disabled={!selectedDepGral}
-                            value={field.value} // Add this critical prop
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue
-                                  placeholder={
-                                    !selectedDepGral
-                                      ? "Primero seleccione una dependencia"
-                                      : "Seleccione la Dependencia Interna"
-                                  }
-                                />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {
-                                // Filtramos las dependencias internas por la dependencia seleccionada
-                                dependenciasInternas.length > 0 &&
-                                  dependenciasInternas.map((dependencia) => (
-                                    <SelectItem
-                                      key={dependencia.id_dependencia_interna}
-                                      value={dependencia.id_dependencia_interna.toString()}
-                                    >
-                                      {dependencia.dep_interna}
-                                    </SelectItem>
-                                  ))
-                              }
                             </SelectContent>
                           </Select>
                           <FormMessage />
