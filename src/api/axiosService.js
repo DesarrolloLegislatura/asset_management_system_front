@@ -23,6 +23,7 @@ axiosService.interceptors.request.use(
       "/users/logout",
       "/tds/tds",
       "/tds/assets",
+      "/tds/status/",
     ];
     const isPublicRoute = publicRoutes.some((route) =>
       config.url.includes(route)

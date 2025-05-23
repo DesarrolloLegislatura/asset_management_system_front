@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
+import { useStatus } from "@/hooks/useStatus";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -27,10 +28,12 @@ export function FichaIngresoForm() {
   const { idFichaIngreso } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [assetSelected, setAssetSelected] = useState(false);
 
   const navigate = useNavigate();
   const { fichaTecnicaById, createFichaTecnica, updateFichaTecnica } =
     useFichaTecnica();
+  const { status, loading: loadingStatus } = useStatus();
   const form = useForm({
     defaultValues: {
       asset: null,
@@ -47,7 +50,7 @@ export function FichaIngresoForm() {
       contact_name: "",
       contact_phone: "",
       medio_solicitud: "",
-      status: "ingreso",
+      status: "1",
     },
   });
   const { control, handleSubmit, setValue, reset } = form;
@@ -83,23 +86,35 @@ export function FichaIngresoForm() {
   }, [isEditMode, fichaTecnicaById, reset, setValue]);
 
   const onSubmit = async (data) => {
-    console.log(user);
+    // Construir solo los campos requeridos por la API
+    const dataToSend = {
+      act_simple: data.act_simple,
+      year_act_simple: new Date().getFullYear().toString(),
+      user_description: data.user_description,
+      date: null, // Si tienes un campo de fecha diferente, cámbialo aquí
+      user_pc: data.usuario_pc,
+      pass_pc: data.contrasenia_pc,
+      contact_name: data.contact_name,
+      contact_phone: data.contact_phone,
+      means_application: data.medio_solicitud,
+      date_in: data.date_in,
+      asset: data.asset,
+      status: [parseInt(data.status)], // Convertir a entero para asegurar que se envía como número
+      users: [user.id],
+    };
 
-    data.year_act_simple = new Date().getFullYear().toString();
-    data.id_user = user.id;
-    console.log("Data a enviar:", data);
-
+    console.log("Data a enviar:", dataToSend);
     try {
       let response;
       if (isEditMode) {
-        response = await updateFichaTecnica(idFichaIngreso, data);
+        response = await updateFichaTecnica(idFichaIngreso, dataToSend);
         navigate(`/ficha-ingreso/detail/${idFichaIngreso}`);
       } else {
-        response = await createFichaTecnica(data);
+        response = await createFichaTecnica(dataToSend);
         console.log("Response from API:", response); // Log API response
-        if (response.asset) {
-          navigate(`/ficha-ingreso/detail/${response}`);
-        }
+        // if (response.asset) {
+        //   navigate(`/ficha-ingreso/detail/${response}`);
+        // }
       }
     } catch (error) {
       console.log(error);
@@ -111,6 +126,7 @@ export function FichaIngresoForm() {
     setValue("asset", fichaTecnicaById, {
       shouldValidate: true,
     });
+    setAssetSelected(!!fichaTecnicaById);
   };
 
   const handleTypeassetChange = (typeasset) => {
@@ -161,7 +177,7 @@ export function FichaIngresoForm() {
                       name="inventory"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Numero de Patrimonio</FormLabel>
+                          <FormLabel>Numero de Inventario</FormLabel>
                           <FormControl>
                             <InventorySerch
                               value={field.value}
@@ -324,6 +340,7 @@ export function FichaIngresoForm() {
                             onValueChange={field.onChange}
                             defaultValue={field.value}
                             value={field.value}
+                            disabled={loadingStatus}
                           >
                             <FormControl>
                               <SelectTrigger>
@@ -331,12 +348,18 @@ export function FichaIngresoForm() {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value={1}>📥 Ingreso</SelectItem>
-                              {idFichaIngreso && (
-                                <>
-                                  <SelectItem value={2}>📤 Salida</SelectItem>
-                                  <SelectItem value={3}>🚚 Retirada</SelectItem>
-                                </>
+                              {status.map((estado) => (
+                                <SelectItem
+                                  key={estado.id}
+                                  value={estado.id.toString()}
+                                >
+                                  {estado.name}
+                                </SelectItem>
+                              ))}
+                              {loadingStatus && status.length === 0 && (
+                                <SelectItem value="loading" disabled>
+                                  Cargando estados...
+                                </SelectItem>
                               )}
                             </SelectContent>
                           </Select>
@@ -451,12 +474,19 @@ export function FichaIngresoForm() {
                 >
                   Cancelar
                 </Button>
-                <Button type="submit" disabled={isLoading}>
-                  {isLoading && (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <div className="flex flex-col">
+                  <Button type="submit" disabled={isLoading || !assetSelected}>
+                    {isLoading && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    {isEditMode ? "Actualizar" : "Guardar"}
+                  </Button>
+                  {!assetSelected && (
+                    <p className="text-yellow-500 text-xs mt-1">
+                      Debes seleccionar un número de inventario
+                    </p>
                   )}
-                  {isEditMode ? "Actualizar" : "Guardar"}
-                </Button>
+                </div>
               </div>
             </form>
           </Form>

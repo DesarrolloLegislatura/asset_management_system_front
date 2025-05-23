@@ -46,28 +46,20 @@ export function FichaIngresoList() {
       header: "N° de Patrimonio",
     },
     {
-      accessorKey: "act_simple",
-      header: "Acto Simple",
-      cell: ({ row }) => {
-        const ficha = row.original;
-        const estado = row.getValue("act_simple");
-        const anio = ficha.year_act_simple;
-        return <span>{`${estado}/${anio}`}</span>;
-      },
-    },
-    {
-      accessorKey: "building.name",
-      header: "Edificio",
-    },
-    {
       accessorKey: "date_in",
       header: "Fecha Ingreso",
+      cell: ({ row }) => {
+        const date = new Date(row.getValue("date_in"));
+        return date.toLocaleDateString("es-ES");
+      },
     },
     {
       accessorKey: "status.name",
       header: "Estado",
       cell: ({ row }) => {
-        const estado = row.getValue("status.name")?.toLowerCase() || "";
+        const ficha = row.original;
+        // Obtener el primer estado del array de estados
+        const estado = ficha.status[0]?.name?.toLowerCase() || "";
 
         // Mapeo de estados a sus estilos y emojis
         const estadoConfig = {
@@ -148,6 +140,14 @@ export function FichaIngresoList() {
           </Badge>
         );
       },
+    },
+    {
+      accessorKey: "asset.area.name",
+      header: "Área",
+    },
+    {
+      accessorKey: "asset.building.name",
+      header: "Edificio",
     },
     {
       id: "actions",
