@@ -33,18 +33,21 @@ export function FichaIngresoForm() {
     useFichaTecnica();
   const form = useForm({
     defaultValues: {
-      numero_patrimonio: "",
+      asset: null,
+      inventory: "",
+      typeasset: "",
+      area: "",
+      building: "",
       act_simple: "",
-      fecha_de_ingreso: new Date().toISOString().split("T")[0],
+      date_in: new Date().toISOString().split("T")[0],
       usuario_pc: "",
       contrasenia_pc: "",
-      anio_act_simple: new Date().getFullYear().toString(),
-      descripcion_user: "",
-      contacto_nombre: "",
-      contacto_telefono: "",
+      year_act_simple: new Date().getFullYear().toString(),
+      user_description: "",
+      contact_name: "",
+      contact_phone: "",
       medio_solicitud: "",
-      tipo_de_bien: "",
-      estado_del_bien: "ingreso",
+      status: "ingreso",
     },
   });
   const { control, handleSubmit, setValue, reset } = form;
@@ -57,31 +60,24 @@ export function FichaIngresoForm() {
       fichaTecnicaById &&
       Object.keys(fichaTecnicaById).length > 0
     ) {
-      setTimeout(() => {
-        if (fichaTecnicaById.dependencia_interna?.dependencia?.id_dependencia) {
-          setValue(
-            "dependencia",
-            fichaTecnicaById.dependencia_interna.dependencia.id_dependencia.toString()
-          );
-        }
-      }, 100);
       reset({
-        numero_patrimonio: fichaTecnicaById.numero_patrimonio || "",
+        inventory: fichaTecnicaById.inventory || "",
+        typeasset: fichaTecnicaById.typeasset || "",
+        area: fichaTecnicaById.area || "",
+        building: fichaTecnicaById.building || "",
         act_simple: fichaTecnicaById.act_simple || "",
-        fecha_de_ingreso:
-          fichaTecnicaById.fecha_de_ingreso ||
-          new Date().toISOString().split("T")[0],
+        date_in:
+          fichaTecnicaById.date_in || new Date().toISOString().split("T")[0],
         usuario_pc: fichaTecnicaById.usuario_pc || "",
         contrasenia_pc: fichaTecnicaById.contrasenia_pc || "",
-        anio_act_simple:
-          fichaTecnicaById.anio_act_simple ||
+        year_act_simple:
+          fichaTecnicaById.year_act_simple ||
           new Date().getFullYear().toString(),
-        descripcion_user: fichaTecnicaById.descripcion_user || "",
-        contacto_nombre: fichaTecnicaById.contacto_nombre || "",
-        contacto_telefono: fichaTecnicaById.contacto_telefono || "",
+        user_description: fichaTecnicaById.user_description || "",
+        contact_name: fichaTecnicaById.contact_name || "",
+        contact_phone: fichaTecnicaById.contact_phone || "",
         medio_solicitud: fichaTecnicaById.medio_solicitud || "",
-        tipo_de_bien: fichaTecnicaById.tipo_de_bien || "",
-        estado_del_bien: fichaTecnicaById.estado_del_bien || "",
+        status: fichaTecnicaById.status || "",
       });
     }
   }, [isEditMode, fichaTecnicaById, reset, setValue]);
@@ -89,7 +85,7 @@ export function FichaIngresoForm() {
   const onSubmit = async (data) => {
     console.log(user);
 
-    data.anio_act_simple = new Date().getFullYear().toString();
+    data.year_act_simple = new Date().getFullYear().toString();
     data.id_user = user.id;
     console.log("Data a enviar:", data);
 
@@ -100,8 +96,9 @@ export function FichaIngresoForm() {
         navigate(`/ficha-ingreso/detail/${idFichaIngreso}`);
       } else {
         response = await createFichaTecnica(data);
-        if (response.id_ficha_tecnica) {
-          navigate(`/ficha-ingreso/detail/${response.id_ficha_tecnica}`);
+        console.log("Response from API:", response); // Log API response
+        if (response.asset) {
+          navigate(`/ficha-ingreso/detail/${response}`);
         }
       }
     } catch (error) {
@@ -109,13 +106,25 @@ export function FichaIngresoForm() {
     }
   };
 
-  const handleInventoryChange = (value) => {
-    setValue("inventory", value, { shouldValidate: true });
+  const handleInventoryChange = (inventoryValue, fichaTecnicaById) => {
+    setValue("inventory", inventoryValue, { shouldValidate: true });
+    setValue("asset", fichaTecnicaById, {
+      shouldValidate: true,
+    });
   };
 
-  const handleTypeassetChange = (description) => {
-    setValue("typeasset", description, { shouldValidate: true });
+  const handleTypeassetChange = (typeasset) => {
+    setValue("typeasset", typeasset, { shouldValidate: true });
   };
+
+  const handleAreaChange = (area) => {
+    setValue("area", area, { shouldValidate: true });
+  };
+
+  const handleBuildingChange = (building) => {
+    setValue("building", building, { shouldValidate: true });
+  };
+
   return (
     <div className="max-w-4xl mx-auto">
       <h2 className="text-xl font-semibold mb-6">
@@ -157,8 +166,11 @@ export function FichaIngresoForm() {
                             <InventorySerch
                               value={field.value}
                               onChange={handleInventoryChange}
-                              onDescriptionChange={handleTypeassetChange}
-                              // disabled={isEditMode}
+                              onTypeassetChange={handleTypeassetChange}
+                              onAreaChange={handleAreaChange}
+                              onBuildingChange={handleBuildingChange}
+                              disabled={isEditMode}
+
                               // error={errors.inventory?.message}
                             />
                           </FormControl>
@@ -167,10 +179,10 @@ export function FichaIngresoForm() {
                       )}
                     />
 
-                    {/* Tipo de */}
+                    {/* Tipo de Asset */}
                     <FormField
                       control={control}
-                      name="tipo_de_bien"
+                      name="typeasset"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Tipo de Bien </FormLabel>
@@ -209,7 +221,7 @@ export function FichaIngresoForm() {
                     {/* Edificio */}
                     <FormField
                       control={control}
-                      name="edificio"
+                      name="building"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Edificio </FormLabel>
@@ -227,7 +239,7 @@ export function FichaIngresoForm() {
                     {/* Medio Solicitud  */}
                     <FormField
                       control={control}
-                      name="medio_solicitud"
+                      name="means_application"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Medio de Solicitud</FormLabel>
@@ -290,7 +302,7 @@ export function FichaIngresoForm() {
                     {/* Fecha Ingreso */}
                     <FormField
                       control={control}
-                      name="fecha_de_ingreso"
+                      name="date_in"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Fecha Ingreso</FormLabel>
@@ -304,7 +316,7 @@ export function FichaIngresoForm() {
                     {/* Estado */}
                     <FormField
                       control={control}
-                      name="estado_del_bien"
+                      name="status"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Estado del Bien </FormLabel>
@@ -319,17 +331,11 @@ export function FichaIngresoForm() {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="ingreso">
-                                📥 Ingreso
-                              </SelectItem>
+                              <SelectItem value={1}>📥 Ingreso</SelectItem>
                               {idFichaIngreso && (
                                 <>
-                                  <SelectItem value="salida">
-                                    📤 Salida
-                                  </SelectItem>
-                                  <SelectItem value="retirada">
-                                    🚚 Retirada
-                                  </SelectItem>
+                                  <SelectItem value={2}>📤 Salida</SelectItem>
+                                  <SelectItem value={3}>🚚 Retirada</SelectItem>
                                 </>
                               )}
                             </SelectContent>
@@ -342,7 +348,7 @@ export function FichaIngresoForm() {
                     {/* Descripción Usuario */}
                     <FormField
                       control={control}
-                      name="descripcion_user"
+                      name="user_description"
                       render={({ field }) => (
                         <FormItem className="md:col-span-2">
                           <FormLabel>Descripción del Usuario</FormLabel>
@@ -399,7 +405,7 @@ export function FichaIngresoForm() {
 
                     <FormField
                       control={control}
-                      name="contacto_nombre"
+                      name="contact_name"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Nombre Contacto</FormLabel>
@@ -418,7 +424,7 @@ export function FichaIngresoForm() {
                     {/* Contraseña PC */}
                     <FormField
                       control={control}
-                      name="contacto_telefono"
+                      name="contact_phone"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Telefono Contacto</FormLabel>

@@ -42,7 +42,7 @@ export function FichaIngresoList() {
 
   const columns = [
     {
-      accessorKey: "numero_patrimonio",
+      accessorKey: "asset.inventory",
       header: "N° de Patrimonio",
     },
     {
@@ -51,23 +51,23 @@ export function FichaIngresoList() {
       cell: ({ row }) => {
         const ficha = row.original;
         const estado = row.getValue("act_simple");
-        const anio = ficha.anio_act_simple;
+        const anio = ficha.year_act_simple;
         return <span>{`${estado}/${anio}`}</span>;
       },
     },
     {
-      accessorKey: "dependencia_interna.dep_interna",
-      header: "Dependencia",
+      accessorKey: "building.name",
+      header: "Edificio",
     },
     {
-      accessorKey: "fecha_de_ingreso",
+      accessorKey: "date_in",
       header: "Fecha Ingreso",
     },
     {
-      accessorKey: "estado_del_bien",
+      accessorKey: "status.name",
       header: "Estado",
       cell: ({ row }) => {
-        const estado = row.getValue("estado_del_bien")?.toLowerCase() || "";
+        const estado = row.getValue("status.name")?.toLowerCase() || "";
 
         // Mapeo de estados a sus estilos y emojis
         const estadoConfig = {
@@ -125,7 +125,6 @@ export function FichaIngresoList() {
 
         // Simplificamos el estado para la búsqueda (quitando espacios, etc.)
         const estadoSimplificado = estado.replace(/\s+/g, " ").trim();
-        console.log(estadoSimplificado);
 
         // Buscamos coincidencias parciales para mayor flexibilidad
         const coincidencia = Object.keys(estadoConfig).find((key) =>
@@ -138,7 +137,6 @@ export function FichaIngresoList() {
         }
 
         const { emoji, label, color } = estadoConfig[coincidencia];
-        console.log(emoji, label, color);
 
         return (
           <Badge
@@ -160,14 +158,14 @@ export function FichaIngresoList() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => handleEdit(ficha.id_ficha_tecnica)}
+              onClick={() => handleEdit(ficha.id)}
             >
               <Edit className="h-4 w-4" />
             </Button>
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => handlePrint(ficha.id_ficha_tecnica)}
+              onClick={() => handlePrint(ficha.id)}
             >
               <Printer className="h-4 w-4" />
             </Button>

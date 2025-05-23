@@ -18,14 +18,9 @@ import {
   Pencil,
   Computer,
   Building2,
-  Calendar,
-  FileText,
   User,
-  Key,
   MessageSquare,
   AlertTriangle,
-  Phone,
-  Tag,
   Thermometer,
   CheckCircle2,
   Clock,
@@ -182,13 +177,12 @@ export const FichaIngresoDetail = () => {
               <Computer className="h-6 w-6 text-primary" />
               Ficha de Ingreso
               <Badge variant="outline" className="ml-2 text-sm">
-                #{fichaTecnicaById.id_ficha_tecnica}
+                #{fichaTecnicaById.id}
               </Badge>
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
               Registro de ingreso de equipo
-              {fichaTecnicaById.fecha_de_ingreso &&
-                ` • ${fichaTecnicaById.fecha_de_ingreso}`}
+              {fichaTecnicaById.date_in && ` • ${fichaTecnicaById.date_in}`}
             </p>
           </div>
           <div className="flex gap-2 self-end">
@@ -223,9 +217,7 @@ export const FichaIngresoDetail = () => {
                       <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                         Estado
                       </span>
-                      <div>
-                        {getStateBadge(fichaTecnicaById.estado_del_bien)}
-                      </div>
+                      {/* <div>{getStateBadge(fichaTecnicaById.status.name)}</div> */}
                     </div>
 
                     <div className="flex flex-col">
@@ -233,7 +225,7 @@ export const FichaIngresoDetail = () => {
                         Tipo de Bien
                       </span>
                       <span className="capitalize">
-                        {fichaTecnicaById.tipo_de_bien || "-"}
+                        {/* {fichaTecnicaById.typeasset.name} */}
                       </span>
                     </div>
 
@@ -241,7 +233,7 @@ export const FichaIngresoDetail = () => {
                       <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                         Número de Patrimonio
                       </span>
-                      <span>{fichaTecnicaById.numero_patrimonio || "-"}</span>
+                      <span>{fichaTecnicaById.asset.inventory || "-"}</span>
                     </div>
 
                     <div className="flex flex-col">
@@ -249,7 +241,7 @@ export const FichaIngresoDetail = () => {
                         Medio de Solicitud
                       </span>
                       <span className="capitalize">
-                        {fichaTecnicaById.medio_solicitud || "-"}
+                        {fichaTecnicaById.assistance || "-"}
                       </span>
                     </div>
                   </div>

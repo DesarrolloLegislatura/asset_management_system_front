@@ -16,7 +16,14 @@ const axiosService = axios.create({
 axiosService.interceptors.request.use(
   (config) => {
     // Rutas que no requieren token (para login/registro)
-    const publicRoutes = ["/auth/login", "/auth/register", "/users/login"];
+    const publicRoutes = [
+      "/auth/login",
+      "/auth/register",
+      "/users/login",
+      "/users/logout",
+      "/tds/tds",
+      "/tds/assets",
+    ];
     const isPublicRoute = publicRoutes.some((route) =>
       config.url.includes(route)
     );

@@ -11,7 +11,7 @@ export const useAsset = () => {
       const response = await assetsService.getAllAssets();
       console.log(response);
 
-      setAssets(response);
+      setAssets(response.data);
     } catch (error) {
       console.error("Error fetching assets:", error);
     } finally {

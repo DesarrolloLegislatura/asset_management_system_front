@@ -1,21 +1,23 @@
 import { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import { useAsset } from "../../hooks/useAsset";
 import { Search } from "lucide-react";
+import { Input } from "../ui/input";
 
 export const InventorySerch = ({
   value,
   onChange,
-  onDescriptionChange,
+  onTypeassetChange,
+  onAreaChange,
+  onBuildingChange,
   disabled = false,
   error,
 }) => {
+  const { assets, loading } = useAsset();
+
   const [inputValue, setInputValue] = useState(value || "");
   const [isOpen, setIsOpen] = useState(false);
-  const { assets, loading } = useAsset();
-  const dropdownRef = useRef(null);
 
-  //los assets vienen de la api y son un array de objetos,
-  console.log("los assets", assets);
+  const dropdownRef = useRef(null);
 
   // Actualizar el valor del input cuando cambia el prop value
   useEffect(() => {
@@ -52,24 +54,28 @@ export const InventorySerch = ({
     [onChange]
   );
 
-  // Memorizar la función handleSelectPart
-  const handleSelectPart = useCallback(
-    (part) => {
-      setInputValue(part.inventory);
-      onChange(part.inventory);
-      if (onDescriptionChange && part.typeasset?.name) {
-        onDescriptionChange(part.typeasset.name);
+  // Memorizar la función handleSelectAsset
+  const handleSelectAsset = useCallback(
+    (asset) => {
+      setInputValue(asset.inventory);
+      onChange(asset.inventory, asset.id);
+      if (onTypeassetChange && asset.typeasset?.name) {
+        onTypeassetChange(asset.typeasset.name);
+      }
+      if (onAreaChange && asset.area?.name) {
+        onAreaChange(asset.area.name);
+      }
+      if (onBuildingChange && asset.building?.name) {
+        onBuildingChange(asset.building.name);
       }
       setIsOpen(false);
     },
-    [onChange, onDescriptionChange]
+    [onChange, onTypeassetChange, onAreaChange, onBuildingChange]
   );
 
   // Memorizar las partes filtradas para evitar recalcularlas en cada render
-  const filteredInventory = useMemo(() => {
-    if (!inputValue.trim() || !assets.length) return [];
-
-    // TODO: Verificar por que algunos assets.inventory son null, xq funciona bien cuando agrego la restriccion de !== null
+  const filteredAsset = useMemo(() => {
+    if (!inputValue || !assets.length) return [];
     return assets.filter(
       (asset) =>
         asset.inventory !== null &&
@@ -81,19 +87,19 @@ export const InventorySerch = ({
   const dropdownContent = useMemo(() => {
     if (!isOpen) return null;
 
-    if (filteredInventory.length > 0) {
+    if (filteredAsset.length > 0) {
       return (
         <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
-          {filteredInventory.map((part, index) => (
+          {filteredAsset.map((asset, index) => (
             <div
               key={index}
               className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-              onClick={() => handleSelectPart(part)}
+              onClick={() => handleSelectAsset(asset)}
             >
-              <div className="font-medium">{part.inventory}</div>
-              {part.typeasset?.name && (
+              <div className="font-medium">{asset.inventory}</div>
+              {asset.typeasset?.name && (
                 <div className="text-sm text-gray-500 truncate">
-                  {part.typeasset.name}
+                  {asset.typeasset.name}
                 </div>
               )}
             </div>
@@ -113,18 +119,18 @@ export const InventorySerch = ({
     }
 
     return null;
-  }, [isOpen, filteredInventory, inputValue, handleSelectPart]);
+  }, [isOpen, filteredAsset, inputValue, handleSelectAsset]);
 
   return (
     <div className="relative" ref={dropdownRef}>
       <div className="flex items-center relative">
-        <input
+        <Input
           type="number"
           value={inputValue}
           onChange={handleInputChange}
           onFocus={() => inputValue.trim() && setIsOpen(true)}
           placeholder="Ingresar Numero de Inventario"
-          className={`w-full px-4 py-2 pr-10 border ${
+          className={`w-full ${
             error ? "border-red-500" : "border-gray-300"
           } rounded-md`}
           disabled={disabled}
@@ -143,7 +149,6 @@ export const InventorySerch = ({
 
       <div className="flex justify-between items-center mt-1">
         {error && <p className="text-red-500 text-xs">{error}</p>}
-        <p className="text-xs text-gray-500 ml-auto">{inputValue.length}/10</p>
       </div>
     </div>
   );
