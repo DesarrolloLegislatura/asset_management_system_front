@@ -13,6 +13,7 @@ import { FichaIngresoList } from "@/components/FichaIngreso/FichaIngresoList.jsx
 import NotFound from "@/components/Error/NotFound.jsx";
 import { FichaIngresoDetail } from "@/components/FichaIngreso/FichaIngresoDetail.jsx";
 import { FichaTecnicaDetail } from "@/components/FiachaTecnica/FichaTecnicaDetail.jsx";
+import Unauthorized from "@/components/Auth/Unauthorized.jsx";
 
 const routes = [
   {
@@ -106,7 +107,7 @@ const routes = [
   },
   {
     path: "/unauthorized",
-    element: <div>No tienes acceso a este recurso</div>,
+    element: <Unauthorized />,
   },
 ];
 

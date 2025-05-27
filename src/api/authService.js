@@ -5,26 +5,15 @@ const authService = {
     console.log(username, password);
 
     try {
-      // const response = await axiosService.post(`/users/login`, {
-      //   user: username,
-      //   password: password,
-      // });
-      // if (!response.data.token) {
-      //   throw new Error("Estructura de respuesta inválida");
-      // }
+      const response = await axiosService.post(`/auth/login/`, {
+        username: username,
+        password: password,
+      });
+      if (!response.data.access) {
+        throw new Error("Estructura de respuesta inválida");
+      }
 
-      // TODO: Cambiar estructura de respuesta cuando guille implemente la api
-      // Datos mock
-      const response = {
-        id: 1,
-        user: "admin",
-        nombre: "Admin",
-        grupo: {
-          nombre: "Admin",
-        },
-        token: "token",
-      };
-      return response;
+      return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw error;

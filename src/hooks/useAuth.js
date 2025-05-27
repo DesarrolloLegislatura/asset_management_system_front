@@ -3,6 +3,18 @@ import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
+// Utilidad simple para decodificar un JWT sin dependencias externas
+const decodeJWT = (token) => {
+  try {
+    const payload = token.split(".")[1];
+    const valor = JSON.parse(atob(payload));
+    console.log(valor);
+    return JSON.parse(atob(payload));
+  } catch {
+    return {};
+  }
+};
+
 export const useAuth = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -17,18 +29,21 @@ export const useAuth = () => {
     try {
       const response = await authService.auth(username, password);
 
-      if (!response?.token) {
+      if (!response?.access) {
         throw new Error("Respuesta inválida del servidor");
       }
 
-      console.log("lo de dani:" + Object.keys(response));
-      const userGroup = response.grupo?.nombre || "Tecnico";
+      const decodedToken = decodeJWT(response.access);
+      const userGroup =
+        decodedToken.groups?.[0] || decodedToken.group || "Tecnico";
       setUser({
-        id: response.id,
-        username: response.user,
-        name: response.nombre,
+        id: decodedToken.user_id,
+        username: decodedToken.username,
+        first_name: decodedToken.first_name,
+        last_name: decodedToken.last_name,
         group: userGroup,
-        token: response.token,
+        token: response.access,
+        refresh: response.refresh,
       });
       redirectBasedGroup(userGroup);
       return response;

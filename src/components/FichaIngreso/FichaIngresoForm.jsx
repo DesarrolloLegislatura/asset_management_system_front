@@ -23,6 +23,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import { Loader2 } from "lucide-react";
 import { TIPOS_BIENES } from "@/constants/typeBienes";
+import { useAuthorization } from "@/hooks/useAuthorization"; // Import the new authorization hook
 
 export function FichaIngresoForm() {
   const { idFichaIngreso } = useParams();
@@ -55,6 +56,7 @@ export function FichaIngresoForm() {
   const { control, handleSubmit, setValue, reset } = form;
 
   const user = useAuthStore((state) => state.user);
+  const { allowedStates } = useAuthorization();
   const selectedDepGral = useWatch({
     control,
     name: "dependencia",
@@ -338,19 +340,17 @@ export function FichaIngresoForm() {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="ingreso">
-                                📥 Ingreso
-                              </SelectItem>
-                              {idFichaIngreso && (
-                                <>
-                                  <SelectItem value="salida">
-                                    📤 Salida
-                                  </SelectItem>
-                                  <SelectItem value="retirada">
-                                    🚚 Retirada
-                                  </SelectItem>
-                                </>
-                              )}
+                              {allowedStates().map((state) => (
+                                <SelectItem key={state} value={state} className="capitalize">
+                                  {state === "ingreso"
+                                    ? "📥 Ingreso"
+                                    : state === "salida"
+                                    ? "📤 Salida"
+                                    : state === "retirada"
+                                    ? "🚚 Retirada"
+                                    : state}
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                           <FormMessage />
