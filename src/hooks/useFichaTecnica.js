@@ -1,54 +1,85 @@
 import fichaTecnicaService from "@/api/fichaTecnicaService";
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useReducer, useEffect } from "react";
 
-export const useFichaTecnica = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [fichasTecnicas, setFichasTecnicas] = useState([]);
-  const [fichaTecnicaById, setFichaTecnicaById] = useState([]);
+// Reducer para manejar estados relacionados
+const fichaReducer = (state, action) => {
+  switch (action.type) {
+    case "REQUEST_START":
+      return { ...state, loading: true, error: null };
+    case "REQUEST_SUCCESS":
+      return { ...state, loading: false };
+    case "REQUEST_FAILURE":
+      return { ...state, loading: false, error: action.payload };
+    case "SET_ALL_FICHAS":
+      return { ...state, fichasTecnicas: action.payload };
+    case "SET_FICHA_BY_ID":
+      return { ...state, fichaTecnicaById: action.payload };
+    default:
+      return state;
+  }
+};
 
-  const createFichaTecnica = async (datosIngreso) => {
-    setLoading(true);
+export const useFichaTecnica = (autoFetch = false) => {
+  const initialState = {
+    loading: false,
+    error: null,
+    fichasTecnicas: [],
+    fichaTecnicaById: null,
+  };
+
+  const [state, dispatch] = useReducer(fichaReducer, initialState);
+
+  // Fetch all fichas técnicas
+  const fetchAllFichasTecnicas = useCallback(async () => {
+    dispatch({ type: "REQUEST_START" });
+    try {
+      const response = await fichaTecnicaService.getAll();
+      dispatch({ type: "SET_ALL_FICHAS", payload: response.data });
+      return response.data;
+    } catch (error) {
+      dispatch({ type: "REQUEST_FAILURE", payload: error });
+      return null;
+    } finally {
+      dispatch({ type: "REQUEST_SUCCESS" });
+    }
+  }, []);
+
+  // Fetch ficha técnica by ID
+  const fetchByIdFichaTecnica = useCallback(async (idFicha) => {
+    if (!idFicha) return null;
+
+    dispatch({ type: "REQUEST_START" });
+    try {
+      const response = await fichaTecnicaService.getById(idFicha);
+      dispatch({ type: "SET_FICHA_BY_ID", payload: response.data });
+      console.log("Ficha técnica obtenida:", response.data);
+
+      return response.data;
+    } catch (error) {
+      dispatch({ type: "REQUEST_FAILURE", payload: error });
+      return null;
+    } finally {
+      dispatch({ type: "REQUEST_SUCCESS" });
+    }
+  }, []);
+
+  // Create ficha técnica
+  const createFichaTecnica = useCallback(async (datosIngreso) => {
+    dispatch({ type: "REQUEST_START" });
     try {
       const response = await fichaTecnicaService.create(datosIngreso);
       return response.data;
     } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  const fetchAllFichasTecnicas = async () => {
-    setLoading(true);
-    try {
-      const response = await fichaTecnicaService.getAll();
-      setFichasTecnicas(response.data);
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchByIdFichaTecnica = useCallback(async (idFicha) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fichaTecnicaService.getById(idFicha);
-      console.log("Response from API:", response.data); // Log API response
-      setFichaTecnicaById(response.data);
-      return response.data; // Return the data for immediate use
-    } catch (error) {
-      console.error("Error fetching ficha:", error);
-      setError(error);
+      dispatch({ type: "REQUEST_FAILURE", payload: error });
       return null;
     } finally {
-      setLoading(false);
+      dispatch({ type: "REQUEST_SUCCESS" });
     }
   }, []);
 
-  const updateFichaTecnica = async (idFicha, datosActualizados) => {
-    setLoading(true);
+  // Update ficha técnica
+  const updateFichaTecnica = useCallback(async (idFicha, datosActualizados) => {
+    dispatch({ type: "REQUEST_START" });
     try {
       const response = await fichaTecnicaService.update(
         idFicha,
@@ -56,22 +87,25 @@ export const useFichaTecnica = () => {
       );
       return response.data;
     } catch (error) {
-      setError(error);
+      dispatch({ type: "REQUEST_FAILURE", payload: error });
+      return null;
     } finally {
-      setLoading(false);
+      dispatch({ type: "REQUEST_SUCCESS" });
     }
-  };
-
-  // Cargar todos los datos al montar el componente
-  useEffect(() => {
-    fetchAllFichasTecnicas();
   }, []);
 
+  // Auto-fetch si está habilitado
+  useEffect(() => {
+    if (autoFetch) {
+      fetchAllFichasTecnicas();
+    }
+  }, [autoFetch, fetchAllFichasTecnicas]);
+
   return {
-    fichasTecnicas,
-    fichaTecnicaById,
-    loading,
-    error,
+    fichasTecnicas: state.fichasTecnicas,
+    fichaTecnicaById: state.fichaTecnicaById,
+    loading: state.loading,
+    error: state.error,
     createFichaTecnica,
     fetchAllFichasTecnicas,
     fetchByIdFichaTecnica,

@@ -32,7 +32,7 @@ export function FichaIngresoForm() {
 
   const navigate = useNavigate();
   const { fichaTecnicaById, createFichaTecnica, updateFichaTecnica } =
-    useFichaTecnica();
+    useFichaTecnica(false);
   const { status, loading: loadingStatus } = useStatus();
   const form = useForm({
     defaultValues: {
@@ -49,7 +49,7 @@ export function FichaIngresoForm() {
       user_description: "",
       contact_name: "",
       contact_phone: "",
-      medio_solicitud: "",
+      means_application: "",
       status: "1",
     },
   });
@@ -64,10 +64,10 @@ export function FichaIngresoForm() {
       Object.keys(fichaTecnicaById).length > 0
     ) {
       reset({
-        inventory: fichaTecnicaById.inventory || "",
-        typeasset: fichaTecnicaById.typeasset || "",
-        area: fichaTecnicaById.area || "",
-        building: fichaTecnicaById.building || "",
+        inventory: fichaTecnicaById.asset?.inventory || "",
+        typeasset: fichaTecnicaById.asset?.typeasset || "",
+        area: fichaTecnicaById.asset?.area || "",
+        building: fichaTecnicaById.asset?.building || "",
         act_simple: fichaTecnicaById.act_simple || "",
         date_in:
           fichaTecnicaById.date_in || new Date().toISOString().split("T")[0],
@@ -79,7 +79,7 @@ export function FichaIngresoForm() {
         user_description: fichaTecnicaById.user_description || "",
         contact_name: fichaTecnicaById.contact_name || "",
         contact_phone: fichaTecnicaById.contact_phone || "",
-        medio_solicitud: fichaTecnicaById.medio_solicitud || "",
+        means_application: fichaTecnicaById.means_application || "",
         status: fichaTecnicaById.status || "",
       });
     }
@@ -96,7 +96,7 @@ export function FichaIngresoForm() {
       pass_pc: data.contrasenia_pc,
       contact_name: data.contact_name,
       contact_phone: data.contact_phone,
-      means_application: data.medio_solicitud,
+      means_application: data.means_application,
       date_in: data.date_in,
       asset: data.asset,
       status: [parseInt(data.status)], // Convertir a entero para asegurar que se envía como número
@@ -112,9 +112,9 @@ export function FichaIngresoForm() {
       } else {
         response = await createFichaTecnica(dataToSend);
         console.log("Response from API:", response); // Log API response
-        // if (response.asset) {
-        //   navigate(`/ficha-ingreso/detail/${response}`);
-        // }
+        if (response.asset) {
+          navigate(`/ficha-ingreso/detail/${response.id}`);
+        }
       }
     } catch (error) {
       console.log(error);

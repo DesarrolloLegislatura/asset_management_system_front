@@ -33,7 +33,7 @@ import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 
 export function FichaIngresoList() {
   const navigate = useNavigate();
-  const { fichasTecnicas, loading } = useFichaTecnica();
+  const { fichasTecnicas, loading } = useFichaTecnica(true);
   const { group } = useAuthStore((state) => state.user);
   const [sorting, setSorting] = useState([]);
 

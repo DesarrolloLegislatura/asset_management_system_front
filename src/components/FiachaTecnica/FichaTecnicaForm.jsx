@@ -33,7 +33,7 @@ export function FichaTecnicaForm() {
     createFichaTecnica,
     updateFichaTecnica,
     fetchByIdFichaTecnica,
-  } = useFichaTecnica();
+  } = useFichaTecnica(false);
   const form = useForm({
     defaultValues: {
       numero_patrimonio: "",

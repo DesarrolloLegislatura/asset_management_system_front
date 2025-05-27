@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { useNavigate, useParams } from "react-router";
 import { Button } from "../ui/button";
@@ -17,15 +17,9 @@ import {
   ArrowLeft,
   Pencil,
   Computer,
-  Building2,
   User,
   MessageSquare,
   AlertTriangle,
-  Thermometer,
-  CheckCircle2,
-  Clock,
-  Hammer,
-  FileClock,
 } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { FichaIngresoPrint } from "./FichaIngresoPrint";
@@ -35,12 +29,21 @@ export const FichaIngresoDetail = () => {
   const navigate = useNavigate();
   const group = useAuthStore((state) => state.user.group);
   const { fichaTecnicaById, fetchByIdFichaTecnica, loading, error } =
-    useFichaTecnica();
+    useFichaTecnica(false); // Ahora pasamos false para no hacer autoFetch
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchFicha = async () => {
-      if (!idFichaIngreso) return;
-      await fetchByIdFichaTecnica(+idFichaIngreso);
+      if (!idFichaIngreso) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        await fetchByIdFichaTecnica(+idFichaIngreso);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchFicha();
@@ -57,7 +60,7 @@ export const FichaIngresoDetail = () => {
   };
 
   // Loading State
-  if (loading)
+  if (isLoading || loading)
     return (
       <div className="flex items-center justify-center min-h-[500px]">
         <div className="flex flex-col items-center gap-2">
@@ -109,65 +112,6 @@ export const FichaIngresoDetail = () => {
       </Card>
     );
 
-  // Get state badge color based on estado_del_bien
-  const getStateBadge = (state) => {
-    if (!state) return <Badge variant="outline">Sin estado</Badge>;
-
-    const stateMap = {
-      "en reparacion": {
-        variant: "secondary",
-        icon: <Thermometer className="h-5 w-5 mr-1" />,
-        text: "En reparación",
-      },
-      "espera repuestos": {
-        variant: "outline",
-        icon: <Clock className="h-3 w-3 mr-1" />,
-        text: "Esperando repuestos",
-      },
-      diagnostico: {
-        variant: "outline",
-        icon: <FileClock className="h-3 w-3 mr-1" />,
-        text: "Diagnóstico pendiente",
-      },
-      reparado: {
-        variant: "success",
-        icon: <Hammer className="h-3 w-3 mr-1" />,
-        text: "Reparado",
-      },
-      "listo entregar": {
-        variant: "success",
-        icon: <CheckCircle2 className="h-3 w-3 mr-1" />,
-        text: "Listo para entregar",
-      },
-      "no reparable": {
-        variant: "destructive",
-        icon: <AlertTriangle className="h-3 w-3 mr-1" />,
-        text: "No reparable",
-      },
-      "reparacion externa": {
-        variant: "secondary",
-        icon: <Building2 className="h-3 w-3 mr-1" />,
-        text: "En reparación externa",
-      },
-    };
-
-    const stateInfo = stateMap[state.toLowerCase()] || {
-      variant: "outline",
-      icon: null,
-      text: state,
-    };
-
-    return (
-      <Badge
-        variant={stateInfo.variant}
-        className="capitalize flex items-center text-sm"
-      >
-        {stateInfo.icon}
-        {stateInfo.text}
-      </Badge>
-    );
-  };
-
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
       <div className="print:hidden">
@@ -217,7 +161,11 @@ export const FichaIngresoDetail = () => {
                       <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                         Estado
                       </span>
-                      {/* <div>{getStateBadge(fichaTecnicaById.status.name)}</div> */}
+                      <span>
+                        {fichaTecnicaById.status?.length > 0 && (
+                          <p>{fichaTecnicaById.status[0].name}</p>
+                        )}
+                      </span>
                     </div>
 
                     <div className="flex flex-col">
@@ -225,13 +173,16 @@ export const FichaIngresoDetail = () => {
                         Tipo de Bien
                       </span>
                       <span className="capitalize">
-                        {/* {fichaTecnicaById.typeasset.name} */}
+                        <p>
+                          {fichaTecnicaById.asset?.typeasset?.name ||
+                            "No especificado"}
+                        </p>
                       </span>
                     </div>
 
                     <div className="flex flex-col">
                       <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Número de Patrimonio
+                        Número de Inventario
                       </span>
                       <span>{fichaTecnicaById.asset.inventory || "-"}</span>
                     </div>
@@ -241,7 +192,10 @@ export const FichaIngresoDetail = () => {
                         Medio de Solicitud
                       </span>
                       <span className="capitalize">
-                        {fichaTecnicaById.assistance || "-"}
+                        <p>
+                          {fichaTecnicaById.asset?.assistance?.name ||
+                            "No especificado"}
+                        </p>
                       </span>
                     </div>
                   </div>
@@ -249,21 +203,25 @@ export const FichaIngresoDetail = () => {
                   <div className="space-y-4">
                     <div className="flex flex-col">
                       <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Dependencia
+                        Area
                       </span>
                       <span>
-                        {fichaTecnicaById.dependencia_interna?.dependencia
-                          ?.dep_gral || "-"}
+                        <p>
+                          {fichaTecnicaById.asset?.area?.name ||
+                            "No especificada"}
+                        </p>
                       </span>
                     </div>
 
                     <div className="flex flex-col">
                       <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Dependencia Interna
+                        Edificio
                       </span>
                       <span>
-                        {fichaTecnicaById.dependencia_interna?.dep_interna ||
-                          "-"}
+                        <p>
+                          {fichaTecnicaById.asset?.building?.name ||
+                            "No especificado"}
+                        </p>
                       </span>
                     </div>
 
@@ -272,11 +230,11 @@ export const FichaIngresoDetail = () => {
                         Actuación Simple
                       </span>
                       <span>
-                        {fichaTecnicaById.act_simple
-                          ? `${fichaTecnicaById.act_simple}/${
-                              fichaTecnicaById.anio_act_simple || ""
-                            }`
-                          : "-"}
+                        <p>
+                          {fichaTecnicaById.act_simple +
+                            "/" +
+                            fichaTecnicaById.year_act_simple}
+                        </p>
                       </span>
                     </div>
 
@@ -284,7 +242,7 @@ export const FichaIngresoDetail = () => {
                       <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                         Fecha Ingreso
                       </span>
-                      <span>{fichaTecnicaById.fecha_de_ingreso || "-"}</span>
+                      <span>{fichaTecnicaById.date_in || "-"}</span>
                     </div>
                   </div>
                 </div>
@@ -296,14 +254,14 @@ export const FichaIngresoDetail = () => {
                     <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                       Usuario PC
                     </span>
-                    <span>{fichaTecnicaById.usuario_pc || "-"}</span>
+                    <span>{fichaTecnicaById.user_pc || "-"}</span>
                   </div>
 
                   <div className="flex flex-col">
                     <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                       Contraseña PC
                     </span>
-                    <span>{fichaTecnicaById.contrasenia_pc || "-"}</span>
+                    <span>{fichaTecnicaById.pass_pc || "-"}</span>
                   </div>
                 </div>
               </CardContent>
@@ -319,7 +277,7 @@ export const FichaIngresoDetail = () => {
               <CardContent className="pt-6">
                 <div className="bg-muted/30 p-4 rounded-md border border-border/60">
                   <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                    {fichaTecnicaById.descripcion_user ||
+                    {fichaTecnicaById.user_description ||
                       "Sin descripción proporcionada."}
                   </p>
                 </div>
@@ -343,7 +301,7 @@ export const FichaIngresoDetail = () => {
                         Nombre Contacto
                       </span>
                       <span className="font-medium">
-                        {fichaTecnicaById.contacto_nombre || "-"}
+                        {fichaTecnicaById.contact_name || "-"}
                       </span>
                     </div>
                   </div>
@@ -354,7 +312,7 @@ export const FichaIngresoDetail = () => {
                         Teléfono Contacto
                       </span>
                       <span className="font-medium">
-                        {fichaTecnicaById.contacto_telefono || "-"}
+                        {fichaTecnicaById.contact_phone || "-"}
                       </span>
                     </div>
                   </div>

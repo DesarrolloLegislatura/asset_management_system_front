@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { useNavigate, useParams } from "react-router";
 import { Button } from "../ui/button";
@@ -30,18 +30,28 @@ import {
   FileClock,
 } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
+
 export const FichaTecnicaDetail = () => {
   const { idFichaIngreso } = useParams();
   const contentRef = useRef(null);
   const navigate = useNavigate();
   const group = useAuthStore((state) => state.user.group);
   const { fichaTecnicaById, fetchByIdFichaTecnica, loading, error } =
-    useFichaTecnica();
+    useFichaTecnica(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchFicha = async () => {
-      if (!idFichaIngreso) return;
-      await fetchByIdFichaTecnica(+idFichaIngreso);
+      if (!idFichaIngreso) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        await fetchByIdFichaTecnica(+idFichaIngreso);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchFicha();
@@ -57,7 +67,7 @@ export const FichaTecnicaDetail = () => {
     }
   };
 
-  if (loading)
+  if (isLoading || loading)
     return (
       <div className="flex items-center justify-center min-h-[500px]">
         <div className="flex flex-col items-center gap-2">
