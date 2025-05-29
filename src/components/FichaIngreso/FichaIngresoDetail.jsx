@@ -193,7 +193,7 @@ export const FichaIngresoDetail = () => {
                       </span>
                       <span className="capitalize">
                         <p>
-                          {fichaTecnicaById.asset?.assistance?.name ||
+                          {fichaTecnicaById.means_application ||
                             "No especificado"}
                         </p>
                       </span>

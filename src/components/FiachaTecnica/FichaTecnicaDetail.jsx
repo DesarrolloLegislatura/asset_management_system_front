@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { useNavigate, useParams } from "react-router";
 import { Button } from "../ui/button";
-import { FichaTecnicaPrint } from "./FichaTecnicaPrint";
 import {
   Card,
   CardContent,
@@ -29,7 +27,9 @@ import {
   Hammer,
   FileClock,
 } from "lucide-react";
+import { FichaTecnicaPrint } from "./FichaTecnicaPrint";
 import { useAuthStore } from "@/store/authStore";
+import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 
 export const FichaTecnicaDetail = () => {
   const { idFichaIngreso } = useParams();

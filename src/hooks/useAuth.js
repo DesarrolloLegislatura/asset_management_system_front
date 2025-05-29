@@ -1,4 +1,5 @@
 import authService from "@/api/authService";
+import { parseJwt } from "@/utils/jwt";
 import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -15,23 +16,36 @@ export const useAuth = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await authService.auth(username, password);
+      const { access, refresh } = await authService.auth(username, password);
 
-      if (!response?.token) {
-        throw new Error("Respuesta inválida del servidor");
+      // Decodificar el token para obtener la info del usuario
+      const payload = parseJwt(access);
+      if (!payload) {
+        throw new Error("No se pudo decodificar el token");
       }
 
-      console.log("lo de dani:" + Object.keys(response));
-      const userGroup = response.grupo?.nombre || "Tecnico";
+      const {
+        user_id: id,
+        username: userName,
+        first_name: firstName,
+        last_name: lastName,
+        groups = [],
+      } = payload;
+
       setUser({
-        id: response.id,
-        username: response.user,
-        name: response.nombre,
-        group: userGroup,
-        token: response.token,
+        id,
+        username: userName,
+        first_name: firstName,
+        last_name: lastName,
+        groups,
+        group: Array.isArray(groups) ? groups[0] : groups,
+        token: access,
+        refreshToken: refresh,
       });
-      redirectBasedGroup(userGroup);
-      return response;
+
+      redirectBasedGroup(groups);
+
+      return { access, refresh };
     } catch (error) {
       let errorMessage = "Error de conexión";
 
@@ -51,20 +65,24 @@ export const useAuth = () => {
       setLoading(false);
     }
   };
-  const redirectBasedGroup = (group) => {
-    if (!group) {
+
+  const redirectBasedGroup = (groups = []) => {
+    const userGroups = Array.isArray(groups) ? groups : [groups];
+
+    if (userGroups.length === 0) {
       navigate("/unauthorized", { replace: true });
       return;
     }
 
-    if (group.includes("Admin")) {
+    if (userGroups.includes("Admin")) {
       navigate("/ficha-tecnica", { replace: true });
-    } else if (group.includes("Tecnico")) {
+    } else if (userGroups.includes("Tecnico")) {
       navigate("/ficha-tecnica", { replace: true });
     } else {
       navigate("/unauthorized", { replace: true });
     }
   };
+
   const logout = () => {
     clearAuth();
     navigate("/auth/login", { replace: true });

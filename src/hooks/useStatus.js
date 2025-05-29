@@ -1,5 +1,6 @@
 import statusService from "@/api/statusService";
-import { useEffect, useState } from "react";
+import { STATUS_IDS } from "@/constants/statusConstants";
+import { useEffect, useMemo, useState } from "react";
 
 export const useStatus = () => {
   const [status, setStatus] = useState([]);
@@ -21,6 +22,17 @@ export const useStatus = () => {
     }
   };
 
+  // Función para filtrar estados segun el modo
+  const getCreationMode = useMemo(() => {
+    return (isCreationMode = false) => {
+      if (isCreationMode) {
+        // En modo creación, solo mostrar "Ingreso"
+        return status.filter((estado) => estado.id === STATUS_IDS.INGRESO);
+      }
+      return status;
+    };
+  }, [status]);
+
   // Cargar todos los datos al montar el componente
   useEffect(() => {
     fetchStatus();
@@ -31,5 +43,6 @@ export const useStatus = () => {
     loading,
     error,
     fetchStatus,
+    getCreationMode,
   };
 };

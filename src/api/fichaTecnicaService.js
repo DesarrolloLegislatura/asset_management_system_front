@@ -16,7 +16,7 @@ const fichaTecnicaService = {
     // const respuesta = await axiosService.get(`/tds/tds/`);
   },
   update: async (id, datosActualizados) => {
-    return await axiosService.put(`/tds/update/${id}`, datosActualizados);
+    return await axiosService.put(`/tds/tds/${id}/`, datosActualizados);
   },
 };
 

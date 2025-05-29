@@ -42,6 +42,10 @@ export function FichaIngresoList() {
 
   const columns = [
     {
+      accessorKey: "id",
+      header: "N° de Ficha",
+    },
+    {
       accessorKey: "asset.inventory",
       header: "N° de Patrimonio",
     },
@@ -49,8 +53,11 @@ export function FichaIngresoList() {
       accessorKey: "date_in",
       header: "Fecha Ingreso",
       cell: ({ row }) => {
-        const date = new Date(row.getValue("date_in"));
-        return date.toLocaleDateString("es-ES");
+        const date = row.original.date_in;
+        if (!date) return "Sin fecha";
+
+        const [year, month, day] = date.split("-");
+        return `${day}/${month}/${year}`;
       },
     },
     {
@@ -58,85 +65,33 @@ export function FichaIngresoList() {
       header: "Estado",
       cell: ({ row }) => {
         const ficha = row.original;
-        // Obtener el primer estado del array de estados
-        const estado = ficha.status[0]?.name?.toLowerCase() || "";
+        const estado = ficha.status[0]?.name?.toUpperCase() || "";
 
-        // Mapeo de estados a sus estilos y emojis
-        const estadoConfig = {
-          "en reparacion": {
-            emoji: "🔧",
-            label: "En reparación",
-            color: "bg-amber-100 text-amber-800 border-amber-200",
-          },
-          "espera repuestos": {
-            emoji: "⏳",
-            label: "En espera de repuestos",
-            color: "bg-blue-100 text-blue-800 border-blue-200",
-          },
-          diagnostico: {
-            emoji: "🔍",
-            label: "Diagnóstico pendiente",
-            color: "bg-indigo-100 text-indigo-800 border-indigo-200",
-          },
-          reparado: {
-            emoji: "✅",
-            label: "Reparado",
-            color: "bg-green-100 text-green-800 border-green-200",
-          },
-          "listo entregar": {
-            emoji: "📦",
-            label: "Listo para entregar",
-            color: "bg-emerald-100 text-emerald-800 border-emerald-200",
-          },
-          baja: {
-            emoji: "❌",
-            label: "Se recomienda baja",
-            color: "bg-red-100 text-red-800 border-red-200",
-          },
-          "reparacion externa": {
-            emoji: "🏢",
-            label: "En reparación externa",
-            color: "bg-purple-100 text-purple-800 border-purple-200",
-          },
-          ingreso: {
-            emoji: "📥",
-            label: "Ingreso",
-            color: "bg-cyan-100 text-cyan-800 border-cyan-200",
-          },
-          salida: {
-            emoji: "📤",
-            label: "Salida",
-            color: "bg-teal-100 text-teal-800 border-teal-200",
-          },
-          retirada: {
-            emoji: "🚚",
-            label: "Retirada",
-            color: "bg-gray-100 text-gray-800 border-gray-200",
-          },
+        const getStatusStyles = (status) => {
+          switch (status) {
+            case "INGRESO":
+              return "bg-blue-50 text-blue-600 border-blue-200";
+            case "EN REPARACIÓN":
+              return "bg-purple-50 text-purple-600 border-purple-200";
+            case "SALIDA":
+              return "bg-green-50 text-green-600 border-green-200";
+            case "PENDIENTE":
+              return "bg-pink-50 text-pink-600 border-pink-200";
+            case "COMPLETADO":
+              return "bg-teal-50 text-teal-600 border-teal-200";
+            default:
+              return "bg-gray-50 text-gray-600 border-gray-200";
+          }
         };
-
-        // Simplificamos el estado para la búsqueda (quitando espacios, etc.)
-        const estadoSimplificado = estado.replace(/\s+/g, " ").trim();
-
-        // Buscamos coincidencias parciales para mayor flexibilidad
-        const coincidencia = Object.keys(estadoConfig).find((key) =>
-          estadoSimplificado.includes(key)
-        );
-
-        // Si no hay coincidencia, mostramos el estado original
-        if (!coincidencia) {
-          return <span className="capitalize">{estado}</span>;
-        }
-
-        const { emoji, label, color } = estadoConfig[coincidencia];
 
         return (
           <Badge
             variant="outline"
-            className={`${color} capitalize whitespace-nowrap px-2 py-1`}
+            className={`capitalize whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-medium ${getStatusStyles(
+              estado
+            )}`}
           >
-            <span className="mr-1">{emoji}</span>
-            {label}
+            {estado}
           </Badge>
         );
       },

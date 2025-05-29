@@ -15,15 +15,15 @@ const ContentPrint = ({ fichaTecnicaById }) => {
           <img
             src="/assets/svg/pl_logo.svg"
             alt="Logo"
-            className="h-16 w-auto print:h-14 print:w-auto"
+            className="h-16 w-auto print:h-14 print:w-auto print:filter print:grayscale print:contrast-125"
           />
         </div>
 
         {/* Date and number of the document - positioned to the right */}
         <div className="flex-shrink-0">
-          <p className="text-sm print:text-[16px] font-bold text-right">
+          <p className="text-sm print:text-[16px] font-bold text-right print:text-black">
             Ficha:{" "}
-            <span className="font-light">
+            <span className="font-normal print:font-medium">
               N°{fichaTecnicaById.id_ficha_tecnica || ""}
             </span>
           </p>
@@ -32,10 +32,10 @@ const ContentPrint = ({ fichaTecnicaById }) => {
 
       {/* Titulo */}
       <div className="text-center mb-2 print:mb-[1px]">
-        <h1 className="text-4xl font-semibold uppercase underline print:text-[19px]">
+        <h1 className="text-4xl font-semibold uppercase underline print:text-[19px] print:text-black print:font-bold">
           Servicio Técnico
         </h1>
-        <h2 className="text-lg font-light uppercase print:text-[12px] ">
+        <h2 className="text-lg font-light uppercase print:text-[12px] print:text-black print:font-medium">
           Ficha de ingreso del bien
         </h2>
       </div>

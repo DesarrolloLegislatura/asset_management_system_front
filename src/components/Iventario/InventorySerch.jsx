@@ -10,19 +10,26 @@ export const InventorySerch = ({
   onAreaChange,
   onBuildingChange,
   disabled = false,
+  onEditMode = false,
   error,
 }) => {
   const { assets, loading } = useAsset();
 
   const [inputValue, setInputValue] = useState(value || "");
   const [isOpen, setIsOpen] = useState(false);
+  const [hasInitialized, setHasInitialized] = useState(false);
 
   const dropdownRef = useRef(null);
 
   // Actualizar el valor del input cuando cambia el prop value
   useEffect(() => {
     setInputValue(value || "");
-  }, [value]);
+
+    // En modo edición, marcar como inicializado después de cargar el valor
+    if (onEditMode && value && !hasInitialized) {
+      setHasInitialized(true);
+    }
+  }, [value, onEditMode, hasInitialized]);
 
   // Cerrar el dropdown al hacer clic fuera
   useEffect(() => {
@@ -42,7 +49,11 @@ export const InventorySerch = ({
     (e) => {
       const newValue = e.target.value;
       setInputValue(newValue);
-      onChange(newValue);
+
+      // En modo edición, solo llamar onChange si ya se inicializó o si el usuario está escribiendo
+      if (!onEditMode || hasInitialized) {
+        onChange(newValue);
+      }
 
       // La lógica para mostrar/ocultar el dropdown basado en el input
       if (newValue.trim()) {
@@ -51,7 +62,7 @@ export const InventorySerch = ({
         setIsOpen(false);
       }
     },
-    [onChange]
+    [onChange, onEditMode, hasInitialized]
   );
 
   // Memorizar la función handleSelectAsset
@@ -59,18 +70,31 @@ export const InventorySerch = ({
     (asset) => {
       setInputValue(asset.inventory);
       onChange(asset.inventory, asset.id);
-      if (onTypeassetChange && asset.typeasset?.name) {
-        onTypeassetChange(asset.typeasset.name);
+
+      // Solo actualizar los campos relacionados si no estamos en modo edición
+      // o si el usuario explícitamente selecciona un nuevo asset
+      if (!onEditMode || hasInitialized) {
+        if (onTypeassetChange && asset.typeasset?.name) {
+          onTypeassetChange(asset.typeasset.name);
+        }
+        if (onAreaChange && asset.area?.name) {
+          onAreaChange(asset.area.name);
+        }
+        if (onBuildingChange && asset.building?.name) {
+          onBuildingChange(asset.building.name);
+        }
       }
-      if (onAreaChange && asset.area?.name) {
-        onAreaChange(asset.area.name);
-      }
-      if (onBuildingChange && asset.building?.name) {
-        onBuildingChange(asset.building.name);
-      }
+
       setIsOpen(false);
     },
-    [onChange, onTypeassetChange, onAreaChange, onBuildingChange]
+    [
+      onChange,
+      onTypeassetChange,
+      onAreaChange,
+      onBuildingChange,
+      onEditMode,
+      hasInitialized,
+    ]
   );
 
   // Memorizar las partes filtradas para evitar recalcularlas en cada render

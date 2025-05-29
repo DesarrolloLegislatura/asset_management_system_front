@@ -18,7 +18,7 @@ import {
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { useStatus } from "@/hooks/useStatus";
 import { useAuthStore } from "@/store/authStore";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import { Loader2 } from "lucide-react";
@@ -26,14 +26,21 @@ import { InventorySerch } from "../Iventario/InventorySerch";
 
 export function FichaIngresoForm() {
   const { idFichaIngreso } = useParams();
+  const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [assetSelected, setAssetSelected] = useState(false);
+  const { loading: loadingStatus, getCreationMode } = useStatus();
 
-  const navigate = useNavigate();
-  const { fichaTecnicaById, createFichaTecnica, updateFichaTecnica } =
-    useFichaTecnica(false);
-  const { status, loading: loadingStatus } = useStatus();
+  const {
+    fichaTecnicaById,
+    createFichaTecnica,
+    fetchByIdFichaTecnica,
+    updateFichaTecnica,
+  } = useFichaTecnica(false);
+
   const form = useForm({
     defaultValues: {
       asset: null,
@@ -55,35 +62,70 @@ export function FichaIngresoForm() {
   });
   const { control, handleSubmit, setValue, reset } = form;
 
-  const user = useAuthStore((state) => state.user);
+  // Función para poblar el formulario con los datos obtenidos
+  const populateFormWithData = useCallback(
+    (fichaData) => {
+      if (!fichaData) return;
+
+      // Mapear los datos de la API al formulario
+      const formData = {
+        asset: fichaData.asset?.id || null,
+        inventory: fichaData.asset?.inventory || "",
+        typeasset: fichaData.asset?.typeasset?.name || "",
+        area: fichaData.asset?.area?.name || "",
+        building: fichaData.asset?.building?.name || "",
+        act_simple: fichaData.act_simple || "",
+        date_in: fichaData.date_in
+          ? fichaData.date_in.split("T")[0]
+          : new Date().toISOString().split("T")[0],
+        usuario_pc: fichaData.user_pc || "",
+        contrasenia_pc: fichaData.pass_pc || "",
+        year_act_simple:
+          fichaData.year_act_simple || new Date().getFullYear().toString(),
+        user_description: fichaData.user_description || "",
+        contact_name: fichaData.contact_name || "",
+        contact_phone: fichaData.contact_phone || "",
+        means_application: fichaData.means_application || "",
+        status: fichaData.status?.[0]?.id?.toString() || "1",
+      };
+
+      // Resetear el formulario con los nuevos datos
+      reset(formData);
+
+      // Marcar que hay un asset seleccionado si existe
+      setAssetSelected(!!fichaData.asset?.id);
+    },
+    [reset, setAssetSelected]
+  );
 
   useEffect(() => {
-    if (
-      isEditMode &&
-      fichaTecnicaById &&
-      Object.keys(fichaTecnicaById).length > 0
-    ) {
-      reset({
-        inventory: fichaTecnicaById.asset?.inventory || "",
-        typeasset: fichaTecnicaById.asset?.typeasset || "",
-        area: fichaTecnicaById.asset?.area || "",
-        building: fichaTecnicaById.asset?.building || "",
-        act_simple: fichaTecnicaById.act_simple || "",
-        date_in:
-          fichaTecnicaById.date_in || new Date().toISOString().split("T")[0],
-        usuario_pc: fichaTecnicaById.usuario_pc || "",
-        contrasenia_pc: fichaTecnicaById.contrasenia_pc || "",
-        year_act_simple:
-          fichaTecnicaById.year_act_simple ||
-          new Date().getFullYear().toString(),
-        user_description: fichaTecnicaById.user_description || "",
-        contact_name: fichaTecnicaById.contact_name || "",
-        contact_phone: fichaTecnicaById.contact_phone || "",
-        means_application: fichaTecnicaById.means_application || "",
-        status: fichaTecnicaById.status || "",
-      });
+    const editMode = async () => {
+      if (idFichaIngreso) {
+        setIsEditMode(true);
+        setIsLoading(true);
+        try {
+          const fichaEdit = await fetchByIdFichaTecnica(idFichaIngreso);
+          console.log("fichaEdit", fichaEdit);
+
+          if (fichaEdit) {
+            populateFormWithData(fichaEdit);
+          }
+        } catch (error) {
+          console.error("Error al cargar la ficha:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+    editMode();
+  }, [idFichaIngreso, fetchByIdFichaTecnica, populateFormWithData]);
+
+  // También poblar cuando fichaTecnicaById cambie (por si el hook actualiza el estado)
+  useEffect(() => {
+    if (isEditMode && fichaTecnicaById && !isLoading) {
+      populateFormWithData(fichaTecnicaById);
     }
-  }, [isEditMode, fichaTecnicaById, reset, setValue]);
+  }, [fichaTecnicaById, isEditMode, isLoading, populateFormWithData]);
 
   const onSubmit = async (data) => {
     // Construir solo los campos requeridos por la API
@@ -103,7 +145,6 @@ export function FichaIngresoForm() {
       users: [user.id],
     };
 
-    console.log("Data a enviar:", dataToSend);
     try {
       let response;
       if (isEditMode) {
@@ -121,25 +162,33 @@ export function FichaIngresoForm() {
     }
   };
 
-  const handleInventoryChange = (inventoryValue, fichaTecnicaById) => {
+  const handleInventoryChange = (inventoryValue, assetId) => {
     setValue("inventory", inventoryValue, { shouldValidate: true });
-    setValue("asset", fichaTecnicaById, {
-      shouldValidate: true,
-    });
-    setAssetSelected(!!fichaTecnicaById);
+    setValue("asset", assetId, { shouldValidate: true });
+    setAssetSelected(!!assetId);
   };
 
-  const handleTypeassetChange = (typeasset) => {
-    setValue("typeasset", typeasset, { shouldValidate: true });
+  // Función especial para el modo edición que no sobrescriba los datos cargados
+  const handleInventoryChangeInEditMode = (inventoryValue, assetId) => {
+    // En modo edición, solo actualizar si realmente se selecciona un nuevo asset
+    if (assetId) {
+      setValue("inventory", inventoryValue, { shouldValidate: true });
+      setValue("asset", assetId, { shouldValidate: true });
+      setAssetSelected(true);
+    } else {
+      setValue("inventory", inventoryValue, { shouldValidate: true });
+      // No limpiar el asset en modo edición a menos que sea intencional
+      setAssetSelected(!!form.getValues("asset"));
+    }
   };
 
-  const handleAreaChange = (area) => {
-    setValue("area", area, { shouldValidate: true });
-  };
+  const availableStatus = useMemo(() => {
+    return getCreationMode(!isEditMode);
+  }, [getCreationMode, isEditMode]);
 
-  const handleBuildingChange = (building) => {
-    setValue("building", building, { shouldValidate: true });
-  };
+  // Genérico para manejar cambios de campo
+  const handleValueChange = (field) => (value) =>
+    setValue(field, value, { shouldValidate: true });
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -149,7 +198,7 @@ export function FichaIngresoForm() {
           : "Nueva Ficha Ingreso"}
       </h2>
 
-      {isLoading && isEditMode && !fichaTecnicaById ? (
+      {isLoading && isEditMode ? (
         <div className="flex items-center justify-center h-64">
           <div className="flex flex-col items-center space-y-2">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -181,13 +230,16 @@ export function FichaIngresoForm() {
                           <FormControl>
                             <InventorySerch
                               value={field.value}
-                              onChange={handleInventoryChange}
-                              onTypeassetChange={handleTypeassetChange}
-                              onAreaChange={handleAreaChange}
-                              onBuildingChange={handleBuildingChange}
-                              disabled={isEditMode}
-
-                              // error={errors.inventory?.message}
+                              onChange={
+                                isEditMode
+                                  ? handleInventoryChangeInEditMode
+                                  : handleInventoryChange
+                              }
+                              onTypeassetChange={handleValueChange("typeasset")}
+                              onAreaChange={handleValueChange("area")}
+                              onBuildingChange={handleValueChange("building")}
+                              onEditMode={isEditMode}
+                              error={fichaTecnicaById?.asset?.error}
                             />
                           </FormControl>
                           <FormMessage />
@@ -348,7 +400,7 @@ export function FichaIngresoForm() {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {status.map((estado) => (
+                              {availableStatus.map((estado) => (
                                 <SelectItem
                                   key={estado.id}
                                   value={estado.id.toString()}
@@ -356,11 +408,12 @@ export function FichaIngresoForm() {
                                   {estado.name}
                                 </SelectItem>
                               ))}
-                              {loadingStatus && status.length === 0 && (
-                                <SelectItem value="loading" disabled>
-                                  Cargando estados...
-                                </SelectItem>
-                              )}
+                              {loadingStatus &&
+                                availableStatus.length === 0 && (
+                                  <SelectItem value="loading" disabled>
+                                    Cargando estados...
+                                  </SelectItem>
+                                )}
                             </SelectContent>
                           </Select>
                           <FormMessage />
