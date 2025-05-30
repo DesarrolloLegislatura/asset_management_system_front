@@ -6,14 +6,16 @@ import { MainLayout } from "../layouts/MainLayout";
 import { LoginForm } from "../components/Auth/LoginForm.jsx";
 import { FichaTecnicaForm } from "@/components/FiachaTecnica/FichaTecnicaForm.jsx";
 import { AuthGuard } from "./AuthGuard.jsx";
-import { GroupsGuard } from "./GroupsGuard.jsx";
 import { FichaTonerForm } from "@/components/FichaToner/FichaTonerForm.jsx";
 import { FichaIngresoForm } from "@/components/FichaIngreso/FichaIngresoForm.jsx";
 import { FichaIngresoList } from "@/components/FichaIngreso/FichaIngresoList.jsx";
 import NotFound from "@/components/Error/NotFound.jsx";
 import { FichaIngresoDetail } from "@/components/FichaIngreso/FichaIngresoDetail.jsx";
 import { FichaTecnicaDetail } from "@/components/FiachaTecnica/FichaTecnicaDetail.jsx";
-import Unauthorized from "@/components/Auth/Unauthorized.jsx";
+import { Unauthorized } from "@/components/pages/Unauthorized.jsx";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute.jsx";
+import { PERMISSIONS } from "@/constants/permissions.js";
+import { InventorySerch } from "@/components/Iventario/InventorySerch.jsx";
 
 const routes = [
   {
@@ -27,7 +29,7 @@ const routes = [
     ],
   },
   {
-    // errror 404
+    // error 404
     path: "*",
     element: <NotFound />,
   },
@@ -40,72 +42,90 @@ const routes = [
     ),
     children: [
       {
+        // Página principal - Lista de Fichas de Ingreso
         index: true,
         element: (
-          <GroupsGuard allowedGroups={["Admin", "Tecnico", "Administrativo"]}>
+          <ProtectedRoute permission={PERMISSIONS.FICHA_INGRESO_VIEW}>
             <FichaIngresoList />
-          </GroupsGuard>
+          </ProtectedRoute>
         ),
       },
       {
+        // Crear nueva ficha técnica
         path: "ficha-tecnica",
         element: (
-          <GroupsGuard allowedGroups={["Admin", "Tecnico"]}>
+          <ProtectedRoute permission={PERMISSIONS.TECHNICAL_SHEET_CREATE}>
             <FichaTecnicaForm />
-          </GroupsGuard>
+          </ProtectedRoute>
         ),
       },
       {
+        // Editar ficha técnica
         path: "ficha-tecnica/:idFichaIngreso",
         element: (
-          <GroupsGuard allowedGroups={["Admin", "Tecnico"]}>
+          <ProtectedRoute permission={PERMISSIONS.TECHNICAL_SHEET_EDIT}>
             <FichaTecnicaForm />
-          </GroupsGuard>
+          </ProtectedRoute>
         ),
       },
       {
+        // Ver detalle de ficha técnica
         path: "ficha-tecnica/detail/:idFichaIngreso",
         element: (
-          <GroupsGuard allowedGroups={["Admin", "Tecnico"]}>
+          <ProtectedRoute permission={PERMISSIONS.TECHNICAL_SHEET_VIEW}>
             <FichaTecnicaDetail />
-          </GroupsGuard>
+          </ProtectedRoute>
         ),
       },
       {
+        // Crear nueva ficha de ingreso
         path: "ficha-ingreso",
         element: (
-          <GroupsGuard allowedGroups={["Admin", "Administrativo"]}>
+          <ProtectedRoute permission={PERMISSIONS.FICHA_INGRESO_CREATE}>
             <FichaIngresoForm />
-          </GroupsGuard>
+          </ProtectedRoute>
         ),
       },
       {
+        // Editar ficha de ingreso
         path: "ficha-ingreso/:idFichaIngreso",
         element: (
-          <GroupsGuard allowedGroups={["Admin", "Administrativo"]}>
+          <ProtectedRoute permission={PERMISSIONS.FICHA_INGRESO_EDIT}>
             <FichaIngresoForm />
-          </GroupsGuard>
+          </ProtectedRoute>
         ),
       },
       {
+        // Ver detalle de ficha de ingreso
         path: "ficha-ingreso/detail/:idFichaIngreso",
         element: (
-          <GroupsGuard allowedGroups={["Admin", "Administrativo"]}>
+          <ProtectedRoute permission={PERMISSIONS.FICHA_INGRESO_VIEW}>
             <FichaIngresoDetail />
-          </GroupsGuard>
+          </ProtectedRoute>
         ),
       },
       {
+        // Ficha Toner
         path: "ficha-toner",
         element: (
-          <GroupsGuard allowedGroups={["Admin", "Tecnico", "Administrativo"]}>
+          <ProtectedRoute permission={PERMISSIONS.FICHA_TONER_VIEW}>
             <FichaTonerForm />
-          </GroupsGuard>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        // Inventario/Búsqueda
+        path: "inventory",
+        element: (
+          <ProtectedRoute permission={PERMISSIONS.INVENTORY_VIEW}>
+            <InventorySerch />
+          </ProtectedRoute>
         ),
       },
     ],
   },
   {
+    // Página de acceso no autorizado
     path: "/unauthorized",
     element: <Unauthorized />,
   },

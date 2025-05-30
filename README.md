@@ -37,28 +37,66 @@ front-ficha-tecnica/
 ├── public/              # Archivos estáticos públicos (index.html, favicon)
 ├── src/                 # Código fuente
 │   ├── api/             # Servicios HTTP (axiosService.js, authService.js)
-│   ├── components/      # Componentes React reutilizables
+│   │   ├── auth/        # Componentes de autenticación y protección de rutas
+│   │   ├── examples/    # Componentes de ejemplo y documentación
+│   │   ├── pages/       # Páginas especiales (Unauthorized, etc.)
+│   │   └── ...          # Otros componentes organizados por funcionalidad
 │   ├── constants/       # Variables y constantes globales
+│   │   └── permissions.js # Definición de grupos, permisos y configuración RBAC
 │   ├── contexts/        # React Context para estado global
+│   │   └── PermissionContext.jsx # Context para manejo de permisos
 │   ├── hooks/           # Hooks personalizados
+│   │   └── usePermission.js # Hook para verificación de permisos
 │   ├── layouts/         # Layouts y wrappers de página
 │   ├── lib/             # Utilidades y librerías internas
-│   ├── routes/          # Definición de rutas y guards (AuthGuard, GroupsGuard)
+│   ├── routes/          # Definición de rutas y guards (AuthGuard, ProtectedRoute)
 │   ├── store/           # Estado con Zustand
 │   ├── statics/         # Activos estáticos (imágenes, fuentes)
 │   ├── utils/           # Funciones auxiliares genéricas
+│   │   └── navigation.js # Utilidades para navegación dinámica basada en permisos
 │   ├── App.jsx          # Componente raíz que carga el Router
 │   └── main.jsx         # Punto de entrada y renderizado en DOM
+├── docs/                # Documentación del proyecto
+│   ├── PERMISSION_SYSTEM.md # Documentación completa del sistema de permisos
+│   └── RUTAS_PROTEGIDAS_IMPLEMENTACION.md # Guía de implementación
 ├── vite.config.js       # Configuración de Vite
 └── package.json         # Dependencias y scripts
 ```
 
+## Sistema de Control de Acceso Basado en Roles (RBAC)
+
+El proyecto implementa un sistema completo de control de acceso basado en roles con las siguientes características:
+
+### Grupos de Usuario
+
+- **Administrador**: Acceso completo a todas las funcionalidades
+- **Técnico**: Acceso a fichas técnicas, fichas de ingreso, toner e inventario
+- **Administrativo**: Acceso limitado a fichas de ingreso, toner e inventario
+
+### Componentes Principales
+
+- `ProtectedRoute`: Protege rutas individuales basado en permisos
+- `PermissionGuard`: Protege elementos UI específicos
+- `usePermission`: Hook para verificación de permisos
+- `PermissionProvider`: Context provider para manejo global de permisos
+
+### Rutas Protegidas
+
+Todas las rutas están protegidas por permisos específicos:
+
+- Fichas de Ingreso (ver, crear, editar, eliminar)
+- Fichas Técnicas (ver, crear, editar, eliminar)
+- Ficha Toner (ver, crear, editar)
+- Inventario (ver, buscar)
+
 ## Vinculación de Archivos
 
 - `src/main.jsx` monta `<App />` sobre `#root`.
-- `src/App.jsx` utiliza `RouterProvider` con el router de `src/routes/routes.jsx`.
-- `src/routes/*` define rutas y aplica `AuthGuard.jsx` y `GroupsGuard.jsx`.
+- `src/App.jsx` utiliza `RouterProvider` con el router de `src/routes/routes.jsx` envuelto en `PermissionProvider`.
+- `src/routes/*` define rutas protegidas usando `AuthGuard` y `ProtectedRoute`.
 - `src/api/axiosService.js` y `authService.js` ofrecen funciones HTTP usadas por hooks y componentes.
+- `src/constants/permissions.js` define todos los permisos, grupos y configuración RBAC.
+- `src/utils/navigation.js` proporciona navegación dinámica basada en permisos.
 - Hooks en `src/hooks/` consumen servicios y gestionan lógica reusable.
 - Contexts y store exponen estado global a la app.
 - Componentes en `src/components/` implementan la UI consumiendo hooks, servicios y contexto.

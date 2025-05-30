@@ -1,8 +1,15 @@
 import { useNavigate } from "react-router";
+import { ShieldX, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-const Unauthorized = () => {
+export const Unauthorized = () => {
   const navigate = useNavigate();
 
   return (
@@ -39,5 +46,3 @@ const Unauthorized = () => {
     </div>
   );
 };
-
-export default Unauthorized;

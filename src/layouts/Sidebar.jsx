@@ -1,119 +1,73 @@
 import { Link } from "react-router";
 import { useLocation } from "react-router";
-import {
-  FileText,
-  Printer,
-  Home,
-  Settings,
-  Users,
-  BarChart,
-} from "lucide-react";
-import { useAuthStore } from "@/store/authStore";
+import { usePermission } from "@/hooks/usePermission";
+import { getFilteredNavigation } from "@/utils/navigation";
 
 export function Sidebar() {
   const location = useLocation();
-  const { group } = useAuthStore((state) => state.user);
+  const { permissions, userGroup } = usePermission();
+
+  // Obtener navegación filtrada basada en permisos
+  const navigationItems = getFilteredNavigation(permissions);
 
   // Helper to check if route is active
-  const isActive = (path) => location.pathname.startsWith(path);
+  const isActive = (path) => {
+    if (path === "/") {
+      return location.pathname === "/";
+    }
+    return location.pathname.startsWith(path);
+  };
+
+  const renderNavItem = (item) => {
+    const IconComponent = item.icon;
+
+    return (
+      <div key={item.href}>
+        <Link
+          to={item.href}
+          className={`flex items-center px-3 py-2 rounded-md text-sm ${
+            isActive(item.href)
+              ? "bg-primary/10 text-primary font-medium"
+              : "text-muted-foreground hover:bg-muted"
+          }`}
+        >
+          <IconComponent className="mr-2 h-4 w-4" />
+          {item.title}
+        </Link>
+
+        {/* Renderizar sub-items si existen */}
+        {item.children && item.children.length > 0 && (
+          <div className="ml-6 mt-1 space-y-1">
+            {item.children.map((child) => (
+              <Link
+                key={child.href}
+                to={child.href}
+                className={`flex items-center px-3 py-1 rounded-md text-xs ${
+                  isActive(child.href)
+                    ? "bg-primary/5 text-primary"
+                    : "text-muted-foreground hover:bg-muted"
+                }`}
+              >
+                {child.title}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="space-y-6">
-      <div className="space-y-1">
-        <Link
-          to="/"
-          className={`flex items-center px-3 py-2 rounded-md text-sm ${
-            location.pathname === "/"
-              ? "bg-primary/10 text-primary font-medium"
-              : "text-muted-foreground hover:bg-muted"
-          }`}
-        >
-          <Home className="mr-2 h-4 w-4" />
-          Inicio
-        </Link>
+      <div className="space-y-1">{navigationItems.map(renderNavItem)}</div>
 
-        <Link
-          to="/ficha-tecnica"
-          className={`flex items-center px-3 py-2 rounded-md text-sm ${
-            isActive("/ficha-tecnica")
-              ? "bg-primary/10 text-primary font-medium"
-              : "text-muted-foreground hover:bg-muted"
-          }`}
-        >
-          <FileText className="mr-2 h-4 w-4" />
-          Fichas Técnicas
-        </Link>
-
-        <Link
-          to="/ficha-ingreso"
-          className={`flex items-center px-3 py-2 rounded-md text-sm ${
-            isActive("/ficha-ingreso")
-              ? "bg-primary/10 text-primary font-medium"
-              : "text-muted-foreground hover:bg-muted"
-          }`}
-        >
-          <FileText className="mr-2 h-4 w-4" />
-          Fichas de Ingreso
-        </Link>
-
-        <Link
-          to="/ficha-toner"
-          className={`flex items-center px-3 py-2 rounded-md text-sm ${
-            isActive("/ficha-toner")
-              ? "bg-primary/10 text-primary font-medium"
-              : "text-muted-foreground hover:bg-muted"
-          }`}
-        >
-          <Printer className="mr-2 h-4 w-4" />
-          Fichas de Toner
-        </Link>
-      </div>
-
-      {/* Admin section - solo visible para administradores */}
-      {group === "Admin" && (
-        <div className="pt-4 border-t">
-          <h3 className="mb-2 px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-            Administración
-          </h3>
-          <div className="space-y-1">
-            <Link
-              to="/dashboard"
-              className={`flex items-center px-3 py-2 rounded-md text-sm ${
-                isActive("/dashboard")
-                  ? "bg-primary/10 text-primary font-medium"
-                  : "text-muted-foreground hover:bg-muted"
-              }`}
-            >
-              <BarChart className="mr-2 h-4 w-4" />
-              Dashboard
-            </Link>
-
-            <Link
-              to="/settings"
-              className={`flex items-center px-3 py-2 rounded-md text-sm ${
-                isActive("/settings")
-                  ? "bg-primary/10 text-primary font-medium"
-                  : "text-muted-foreground hover:bg-muted"
-              }`}
-            >
-              <Settings className="mr-2 h-4 w-4" />
-              Configuración
-            </Link>
-
-            <Link
-              to="/users"
-              className={`flex items-center px-3 py-2 rounded-md text-sm ${
-                isActive("/users")
-                  ? "bg-primary/10 text-primary font-medium"
-                  : "text-muted-foreground hover:bg-muted"
-              }`}
-            >
-              <Users className="mr-2 h-4 w-4" />
-              Usuarios
-            </Link>
-          </div>
+      {/* Información del usuario */}
+      <div className="pt-4 border-t">
+        <div className="px-3 text-xs text-muted-foreground">
+          <div className="font-semibold">Grupo: {userGroup}</div>
+          <div className="mt-1">Permisos: {permissions?.length || 0}</div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
