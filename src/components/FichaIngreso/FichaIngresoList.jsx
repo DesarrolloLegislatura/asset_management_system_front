@@ -26,17 +26,19 @@ import {
   ChevronsRight,
   Edit,
   Printer,
+  Eye,
+  Plus,
 } from "lucide-react";
 import { useNavigate } from "react-router";
-import { useAuthStore } from "@/store/authStore";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
+import { usePermission } from "@/hooks/usePermission";
+import { PERMISSIONS, USER_GROUPS } from "@/constants/permissions";
 
 export function FichaIngresoList() {
   const navigate = useNavigate();
   const { fichasTecnicas, loading } = useFichaTecnica(true);
-  const { group } = useAuthStore((state) => state.user);
+  const { userGroup, hasPermission } = usePermission();
   const [sorting, setSorting] = useState([]);
-
   const [columnFilters, setColumnFilters] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
 
@@ -72,13 +74,29 @@ export function FichaIngresoList() {
             case "INGRESO":
               return "bg-blue-50 text-blue-600 border-blue-200";
             case "EN REPARACIÓN":
+            case "EN REPARACION":
               return "bg-purple-50 text-purple-600 border-purple-200";
             case "SALIDA":
               return "bg-green-50 text-green-600 border-green-200";
-            case "PENDIENTE":
-              return "bg-pink-50 text-pink-600 border-pink-200";
-            case "COMPLETADO":
+            case "RETIRADO":
+              return "bg-orange-50 text-orange-600 border-orange-200";
+            case "LISTO PARA RETIRAR":
               return "bg-teal-50 text-teal-600 border-teal-200";
+            case "FINALIZADO":
+              return "bg-emerald-50 text-emerald-600 border-emerald-200";
+            case "REPARADO":
+              return "bg-lime-50 text-lime-600 border-lime-200";
+            case "DIAGNÓSTICO PENDIENTE":
+            case "DIAGNOSTICO PENDIENTE":
+              return "bg-yellow-50 text-yellow-600 border-yellow-200";
+            case "EN ESPERA DE REPUESTO":
+            case "EN ESPERA DE REPUESTOS":
+              return "bg-amber-50 text-amber-600 border-amber-200";
+            case "SE RECOMIENDA BAJA":
+              return "bg-red-50 text-red-600 border-red-200";
+            case "EN REPARACIÓN EXTERNA":
+            case "EN REPARACION EXTERNA":
+              return "bg-indigo-50 text-indigo-600 border-indigo-200";
             default:
               return "bg-gray-50 text-gray-600 border-gray-200";
           }
@@ -106,24 +124,37 @@ export function FichaIngresoList() {
     },
     {
       id: "actions",
+      header: "Acciones",
       cell: ({ row }) => {
         const ficha = row.original;
         return (
-          <div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => handleEdit(ficha.id)}
-            >
-              <Edit className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => handlePrint(ficha.id)}
-            >
-              <Printer className="h-4 w-4" />
-            </Button>
+          <div className="flex gap-1">
+            {/* Botón Ver - Todos pueden ver detalles */}
+            {hasPermission(PERMISSIONS.FICHA_INGRESO_VIEW) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleView(ficha.id)}
+                title="Ver detalle"
+              >
+                <Eye className="h-4 w-4" />
+              </Button>
+            )}
+
+            {/* Botón Editar - Según el grupo del usuario */}
+            {renderEditButton(ficha.id)}
+
+            {/* Botón Imprimir/Ver - Todos pueden imprimir */}
+            {hasPermission(PERMISSIONS.FICHA_INGRESO_VIEW) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handlePrint(ficha.id)}
+                title="Imprimir"
+              >
+                <Printer className="h-4 w-4" />
+              </Button>
+            )}
           </div>
         );
       },
@@ -147,59 +178,116 @@ export function FichaIngresoList() {
     onGlobalFilterChange: setGlobalFilter,
   });
 
-  // Obtener información del usuario logueado
-  const user = useAuthStore((state) => state.user);
+  // Función para renderizar el botón de editar según permisos
+  const renderEditButton = (fichaId) => {
+    // Administradores: pueden editar fichas técnicas
+    if (
+      userGroup === USER_GROUPS.ADMINISTRADOR &&
+      hasPermission(PERMISSIONS.TECHNICAL_SHEET_EDIT)
+    ) {
+      return (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate(`/ficha-tecnica/${fichaId}`)}
+          title="Editar como Ficha Técnica"
+        >
+          <Edit className="h-4 w-4" />
+        </Button>
+      );
+    }
 
-  // Determinar la ruta según el grupo del usuario
+    // Técnicos: pueden editar fichas técnicas
+    if (
+      userGroup === USER_GROUPS.TECNICO &&
+      hasPermission(PERMISSIONS.TECHNICAL_SHEET_EDIT)
+    ) {
+      return (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate(`/ficha-tecnica/${fichaId}`)}
+          title="Editar como Ficha Técnica"
+        >
+          <Edit className="h-4 w-4" />
+        </Button>
+      );
+    }
+
+    // Administrativos: pueden editar fichas de ingreso
+    if (
+      userGroup === USER_GROUPS.ADMINISTRATIVO &&
+      hasPermission(PERMISSIONS.FICHA_INGRESO_EDIT)
+    ) {
+      return (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate(`/ficha-ingreso/${fichaId}`)}
+          title="Editar Ficha de Ingreso"
+        >
+          <Edit className="h-4 w-4" />
+        </Button>
+      );
+    }
+
+    return null;
+  };
+
+  // Determinar la ruta para crear nueva ficha según el grupo del usuario
   const handleCreateFicha = () => {
-    // Obtener el grupo del usuario, manejar tanto array como string
-    const userGroup = Array.isArray(user.group) ? user.group : [user.group];
-
-    if (userGroup.includes("Tecnico")) {
-      navigate("/ficha-ingreso/detail/${id}");
-    } else if (userGroup.includes("Administrativo")) {
-      navigate("/ficha-ingreso/");
-    } else if (userGroup.includes("Admin")) {
-      // Los administradores pueden elegir (opcional)
-      // navigate("/seleccionar-tipo-ficha/");
-      navigate("/ficha-tecnica/");
+    if (hasPermission(PERMISSIONS.FICHA_INGRESO_CREATE)) {
+      navigate("/ficha-ingreso");
     } else {
-      // Por defecto, ir a la página de no autorizado
       navigate("/unauthorized");
     }
   };
-  const handleEdit = (id) => {
-    console.log("Editar ficha:", id);
-    console.log("Grupo del usuario:", group);
-    if (group === "Tecnico") {
-      navigate(`/ficha-tecnica/${id}`);
-    } else if (group === "Administrativo") {
-      navigate(`/ficha-ingreso/${id}`);
-    } else if (group === "Admin") {
-      navigate(`/ficha-tecnica/${id}`);
-    }
-  };
-  const handlePrint = (id) => {
-    console.log("Editar ficha:", id);
-    console.log("Grupo del usuario:", group);
-    if (group === "Tecnico") {
-      navigate(`/ficha-tecnica/${id}`);
-    } else if (group === "Administrativo") {
+
+  // Ver detalle de ficha
+  const handleView = (id) => {
+    if (userGroup === USER_GROUPS.TECNICO) {
+      navigate(`/ficha-tecnica/detail/${id}`);
+    } else if (userGroup === USER_GROUPS.ADMINISTRATIVO) {
       navigate(`/ficha-ingreso/detail/${id}`);
-    } else if (group === "Admin") {
+    } else if (userGroup === USER_GROUPS.ADMINISTRADOR) {
       navigate(`/ficha-ingreso/detail/${id}`);
     }
   };
 
+  // Función para imprimir (redirige al detalle)
+  const handlePrint = (id) => {
+    navigate(`/ficha-ingreso/detail/${id}`);
+  };
+
   return (
-    <div className="max-w-4xl mx-auto max-h-dvw overflow-y-auto">
-      <h2 className="text-xl font-semibold mb-6">Listado Ficha Tecnica </h2>
-      <div className=" bg-white shadow-sm rounded-md p-3">
+    <div className="max-w-6xl mx-auto max-h-dvh overflow-y-auto">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold tracking-tight">
+          Gestión de Fichas de Ingreso
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          Grupo actual: <span className="font-medium">{userGroup}</span>
+        </p>
+      </div>
+
+      <div className="bg-white shadow-sm rounded-lg p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <Button className="bg-primary" onClick={handleCreateFicha}>
-              Crear Ficha
-            </Button>
+            {hasPermission(PERMISSIONS.FICHA_INGRESO_CREATE) && (
+              <Button
+                onClick={handleCreateFicha}
+                className="flex items-center gap-2"
+              >
+                <Plus className="h-4 w-4" />
+                Crear Nueva Ficha
+              </Button>
+            )}
+          </div>
+          <div className="text-sm text-muted-foreground">
+            {userGroup === USER_GROUPS.ADMINISTRADOR && "Acceso completo"}
+            {userGroup === USER_GROUPS.TECNICO && "Edición técnica disponible"}
+            {userGroup === USER_GROUPS.ADMINISTRATIVO &&
+              "Edición administrativa"}
           </div>
         </div>
 
@@ -215,7 +303,7 @@ export function FichaIngresoList() {
                       className="cursor-pointer"
                     >
                       {header.isPlaceholder ? null : (
-                        <div className="flex items-center  gap-1">
+                        <div className="flex items-center gap-1">
                           {flexRender(
                             header.column.columnDef.header,
                             header.getContext()
@@ -240,7 +328,10 @@ export function FichaIngresoList() {
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    Cargando...
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                      Cargando fichas...
+                    </div>
                   </TableCell>
                 </TableRow>
               ) : table.getRowModel().rows?.length ? (
@@ -248,9 +339,7 @@ export function FichaIngresoList() {
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className={`transition-colors hover:bg-gray-50 ${
-                      Number(row.id) % 2 === 0 ? "bg-white" : "bg-gray-50"
-                    }`}
+                    className="transition-colors hover:bg-muted/50"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
@@ -268,64 +357,75 @@ export function FichaIngresoList() {
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    No se encontraron resultados.
+                    <div className="flex flex-col items-center gap-2">
+                      <p className="text-muted-foreground">
+                        No se encontraron fichas.
+                      </p>
+                      {hasPermission(PERMISSIONS.FICHA_INGRESO_CREATE) && (
+                        <Button variant="outline" onClick={handleCreateFicha}>
+                          Crear la primera ficha
+                        </Button>
+                      )}
+                    </div>
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
           </Table>
         </div>
-        <div className="flex flex-wrap justify-between items-center gap-3 mt-4 sm:mt-6">
-          <div className="flex items-center gap-1 sm:gap-2">
-            <button
+
+        {/* Paginación */}
+        <div className="flex flex-wrap justify-between items-center gap-3 mt-6">
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => table.firstPage()}
               disabled={!table.getCanPreviousPage()}
-              className="px-2 py-1.5 sm:py-2 text-sm sm:text-base text-black-600 hover:text-black-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <ChevronsLeft color="#2563eb" />
-            </button>
-            <button
+              <ChevronsLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              className="px-2 py-1.5 sm:py-2 text-sm sm:text-base text-black-600 hover:text-black-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <ChevronLeft color="#2563eb" />
-            </button>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
           </div>
 
-          <span className="text-sm sm:text-base text-gray-600">
-            Página{" "}
-            <span className="font-semibold text-black-600">
-              {table.getState().pagination.pageIndex + 1}
-            </span>{" "}
-            de{" "}
-            <span className="font-semibold text-black-600">
-              {" "}
-              {table.getPageCount()}
+          <div className="flex items-center gap-4 text-sm">
+            <span className="text-muted-foreground">
+              Página{" "}
+              <span className="font-medium">
+                {table.getState().pagination.pageIndex + 1}
+              </span>{" "}
+              de <span className="font-medium">{table.getPageCount()}</span>
             </span>
-          </span>
-          <span className="text-sm sm:text-base text-gray-600">
-            Total de Fichas:{" "}
-            <span className="font-semibold text-black-600">
-              {table.getRowCount()}
+            <span className="text-muted-foreground">
+              Total: <span className="font-medium">{table.getRowCount()}</span>{" "}
+              fichas
             </span>
-          </span>
+          </div>
 
-          <div className="flex items-center gap-1 sm:gap-2">
-            <button
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              className="px-2 py-1.5 sm:py-2 text-sm sm:text-base text-black-600 hover:text-black-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <ChevronRight color="#2563eb" />
-            </button>
-            <button
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => table.lastPage()}
               disabled={!table.getCanNextPage()}
-              className="px-2 py-1.5 sm:py-2 text-sm sm:text-base text-black-600 hover:text-black-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <ChevronsRight color="#2563eb" />
-            </button>
+              <ChevronsRight className="h-4 w-4" />
+            </Button>
           </div>
         </div>
       </div>

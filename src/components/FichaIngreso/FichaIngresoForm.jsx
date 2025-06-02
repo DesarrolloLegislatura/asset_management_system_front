@@ -32,7 +32,7 @@ export function FichaIngresoForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [assetSelected, setAssetSelected] = useState(false);
-  const { loading: loadingStatus, getCreationMode } = useStatus();
+  const { loading: loadingStatus, getFichaIngresoStates } = useStatus();
 
   const {
     fichaTecnicaById,
@@ -182,9 +182,10 @@ export function FichaIngresoForm() {
     }
   };
 
+  // Obtener estados filtrados para Ficha de Ingreso
   const availableStatus = useMemo(() => {
-    return getCreationMode(!isEditMode);
-  }, [getCreationMode, isEditMode]);
+    return getFichaIngresoStates(!isEditMode); // !isEditMode = isCreating
+  }, [getFichaIngresoStates, isEditMode]);
 
   // Genérico para manejar cambios de campo
   const handleValueChange = (field) => (value) =>
@@ -387,7 +388,7 @@ export function FichaIngresoForm() {
                       name="status"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Estado del Bien </FormLabel>
+                          <FormLabel>Estado del Bien</FormLabel>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}

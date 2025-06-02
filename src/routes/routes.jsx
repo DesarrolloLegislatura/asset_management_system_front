@@ -1,5 +1,3 @@
-// Crear la ruta para el componente
-
 import { createBrowserRouter } from "react-router";
 import { AuthLayout } from "../layouts/AuthLayout.jsx";
 import { MainLayout } from "../layouts/MainLayout";
@@ -16,6 +14,7 @@ import { Unauthorized } from "@/components/pages/Unauthorized.jsx";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute.jsx";
 import { PERMISSIONS } from "@/constants/permissions.js";
 import { InventorySerch } from "@/components/Iventario/InventorySerch.jsx";
+import { RoutesExample } from "@/components/examples/RoutesExample.jsx";
 
 const routes = [
   {
@@ -51,16 +50,21 @@ const routes = [
         ),
       },
       {
-        // Crear nueva ficha técnica
-        path: "ficha-tecnica",
-        element: (
-          <ProtectedRoute permission={PERMISSIONS.TECHNICAL_SHEET_CREATE}>
-            <FichaTecnicaForm />
-          </ProtectedRoute>
-        ),
+        // Ejemplos de documentación
+        path: "examples",
+        children: [
+          {
+            index: true,
+            element: <RoutesExample />,
+          },
+          {
+            path: "rutas",
+            element: <RoutesExample />,
+          },
+        ],
       },
       {
-        // Editar ficha técnica
+        // Editar ficha técnica (desde una ficha de ingreso existente)
         path: "ficha-tecnica/:idFichaIngreso",
         element: (
           <ProtectedRoute permission={PERMISSIONS.TECHNICAL_SHEET_EDIT}>

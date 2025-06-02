@@ -41,12 +41,6 @@ export function Navbar() {
         {/* Central Space - puede usarse para navegación o búsqueda */}
         <div className="hidden md:flex items-center gap-6">
           <Link
-            to="/ficha-tecnica"
-            className="text-sm font-medium hover:text-primary transition-colors"
-          >
-            Fichas Técnicas
-          </Link>
-          <Link
             to="/ficha-ingreso"
             className="text-sm font-medium hover:text-primary transition-colors"
           >

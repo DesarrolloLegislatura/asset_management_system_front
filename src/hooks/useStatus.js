@@ -1,5 +1,4 @@
 import statusService from "@/api/statusService";
-import { STATUS_IDS } from "@/constants/statusConstants";
 import { useEffect, useMemo, useState } from "react";
 
 export const useStatus = () => {
@@ -22,16 +21,70 @@ export const useStatus = () => {
     }
   };
 
-  // Función para filtrar estados segun el modo
-  const getCreationMode = useMemo(() => {
-    return (isCreationMode = false) => {
-      if (isCreationMode) {
-        // En modo creación, solo mostrar "Ingreso"
-        return status.filter((estado) => estado.id === STATUS_IDS.INGRESO);
+  // Función para obtener estados para Ficha de Ingreso
+  const getFichaIngresoStates = useMemo(() => {
+    return (isCreating = false) => {
+      if (isCreating) {
+        // Al crear: solo "Ingreso"
+        return status.filter((estado) =>
+          estado.name.toLowerCase().includes("ingreso")
+        );
+      } else {
+        // Al editar: Ingreso + estados de finalización
+        const allowedStates = [
+          "ingreso",
+          "retirado",
+          "listo para retirar",
+          "salida",
+          "finalizado",
+        ];
+
+        return status.filter((estado) =>
+          allowedStates.some((allowed) =>
+            estado.name.toLowerCase().includes(allowed.toLowerCase())
+          )
+        );
       }
-      return status;
     };
   }, [status]);
+
+  // Función para obtener estados para Ficha Técnica
+  const getFichaTecnicaStates = useMemo(() => {
+    return () => {
+      const allowedStates = [
+        "en reparación",
+        "en reparacion", // variante sin tilde
+        "en espera de repuesto",
+        "en espera de repuestos", // variante plural
+        "diagnóstico pendiente",
+        "diagnostico pendiente", // variante sin tilde
+        "reparado",
+        "se recomienda baja",
+        "en reparación externa",
+        "en reparacion externa", // variante sin tilde
+      ];
+
+      return status.filter((estado) =>
+        allowedStates.some((allowed) =>
+          estado.name.toLowerCase().includes(allowed.toLowerCase())
+        )
+      );
+    };
+  }, [status]);
+
+  // Función genérica para obtener estados por contexto
+  const getStatesByContext = useMemo(() => {
+    return (context, isCreating = false) => {
+      switch (context) {
+        case "ficha_ingreso":
+          return getFichaIngresoStates(isCreating);
+        case "ficha_tecnica":
+          return getFichaTecnicaStates();
+        default:
+          return status;
+      }
+    };
+  }, [status, getFichaIngresoStates, getFichaTecnicaStates]);
 
   // Cargar todos los datos al montar el componente
   useEffect(() => {
@@ -43,6 +96,8 @@ export const useStatus = () => {
     loading,
     error,
     fetchStatus,
-    getCreationMode,
+    getFichaIngresoStates,
+    getFichaTecnicaStates,
+    getStatesByContext,
   };
 };

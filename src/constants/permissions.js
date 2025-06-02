@@ -7,9 +7,8 @@ export const USER_GROUPS = {
 
 // Permisos por funcionalidad
 export const PERMISSIONS = {
-  // Fichas Técnicas
+  // Fichas Técnicas (solo edición y visualización, no creación)
   TECHNICAL_SHEET_VIEW: "technical_sheet.view",
-  TECHNICAL_SHEET_CREATE: "technical_sheet.create",
   TECHNICAL_SHEET_EDIT: "technical_sheet.edit",
   TECHNICAL_SHEET_DELETE: "technical_sheet.delete",
 
@@ -37,9 +36,8 @@ export const GROUP_PERMISSIONS = {
   ],
 
   [USER_GROUPS.TECNICO]: [
-    // Fichas técnicas (acceso completo)
+    // Fichas técnicas (solo edición y visualización)
     PERMISSIONS.TECHNICAL_SHEET_VIEW,
-    PERMISSIONS.TECHNICAL_SHEET_CREATE,
     PERMISSIONS.TECHNICAL_SHEET_EDIT,
     PERMISSIONS.TECHNICAL_SHEET_DELETE,
 
@@ -82,8 +80,7 @@ export const GROUP_ROUTES = {
     "/ficha-ingreso",
     "/ficha-ingreso/:idFichaIngreso",
     "/ficha-ingreso/detail/:idFichaIngreso",
-    "/ficha-tecnica",
-    "/ficha-tecnica/:idFichaIngreso",
+    "/ficha-tecnica/:idFichaIngreso", // Solo edición
     "/ficha-tecnica/detail/:idFichaIngreso",
     "/ficha-toner",
     "/inventory",
@@ -94,8 +91,7 @@ export const GROUP_ROUTES = {
     "/ficha-ingreso",
     "/ficha-ingreso/:idFichaIngreso",
     "/ficha-ingreso/detail/:idFichaIngreso",
-    "/ficha-tecnica",
-    "/ficha-tecnica/:idFichaIngreso",
+    "/ficha-tecnica/:idFichaIngreso", // Solo edición
     "/ficha-tecnica/detail/:idFichaIngreso",
     "/ficha-toner",
     "/inventory",

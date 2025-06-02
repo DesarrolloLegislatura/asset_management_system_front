@@ -1,7 +1,8 @@
-import { Computer, Printer, ScissorsLineDashed, User } from "lucide-react";
+import { Computer, Printer, ScissorsLineDashed } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
 import { Button } from "../ui/button";
 import { useRef } from "react";
+import PropTypes from "prop-types";
 
 const ContentPrint = ({ fichaTecnicaById }) => {
   console.log("fichaTecnicaById", fichaTecnicaById);
@@ -151,7 +152,7 @@ const ContentPrint = ({ fichaTecnicaById }) => {
       <div className="mb-10 p-1 print:mb-[8px] print:p-[1px]">
         <div className="print:bg-gray-300 print:text-white print:p-1 print:mb-2">
           <h3 className="font-bold mb-1 text-sm text-whiteuppercase pb-1 print:text-xs print:text-white print:mb-0 flex items-center">
-            <User className="mr-1 print:hidden" size={15} />
+            <Computer className="mr-1 print:hidden" size={15} />
             <span className="print:block print:font-bold">
               👤 INFORMACIÓN DE CONTACTO
             </span>
@@ -202,6 +203,11 @@ const ContentPrint = ({ fichaTecnicaById }) => {
       </div>
     </div>
   );
+};
+
+// Agregar PropTypes para evitar errores del linter
+ContentPrint.propTypes = {
+  fichaTecnicaById: PropTypes.object.isRequired,
 };
 
 export const FichaIngresoPrint = ({ fichaTecnicaById }) => {
@@ -277,4 +283,9 @@ export const FichaIngresoPrint = ({ fichaTecnicaById }) => {
       </div>
     </>
   );
+};
+
+// Agregar PropTypes para evitar errores del linter
+FichaIngresoPrint.propTypes = {
+  fichaTecnicaById: PropTypes.object.isRequired,
 };

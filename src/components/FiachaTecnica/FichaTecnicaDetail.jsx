@@ -17,15 +17,9 @@ import {
   Pencil,
   ScissorsLineDashed,
   Computer,
-  Building2,
   MessageSquare,
   ClipboardCheck,
-  Thermometer,
-  CheckCircle2,
   AlertTriangle,
-  Clock,
-  Hammer,
-  FileClock,
 } from "lucide-react";
 import { FichaTecnicaPrint } from "./FichaTecnicaPrint";
 import { useAuthStore } from "@/store/authStore";
@@ -117,65 +111,6 @@ export const FichaTecnicaDetail = () => {
       </Card>
     );
 
-  // Get state badge color based on estado_del_bien
-  const getStateBadge = (state) => {
-    if (!state) return <Badge variant="outline">Sin estado</Badge>;
-
-    const stateMap = {
-      "en reparacion": {
-        variant: "secondary",
-        icon: <Thermometer className="h-3 w-3 mr-1" />,
-        text: "En reparación",
-      },
-      "espera repuestos": {
-        variant: "outline",
-        icon: <Clock className="h-3 w-3 mr-1" />,
-        text: "Esperando repuestos",
-      },
-      diagnostico: {
-        variant: "outline",
-        icon: <FileClock className="h-3 w-3 mr-1" />,
-        text: "Diagnóstico pendiente",
-      },
-      reparado: {
-        variant: "success",
-        icon: <Hammer className="h-3 w-3 mr-1" />,
-        text: "Reparado",
-      },
-      "listo entregar": {
-        variant: "success",
-        icon: <CheckCircle2 className="h-3 w-3 mr-1" />,
-        text: "Listo para entregar",
-      },
-      "no reparable": {
-        variant: "destructive",
-        icon: <AlertTriangle className="h-3 w-3 mr-1" />,
-        text: "No reparable",
-      },
-      "reparacion externa": {
-        variant: "secondary",
-        icon: <Building2 className="h-3 w-3 mr-1" />,
-        text: "En reparación externa",
-      },
-    };
-
-    const stateInfo = stateMap[state.toLowerCase()] || {
-      variant: "outline",
-      icon: null,
-      text: state,
-    };
-
-    return (
-      <Badge
-        variant={stateInfo.variant}
-        className="capitalize flex items-center text-sm"
-      >
-        {stateInfo.icon}
-        {stateInfo.text}
-      </Badge>
-    );
-  };
-
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
       <div className="print:hidden">
@@ -185,7 +120,7 @@ export const FichaTecnicaDetail = () => {
               <Computer className="h-6 w-6 text-primary" />
               Ficha Técnica
               <Badge variant="outline" className="ml-2 text-sm">
-                #{fichaTecnicaById.id_ficha_tecnica}
+                #{fichaTecnicaById.id}
               </Badge>
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
@@ -227,7 +162,7 @@ export const FichaTecnicaDetail = () => {
                         Estado
                       </span>
                       <div>
-                        {getStateBadge(fichaTecnicaById.estado_del_bien)}
+                        {fichaTecnicaById.status?.[0]?.name || "Sin Datos"}
                       </div>
                     </div>
 
@@ -236,7 +171,7 @@ export const FichaTecnicaDetail = () => {
                         Tipo de Bien
                       </span>
                       <span className="capitalize">
-                        {fichaTecnicaById.tipo_de_bien || "-"}
+                        {fichaTecnicaById.asset?.typeasset?.name || "Sin Datos"}
                       </span>
                     </div>
 
@@ -244,7 +179,9 @@ export const FichaTecnicaDetail = () => {
                       <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                         Número de Patrimonio
                       </span>
-                      <span>{fichaTecnicaById.numero_patrimonio || "-"}</span>
+                      <span>
+                        {fichaTecnicaById.asset?.inventory || "Sin Datos"}
+                      </span>
                     </div>
 
                     <div className="flex flex-col">
@@ -252,7 +189,7 @@ export const FichaTecnicaDetail = () => {
                         Medio de Solicitud
                       </span>
                       <span className="capitalize">
-                        {fichaTecnicaById.medio_solicitud || "-"}
+                        {fichaTecnicaById.means_application || "Sin Datos"}
                       </span>
                     </div>
                   </div>
@@ -260,21 +197,19 @@ export const FichaTecnicaDetail = () => {
                   <div className="space-y-4">
                     <div className="flex flex-col">
                       <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Dependencia
+                        Area
                       </span>
                       <span>
-                        {fichaTecnicaById.dependencia_interna?.dependencia
-                          ?.dep_gral || "-"}
+                        {fichaTecnicaById.asset?.area?.name || "Sin Datos"}
                       </span>
                     </div>
 
                     <div className="flex flex-col">
                       <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Dependencia Interna
+                        Edificio
                       </span>
                       <span>
-                        {fichaTecnicaById.dependencia_interna?.dep_interna ||
-                          "-"}
+                        {fichaTecnicaById.asset?.building?.name || "Sin Datos"}
                       </span>
                     </div>
 
@@ -285,9 +220,9 @@ export const FichaTecnicaDetail = () => {
                       <span>
                         {fichaTecnicaById.act_simple
                           ? `${fichaTecnicaById.act_simple}/${
-                              fichaTecnicaById.anio_act_simple || ""
+                              fichaTecnicaById.year_act_simple || ""
                             }`
-                          : "-"}
+                          : "Sin Datos"}
                       </span>
                     </div>
 
@@ -295,7 +230,7 @@ export const FichaTecnicaDetail = () => {
                       <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                         Fecha Ingreso
                       </span>
-                      <span>{fichaTecnicaById.fecha_de_ingreso || "-"}</span>
+                      <span>{fichaTecnicaById.date_in || "Sin Datos"}</span>
                     </div>
                   </div>
                 </div>
@@ -307,14 +242,14 @@ export const FichaTecnicaDetail = () => {
                     <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                       Usuario PC
                     </span>
-                    <span>{fichaTecnicaById.usuario_pc || "-"}</span>
+                    <span>{fichaTecnicaById.user_pc || "Sin Datos"}</span>
                   </div>
 
                   <div className="flex flex-col">
                     <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                       Contraseña PC
                     </span>
-                    <span>{fichaTecnicaById.contrasenia_pc || "-"}</span>
+                    <span>{fichaTecnicaById.pass_pc || "Sin Datos"}</span>
                   </div>
                 </div>
               </CardContent>
@@ -353,7 +288,7 @@ export const FichaTecnicaDetail = () => {
                       Asistido por
                     </span>
                     <span className="font-medium">
-                      {fichaTecnicaById.asistido || "-"}
+                      {fichaTecnicaById.assistance || "Sin Datos"}
                     </span>
                   </div>
 
@@ -362,7 +297,7 @@ export const FichaTecnicaDetail = () => {
                       Ponderación
                     </span>
                     <span className="font-medium">
-                      {fichaTecnicaById.ponderacion || "-"}
+                      {fichaTecnicaById.asset?.weighting.name || "Sin Datos"}
                     </span>
                   </div>
                 </div>
@@ -373,8 +308,7 @@ export const FichaTecnicaDetail = () => {
                   </span>
                   <div className="bg-muted/30 p-4 rounded-md border border-border/60">
                     <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                      {fichaTecnicaById.descripcion_tec ||
-                        "Sin resolución técnica registrada."}
+                      {fichaTecnicaById.tech_description || "Sin Datos"}
                     </p>
                   </div>
                 </div>

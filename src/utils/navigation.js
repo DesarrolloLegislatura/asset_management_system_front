@@ -25,21 +25,10 @@ export const navigationItems = [
   },
   {
     title: "Fichas Técnicas",
-    href: "/ficha-tecnica",
+    href: "/", // Redirige a la lista de fichas de ingreso para seleccionar cuál editar
     icon: FileText,
     permission: PERMISSIONS.TECHNICAL_SHEET_VIEW,
-    children: [
-      {
-        title: "Ver Fichas",
-        href: "/ficha-tecnica",
-        permission: PERMISSIONS.TECHNICAL_SHEET_VIEW,
-      },
-      {
-        title: "Nueva Ficha",
-        href: "/ficha-tecnica",
-        permission: PERMISSIONS.TECHNICAL_SHEET_CREATE,
-      },
-    ],
+    description: "Ver fichas técnicas (editar desde fichas de ingreso)",
   },
   {
     title: "Ficha Toner",
