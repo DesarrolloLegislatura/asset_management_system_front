@@ -25,6 +25,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ChevronDown, ChevronUp, Loader2 } from "lucide-react";
+import { ASSISTANCE_TYPES } from "@/constants/assistance";
 
 export function FichaTecnicaForm() {
   const { idFichaIngreso } = useParams();
@@ -70,21 +71,24 @@ export function FichaTecnicaForm() {
   const availableStatus = getFichaTecnicaStates();
 
   useEffect(() => {
+    if (!idFichaIngreso) return;
+
     const loadFichaTecnica = async () => {
-      if (idFichaIngreso) {
-        setIsLoading(true);
-        try {
-          await fetchByIdFichaTecnica(+idFichaIngreso);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        } finally {
-          setIsLoading(false);
-        }
+      setIsLoading(true);
+      try {
+        await fetchByIdFichaTecnica(+idFichaIngreso);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    loadFichaTecnica();
-  }, [idFichaIngreso, fetchByIdFichaTecnica]);
+    // Solo cargar si aún no tenemos datos
+    if (fichaTecnicaById == null) {
+      loadFichaTecnica();
+    }
+  }, [idFichaIngreso, fetchByIdFichaTecnica, fichaTecnicaById]);
 
   // Poblar formulario cuando se cargan los datos
   useEffect(() => {
@@ -127,7 +131,6 @@ export function FichaTecnicaForm() {
       assistance: data.assistance,
       status: [parseInt(data.status)],
       users: [user.id],
-      // Mantener asset original si existe
       asset: fichaTecnicaById?.asset?.id || null,
     };
 
@@ -138,7 +141,6 @@ export function FichaTecnicaForm() {
       console.error("Error al guardar:", error);
     }
   };
-  console.log("fichaTecnicaById", fichaTecnicaById);
 
   const toggleInfoSection = () => setIsInfoSectionOpen(!isInfoSectionOpen);
 
@@ -206,7 +208,7 @@ export function FichaTecnicaForm() {
                           <Input
                             {...field}
                             disabled={true}
-                            className=" text-gray-800  text-lg border border-gray-300 bg-gray-100 font-bold   "
+                            className="text-lg font-bold bg-muted text-muted-foreground"
                             placeholder="Número de inventario"
                           />
                         </FormControl>
@@ -226,7 +228,7 @@ export function FichaTecnicaForm() {
                           <Input
                             {...field}
                             disabled={true}
-                            className=" text-gray-800  text-lg border border-gray-300 bg-gray-100 font-bold   "
+                            className="text-lg font-bold bg-muted text-muted-foreground"
                             placeholder="Tipo de bien"
                           />
                         </FormControl>
@@ -248,7 +250,7 @@ export function FichaTecnicaForm() {
                           <Input
                             {...field}
                             disabled={true}
-                            className=" text-gray-800  text-lg border border-gray-300 bg-gray-100 font-bold   "
+                            className="text-lg font-bold bg-muted text-muted-foreground"
                             placeholder="Área"
                           />
                         </FormControl>
@@ -267,7 +269,7 @@ export function FichaTecnicaForm() {
                           <Input
                             {...field}
                             disabled={true}
-                            className=" text-gray-800  text-lg border border-gray-300 bg-gray-100 font-bold   "
+                            className="text-lg font-bold bg-muted text-muted-foreground"
                             placeholder="Edificio"
                           />
                         </FormControl>
@@ -289,7 +291,7 @@ export function FichaTecnicaForm() {
                             type="date"
                             {...field}
                             disabled={true}
-                            className=" text-gray-800  text-lg border border-gray-300 bg-gray-100 font-bold   "
+                            className="text-lg font-bold bg-muted text-muted-foreground"
                           />
                         </FormControl>
                         <FormMessage />
@@ -308,7 +310,7 @@ export function FichaTecnicaForm() {
                             <Input
                               {...field}
                               disabled={true}
-                              className=" text-gray-800  text-lg border border-gray-300 bg-gray-100 font-bold   "
+                              className="text-lg font-bold bg-muted text-muted-foreground pr-16"
                               placeholder="Actuación simple"
                             />
                             <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-muted-foreground">
@@ -335,7 +337,7 @@ export function FichaTecnicaForm() {
                         <textarea
                           {...field}
                           disabled={true}
-                          className="flex w-full min-h-[100px] rounded-md px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-gray-500   border border-gray-300 bg-gray-100 font-bold   "
+                          className="flex w-full min-h-[100px] rounded-md px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-muted text-muted-foreground font-bold border-muted"
                           placeholder="Descripción del problema reportado por el usuario..."
                         />
                       </FormControl>
@@ -357,7 +359,7 @@ export function FichaTecnicaForm() {
                             {...field}
                             disabled={true}
                             placeholder="Nombre completo"
-                            className=" text-gray-800  text-lg border border-gray-300 bg-gray-100 font-bold   "
+                            className="text-lg font-bold bg-muted text-muted-foreground"
                           />
                         </FormControl>
                         <FormMessage />
@@ -376,7 +378,7 @@ export function FichaTecnicaForm() {
                           <Input
                             {...field}
                             disabled={true}
-                            className=" text-gray-800  text-lg border border-gray-300 bg-gray-100 font-bold   "
+                            className="text-lg font-bold bg-muted text-muted-foreground"
                             placeholder="Número de teléfono"
                           />
                         </FormControl>
@@ -457,12 +459,17 @@ export function FichaTecnicaForm() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="presencial">
+                          <SelectItem value={ASSISTANCE_TYPES.PRESENCIAL}>
                             👨‍💼 Presencial
                           </SelectItem>
-                          <SelectItem value="remoto">💻 Remoto</SelectItem>
-                          <SelectItem value="telefono">
+                          <SelectItem value={ASSISTANCE_TYPES.REMOTO}>
+                            💻 Remoto
+                          </SelectItem>
+                          <SelectItem value={ASSISTANCE_TYPES.TELEFONO}>
                             📞 Telefónico
+                          </SelectItem>
+                          <SelectItem value={ASSISTANCE_TYPES.OTRO}>
+                            🔧 Otro
                           </SelectItem>
                         </SelectContent>
                       </Select>

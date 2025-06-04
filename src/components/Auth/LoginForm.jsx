@@ -47,7 +47,7 @@ export function LoginForm({ className, ...props }) {
       if (userGroup.includes("Administrativo")) {
         navigate("/ficha-ingreso", { replace: true });
       } else if (userGroup.includes("Tecnico")) {
-        navigate("/ficha-tecnica", { replace: true });
+        navigate("/", { replace: true });
       } else if (userGroup.includes("Admin")) {
         navigate("/", { replace: true });
       } else {

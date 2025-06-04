@@ -1,7 +1,11 @@
 import { Cpu } from "lucide-react";
 import { Outlet } from "react-router";
+import { useThemeWatcher } from "@/hooks/useThemeWatcher";
 
 export const AuthLayout = () => {
+  // Monitorear cambios de tema
+  useThemeWatcher();
+
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">

@@ -23,6 +23,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import { Loader2 } from "lucide-react";
 import { InventorySerch } from "../Iventario/InventorySerch";
+import { Card, CardHeader, CardTitle } from "../ui/card";
 
 export function FichaIngresoForm() {
   const { idFichaIngreso } = useParams();
@@ -193,11 +194,18 @@ export function FichaIngresoForm() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h2 className="text-xl font-semibold mb-6">
-        {isEditMode
-          ? `Editar Ficha Ingreso #${idFichaIngreso}`
-          : "Nueva Ficha Ingreso"}
-      </h2>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold tracking-tight">
+          {isEditMode
+            ? `Editar Ficha Ingreso #${idFichaIngreso}`
+            : "Nueva Ficha Ingreso"}
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          {isEditMode
+            ? "Complete la información técnica para resolver la incidencia"
+            : "Complete la información técnica para crear la ficha de ingreso"}
+        </p>
+      </div>
 
       {isLoading && isEditMode ? (
         <div className="flex items-center justify-center h-64">
@@ -210,12 +218,15 @@ export function FichaIngresoForm() {
         <div className="max-w-4xl mx-auto">
           <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              <div className="mb-6 overflow-hidden border border-dashed border-gray-300 rounded-lg bg-white shadow-lg">
-                <div className="p-4 bg-blue-50 border-b border-dashed border-gray-300 flex justify-between items-center cursor-pointer">
-                  <h3 className="font-medium text-blue-800">
-                    Datos del Equipo
-                  </h3>
-                </div>
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <span className="text-green-600">🔧</span>
+                      Resolución Técnica
+                    </CardTitle>
+                  </div>
+                </CardHeader>
 
                 {/* Contenido colapsable */}
                 <div className="transition-all duration-300 max-h-full p-6">
@@ -519,7 +530,7 @@ export function FichaIngresoForm() {
                     />
                   </div>
                 </div>
-              </div>
+              </Card>
               <div className="flex justify-end gap-4">
                 <Button
                   variant="outline"

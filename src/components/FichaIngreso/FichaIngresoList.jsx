@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -34,11 +34,34 @@ import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { usePermission } from "@/hooks/usePermission";
 import { PERMISSIONS, USER_GROUPS } from "@/constants/permissions";
 
+const TECNICO_STATUSES = [
+  "EN REPARACIÓN",
+  "EN REPARACION",
+  "DIAGNÓSTICO PENDIENTE",
+  "DIAGNOSTICO PENDIENTE",
+  "EN ESPERA DE REPUESTO",
+  "EN ESPERA DE REPUESTOS",
+  "REPARADO",
+  "EN REPARACIÓN EXTERNA",
+  "EN REPARACION EXTERNA",
+];
+
+const ADMINISTRATIVO_STATUSES = [
+  "INGRESO",
+  "SALIDA",
+  "LISTO PARA RETIRAR",
+  "FINALIZADO",
+  "SE RECOMIENDA BAJA",
+];
+
 export function FichaIngresoList() {
   const navigate = useNavigate();
   const { fichasTecnicas, loading } = useFichaTecnica(true);
   const { userGroup, hasPermission } = usePermission();
-  const [sorting, setSorting] = useState([]);
+  const [sorting, setSorting] = useState([
+    { id: "status.name", desc: false },
+    { id: "date_in", desc: true },
+  ]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
 
@@ -112,6 +135,31 @@ export function FichaIngresoList() {
             {estado}
           </Badge>
         );
+      },
+      sortingFn: (rowA, rowB, columnId) => {
+        const statusA = rowA.original.status[0]?.name?.toUpperCase() || "";
+        const statusB = rowB.original.status[0]?.name?.toUpperCase() || "";
+
+        const getPriority = (status) => {
+          if (userGroup === USER_GROUPS.TECNICO) {
+            return TECNICO_STATUSES.includes(status) ? 0 : 1;
+          }
+          if (userGroup === USER_GROUPS.ADMINISTRATIVO) {
+            return ADMINISTRATIVO_STATUSES.includes(status) ? 0 : 1;
+          }
+          // Para ADMIN u otros, todos los estados tienen la misma prioridad (0).
+          // El ordenamiento por fecha (segundo criterio) se encargará del orden.
+          return 0;
+        };
+
+        const priorityA = getPriority(statusA);
+        const priorityB = getPriority(statusB);
+
+        if (priorityA !== priorityB) {
+          return priorityA - priorityB; // Ordena por prioridad (0 antes que 1)
+        }
+        // Si la prioridad es la misma, devuelve 0 para que el siguiente criterio de ordenamiento (date_in) decida.
+        return 0;
       },
     },
     {
@@ -270,7 +318,7 @@ export function FichaIngresoList() {
         </p>
       </div>
 
-      <div className="bg-white shadow-sm rounded-lg p-6">
+      <div className=" shadow-sm rounded-lg p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
             {hasPermission(PERMISSIONS.FICHA_INGRESO_CREATE) && (

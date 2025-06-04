@@ -1,9 +1,14 @@
 import { Outlet } from "react-router";
 import { Navbar } from "./Navbar";
+import { ThemeStatus } from "@/components/ui/theme-status";
+import { useThemeWatcher } from "@/hooks/useThemeWatcher";
 
 export const MainLayout = () => {
+  // Monitorear cambios de tema
+  useThemeWatcher();
+
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-background">
       {/* Navbar fijo en la parte superior */}
       <Navbar />
 
@@ -19,14 +24,17 @@ export const MainLayout = () => {
         </main>
 
         {/* Footer opcional */}
-        <footer className="bg-white border-t border-gray-200">
-          <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
+        <footer className="bg-card border-t border-border">
+          <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-muted-foreground">
             © {new Date().getFullYear()} Sistema de Fichas - Legislatura{" "}
             {/* Mostrar título de la página actual */}
-            <span className="font-medium"> - By Adrian and Daniel</span>
+            <span className="font-medium text-foreground"> - By Adrian</span>
           </div>
         </footer>
       </div>
+
+      {/* Componentes de desarrollo */}
+      <ThemeStatus />
     </div>
   );
 };

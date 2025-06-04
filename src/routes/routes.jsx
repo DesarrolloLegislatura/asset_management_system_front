@@ -11,9 +11,8 @@ import NotFound from "@/components/Error/NotFound.jsx";
 import { FichaIngresoDetail } from "@/components/FichaIngreso/FichaIngresoDetail.jsx";
 import { FichaTecnicaDetail } from "@/components/FiachaTecnica/FichaTecnicaDetail.jsx";
 import { Unauthorized } from "@/components/pages/Unauthorized.jsx";
-import { ProtectedRoute } from "@/components/auth/ProtectedRoute.jsx";
+import { ProtectedRoute } from "@/components/Auth/ProtectedRoute.jsx";
 import { PERMISSIONS } from "@/constants/permissions.js";
-import { InventorySerch } from "@/components/Iventario/InventorySerch.jsx";
 import { RoutesExample } from "@/components/examples/RoutesExample.jsx";
 
 const routes = [
@@ -114,15 +113,6 @@ const routes = [
         element: (
           <ProtectedRoute permission={PERMISSIONS.FICHA_TONER_VIEW}>
             <FichaTonerForm />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        // Inventario/Búsqueda
-        path: "inventory",
-        element: (
-          <ProtectedRoute permission={PERMISSIONS.INVENTORY_VIEW}>
-            <InventorySerch />
           </ProtectedRoute>
         ),
       },
