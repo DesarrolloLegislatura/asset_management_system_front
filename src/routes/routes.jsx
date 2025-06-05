@@ -3,7 +3,7 @@ import { AuthLayout } from "../layouts/AuthLayout.jsx";
 import { MainLayout } from "../layouts/MainLayout";
 import { LoginForm } from "../components/Auth/LoginForm.jsx";
 import { FichaTecnicaForm } from "@/components/FiachaTecnica/FichaTecnicaForm.jsx";
-import { AuthGuard } from "./AuthGuard.jsx";
+import { AuthGuard } from "../components/Auth/AuthGuard.jsx";
 import { FichaTonerForm } from "@/components/FichaToner/FichaTonerForm.jsx";
 import { FichaIngresoForm } from "@/components/FichaIngreso/FichaIngresoForm.jsx";
 import { FichaIngresoList } from "@/components/FichaIngreso/FichaIngresoList.jsx";
@@ -13,7 +13,6 @@ import { FichaTecnicaDetail } from "@/components/FiachaTecnica/FichaTecnicaDetai
 import { Unauthorized } from "@/components/pages/Unauthorized.jsx";
 import { ProtectedRoute } from "@/components/Auth/ProtectedRoute.jsx";
 import { PERMISSIONS } from "@/constants/permissions.js";
-import { RoutesExample } from "@/components/examples/RoutesExample.jsx";
 
 const routes = [
   {
@@ -48,20 +47,7 @@ const routes = [
           </ProtectedRoute>
         ),
       },
-      {
-        // Ejemplos de documentación
-        path: "examples",
-        children: [
-          {
-            index: true,
-            element: <RoutesExample />,
-          },
-          {
-            path: "rutas",
-            element: <RoutesExample />,
-          },
-        ],
-      },
+
       {
         // Editar ficha técnica (desde una ficha de ingreso existente)
         path: "ficha-tecnica/:idFichaIngreso",

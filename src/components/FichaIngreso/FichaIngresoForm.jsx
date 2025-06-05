@@ -33,7 +33,8 @@ export function FichaIngresoForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [assetSelected, setAssetSelected] = useState(false);
-  const { loading: loadingStatus, getFichaIngresoStates } = useStatus();
+  const [currentStatusId, setCurrentStatusId] = useState(null);
+  const { loadingStatus, getFichaIngresoStatesWithFlow } = useStatus();
 
   const {
     fichaTecnicaById,
@@ -68,6 +69,8 @@ export function FichaIngresoForm() {
     (fichaData) => {
       if (!fichaData) return;
 
+      const statusId = fichaData.status?.[0]?.id;
+
       // Mapear los datos de la API al formulario
       const formData = {
         asset: fichaData.asset?.id || null,
@@ -87,11 +90,14 @@ export function FichaIngresoForm() {
         contact_name: fichaData.contact_name || "",
         contact_phone: fichaData.contact_phone || "",
         means_application: fichaData.means_application || "",
-        status: fichaData.status?.[0]?.id?.toString() || "1",
+        status: statusId?.toString() || "1",
       };
 
       // Resetear el formulario con los nuevos datos
       reset(formData);
+
+      // Guardar el estado actual para determinar transiciones permitidas
+      setCurrentStatusId(statusId);
 
       // Marcar que hay un asset seleccionado si existe
       setAssetSelected(!!fichaData.asset?.id);
@@ -183,10 +189,16 @@ export function FichaIngresoForm() {
     }
   };
 
-  // Obtener estados filtrados para Ficha de Ingreso
+  // Obtener estados filtrados para Ficha de Ingreso con flujo de trabajo
   const availableStatus = useMemo(() => {
-    return getFichaIngresoStates(!isEditMode); // !isEditMode = isCreating
-  }, [getFichaIngresoStates, isEditMode]);
+    return getFichaIngresoStatesWithFlow(!isEditMode, currentStatusId);
+  }, [getFichaIngresoStatesWithFlow, isEditMode, currentStatusId]);
+
+  // Obtener el estado actual para mostrarlo
+  const currentStatus = useMemo(() => {
+    if (!currentStatusId || !isEditMode) return null;
+    return availableStatus.find((status) => status.id === currentStatusId);
+  }, [currentStatusId, isEditMode, availableStatus]);
 
   // Genérico para manejar cambios de campo
   const handleValueChange = (field) => (value) =>
@@ -399,7 +411,14 @@ export function FichaIngresoForm() {
                       name="status"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Estado del Bien</FormLabel>
+                          <FormLabel>
+                            Estado del Bien
+                            {currentStatus && isEditMode && (
+                              <span className="ml-2 text-sm text-muted-foreground">
+                                (Actual: {currentStatus.name})
+                              </span>
+                            )}
+                          </FormLabel>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}
@@ -416,8 +435,18 @@ export function FichaIngresoForm() {
                                 <SelectItem
                                   key={estado.id}
                                   value={estado.id.toString()}
+                                  className={
+                                    estado.id === currentStatusId
+                                      ? "bg-blue-50 font-medium"
+                                      : ""
+                                  }
                                 >
                                   {estado.name}
+                                  {estado.id === currentStatusId && (
+                                    <span className="ml-2 text-blue-600">
+                                      (Actual)
+                                    </span>
+                                  )}
                                 </SelectItem>
                               ))}
                               {loadingStatus &&
