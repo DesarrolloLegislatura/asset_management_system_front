@@ -1,5 +1,9 @@
 import statusService from "@/api/statusService";
 import { useEffect, useMemo, useState } from "react";
+import {
+  ALLOWED_STATES_BY_CONTEXT,
+  getTransitionsByCurrentState,
+} from "@/constants/statusTransitions";
 
 export const useStatus = () => {
   const [status, setStatus] = useState([]);
@@ -24,27 +28,15 @@ export const useStatus = () => {
   // Función para obtener estados para Ficha de Ingreso
   const getFichaIngresoStates = useMemo(() => {
     return (isCreating = false) => {
-      if (isCreating) {
-        // Al crear: solo "Ingreso"
-        return status.filter((estado) =>
-          estado.name.toLowerCase().includes("ingresado")
-        );
-      } else {
-        // Al editar: Ingreso + estados de finalización
-        const allowedStates = [
-          "ingresado",
-          "retirado",
-          "listo para retirar",
-          "salida",
-          "finalizado",
-        ];
+      const allowedStates = isCreating
+        ? ALLOWED_STATES_BY_CONTEXT.ficha_ingreso_creation
+        : ALLOWED_STATES_BY_CONTEXT.ficha_ingreso_edition;
 
-        return status.filter((estado) =>
-          allowedStates.some((allowed) =>
-            estado.name.toLowerCase().includes(allowed.toLowerCase())
-          )
-        );
-      }
+      return status.filter((estado) =>
+        allowedStates.some((allowed) =>
+          estado.name.toLowerCase().includes(allowed.toLowerCase())
+        )
+      );
     };
   }, [status]);
 
@@ -59,85 +51,17 @@ export const useStatus = () => {
       } else {
         // En modo edición: mostrar estado actual + posibles transiciones
         const currentStatus = status.find((s) => s.id === currentStatusId);
-        const currentStatusName = currentStatus?.name.toLowerCase() || "";
+        const currentStatusName = currentStatus?.name || "";
 
-        // Definir las transiciones permitidas según el estado actual
-        const transitionRules = {
-          ingresado: ["ingresado"],
-          "en reparación": [
-            "en reparación",
-            "en espera de repuesto",
-            "en espera de repuestos",
-            "reparado",
-            "se recomienda baja",
-          ],
-          "en reparacion": [
-            "en reparación",
-            "en reparacion",
-            "en espera de repuesto",
-            "en espera de repuestos",
-            "reparado",
-            "se recomienda baja",
-          ],
-          "diagnóstico pendiente": [
-            "diagnóstico pendiente",
-            "diagnostico pendiente",
-            "en reparación",
-            "en reparacion",
-            "se recomienda baja",
-          ],
-          "diagnostico pendiente": [
-            "diagnóstico pendiente",
-            "diagnostico pendiente",
-            "en reparación",
-            "en reparacion",
-            "se recomienda baja",
-          ],
-          "en espera de repuesto": [
-            "en espera de repuesto",
-            "en espera de repuestos",
-            "en reparación",
-            "en reparacion",
-            "reparado",
-          ],
-          "en espera de repuestos": [
-            "en espera de repuesto",
-            "en espera de repuestos",
-            "en reparación",
-            "en reparacion",
-            "reparado",
-          ],
-          reparado: ["reparado", "listo para retirar", "retirado"],
-          "listo para retirar": ["listo para retirar", "retirado"],
-          retirado: ["retirado", "finalizado"],
-          finalizado: ["finalizado"],
-        };
+        // Obtener transiciones permitidas usando la función helper
+        const allowedTransitions = getTransitionsByCurrentState(
+          currentStatusName,
+          "ficha_ingreso"
+        );
 
-        // Buscar las transiciones permitidas para el estado actual
-        let allowedTransitions = [];
-        for (const [key, transitions] of Object.entries(transitionRules)) {
-          if (currentStatusName.includes(key)) {
-            allowedTransitions = transitions;
-            break;
-          }
-        }
-
-        // Si no se encuentra una regla específica, permitir todos los estados de edición
+        // Si no se encuentra una regla específica, solo permitir el estado actual
         if (allowedTransitions.length === 0) {
-          allowedTransitions = [
-            "ingresado",
-            "en reparación",
-            "en reparacion",
-            "diagnóstico pendiente",
-            "diagnostico pendiente",
-            "en espera de repuesto",
-            "en espera de repuestos",
-            "reparado",
-            "listo para retirar",
-            "retirado",
-            "finalizado",
-            "se recomienda baja",
-          ];
+          return currentStatus ? [currentStatus] : [];
         }
 
         return status.filter((estado) =>
@@ -152,21 +76,37 @@ export const useStatus = () => {
   // Función para obtener estados para Ficha Técnica
   const getFichaTecnicaStates = useMemo(() => {
     return () => {
-      const allowedStates = [
-        "en reparación",
-        "en reparacion", // variante sin tilde
-        "en espera de repuesto",
-        "en espera de repuestos", // variante plural
-        "diagnóstico pendiente",
-        "diagnostico pendiente", // variante sin tilde
-        "reparado",
-        "se recomienda baja",
-        "en reparación externa",
-        "en reparacion externa", // variante sin tilde
-      ];
+      const allowedStates = ALLOWED_STATES_BY_CONTEXT.ficha_tecnica;
 
       return status.filter((estado) =>
         allowedStates.some((allowed) =>
+          estado.name.toLowerCase().includes(allowed.toLowerCase())
+        )
+      );
+    };
+  }, [status]);
+
+  // Función para obtener estados para Ficha Técnica basado en el estado actual
+  const getFichaTecnicaStatesWithFlow = useMemo(() => {
+    return (isCreating = false, currentStatusId = null) => {
+      // En Ficha Técnica no hay modo "creación", siempre es edición
+      // En modo edición: mostrar estado actual + posibles transiciones
+      const currentStatus = status.find((s) => s.id === currentStatusId);
+      const currentStatusName = currentStatus?.name || "";
+
+      // Obtener transiciones permitidas usando la función helper
+      const allowedTransitions = getTransitionsByCurrentState(
+        currentStatusName,
+        "ficha_tecnica"
+      );
+
+      // Si no se encuentra una regla específica, solo permitir el estado actual
+      if (allowedTransitions.length === 0) {
+        return currentStatus ? [currentStatus] : [];
+      }
+
+      return status.filter((estado) =>
+        allowedTransitions.some((allowed) =>
           estado.name.toLowerCase().includes(allowed.toLowerCase())
         )
       );
@@ -200,6 +140,7 @@ export const useStatus = () => {
     getFichaIngresoStates,
     getFichaIngresoStatesWithFlow,
     getFichaTecnicaStates,
+    getFichaTecnicaStatesWithFlow,
     getStatesByContext,
   };
 };

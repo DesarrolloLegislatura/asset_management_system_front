@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useForm } from "react-hook-form";
 import { useAuthStore } from "@/store/authStore";
@@ -30,12 +30,13 @@ import { ASSISTANCE_TYPES } from "@/constants/assistance";
 export function FichaTecnicaForm() {
   const { idFichaIngreso } = useParams();
   const [isLoading, setIsLoading] = useState(false);
+  const [currentStatusId, setCurrentStatusId] = useState(null);
   const navigate = useNavigate();
 
   const { fichaTecnicaById, updateFichaTecnica, fetchByIdFichaTecnica } =
     useFichaTecnica(false);
 
-  const { loading: loadingStatus, getFichaTecnicaStates } = useStatus();
+  const { loadingStatus, getFichaTecnicaStatesWithFlow } = useStatus();
   const user = useAuthStore((state) => state.user);
 
   const defaultFormValues = {
@@ -67,8 +68,16 @@ export function FichaTecnicaForm() {
   // Estados para secciones colapsables
   const [isInfoSectionOpen, setIsInfoSectionOpen] = useState(true);
 
-  // Obtener estados filtrados para Ficha Técnica
-  const availableStatus = getFichaTecnicaStates();
+  // Obtener estados filtrados para Ficha Técnica con flujo de trabajo
+  const availableStatus = useMemo(() => {
+    return getFichaTecnicaStatesWithFlow(false, currentStatusId);
+  }, [getFichaTecnicaStatesWithFlow, currentStatusId]);
+
+  // Obtener el estado actual para mostrarlo
+  const currentStatus = useMemo(() => {
+    if (!currentStatusId) return null;
+    return availableStatus.find((status) => status.id === currentStatusId);
+  }, [currentStatusId, availableStatus]);
 
   useEffect(() => {
     if (!idFichaIngreso) return;
@@ -90,36 +99,52 @@ export function FichaTecnicaForm() {
     }
   }, [idFichaIngreso, fetchByIdFichaTecnica, fichaTecnicaById]);
 
-  // Poblar formulario cuando se cargan los datos
-  useEffect(() => {
-    if (fichaTecnicaById && Object.keys(fichaTecnicaById).length > 0) {
-      console.log("fichaTecnicaById", fichaTecnicaById);
+  // Función para poblar el formulario con los datos obtenidos
+  const populateFormWithData = useCallback(
+    (fichaData) => {
+      if (!fichaData || Object.keys(fichaData).length === 0) return;
+
+      console.log("fichaTecnicaById", fichaData);
+
+      const statusId = fichaData.status?.[0]?.id;
+
       // Mapear datos de FichaIngreso a campos del formulario
       const formData = {
         // Información del bien (de FichaIngreso)
-        inventory: fichaTecnicaById.asset?.inventory || "",
-        typeasset: fichaTecnicaById.asset?.typeasset?.name || "",
-        act_simple: fichaTecnicaById.act_simple || "",
-        date_in: fichaTecnicaById.date_in || "",
-        year_act_simple: fichaTecnicaById.year_act_simple || "",
-        area: fichaTecnicaById.asset?.area?.name || "",
-        building: fichaTecnicaById.asset?.building?.name || "",
-        user_pc: fichaTecnicaById.user_pc || "",
-        pass_pc: fichaTecnicaById.pass_pc || "",
-        user_description: fichaTecnicaById.user_description || "",
-        contact_name: fichaTecnicaById.contact_name || "",
-        contact_phone: fichaTecnicaById.contact_phone || "",
-        means_application: fichaTecnicaById.means_application || "",
+        inventory: fichaData.asset?.inventory || "",
+        typeasset: fichaData.asset?.typeasset?.name || "",
+        act_simple: fichaData.act_simple || "",
+        date_in: fichaData.date_in || "",
+        year_act_simple: fichaData.year_act_simple || "",
+        area: fichaData.asset?.area?.name || "",
+        building: fichaData.asset?.building?.name || "",
+        user_pc: fichaData.user_pc || "",
+        pass_pc: fichaData.pass_pc || "",
+        user_description: fichaData.user_description || "",
+        contact_name: fichaData.contact_name || "",
+        contact_phone: fichaData.contact_phone || "",
+        means_application: fichaData.means_application || "",
         // Campos de Resolución Técnica
-        status: fichaTecnicaById.status?.[0]?.id,
-        assistance: fichaTecnicaById.assistance || "",
-        weighting: fichaTecnicaById.asset?.weighting.name || "",
-        tech_description: fichaTecnicaById.tech_description || "",
+        status: statusId?.toString() || "",
+        assistance: fichaData.assistance || "",
+        weighting: fichaData.asset?.weighting?.name || "",
+        tech_description: fichaData.tech_description || "",
       };
 
       reset(formData);
+
+      // Guardar el estado actual para determinar transiciones permitidas
+      setCurrentStatusId(statusId);
+    },
+    [reset]
+  );
+
+  // Poblar formulario cuando se cargan los datos - ACTUALIZADO
+  useEffect(() => {
+    if (fichaTecnicaById && Object.keys(fichaTecnicaById).length > 0) {
+      populateFormWithData(fichaTecnicaById);
     }
-  }, [fichaTecnicaById, reset]);
+  }, [fichaTecnicaById, populateFormWithData]);
 
   const onSubmit = async (data) => {
     const dataToSend = {
@@ -404,13 +429,20 @@ export function FichaTecnicaForm() {
 
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* Estado del Bien */}
+                {/* Estado del Bien - ACTUALIZADO */}
                 <FormField
                   control={control}
                   name="status"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Estado del Bien</FormLabel>
+                      <FormLabel>
+                        Estado del Bien
+                        {currentStatus && (
+                          <span className="ml-2 text-sm text-muted-foreground">
+                            (Actual: {currentStatus.name})
+                          </span>
+                        )}
+                      </FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
@@ -426,8 +458,18 @@ export function FichaTecnicaForm() {
                             <SelectItem
                               key={estado.id}
                               value={estado.id.toString()}
+                              className={
+                                estado.id === currentStatusId
+                                  ? "bg-blue-50 font-medium"
+                                  : ""
+                              }
                             >
                               {estado.name}
+                              {estado.id === currentStatusId && (
+                                <span className="ml-2 text-blue-600">
+                                  (Actual)
+                                </span>
+                              )}
                             </SelectItem>
                           ))}
                           {loadingStatus && availableStatus.length === 0 && (
