@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -17,6 +17,14 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   ArrowDown,
   ArrowUp,
@@ -28,42 +36,84 @@ import {
   Printer,
   Eye,
   Plus,
+  Search,
+  X,
+  Filter,
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { usePermission } from "@/hooks/usePermission";
 import { PERMISSIONS, USER_GROUPS } from "@/constants/permissions";
 
-const TECNICO_STATUSES = [
-  "EN REPARACIÓN",
-  "EN REPARACION",
-  "DIAGNÓSTICO PENDIENTE",
-  "DIAGNOSTICO PENDIENTE",
-  "EN ESPERA DE REPUESTO",
-  "EN ESPERA DE REPUESTOS",
-  "REPARADO",
-  "EN REPARACIÓN EXTERNA",
-  "EN REPARACION EXTERNA",
-];
+const TECNICO_STATUSES = ["INGRESADO"];
 
-const ADMINISTRATIVO_STATUSES = [
-  "INGRESO",
-  "SALIDA",
-  "LISTO PARA RETIRAR",
-  "FINALIZADO",
-  "SE RECOMIENDA BAJA",
-];
+const ADMINISTRATIVO_STATUSES = ["REPARADO", "INGRESADO"];
 
 export function FichaIngresoList() {
   const navigate = useNavigate();
   const { fichasTecnicas, loading } = useFichaTecnica(true);
+
   const { userGroup, hasPermission } = usePermission();
   const [sorting, setSorting] = useState([
-    { id: "status.name", desc: false },
+    { id: "status", desc: false },
     { id: "date_in", desc: true },
   ]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
+  const [inventoryFilter, setInventoryFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all"); // Cambiar valor inicial
+
+  // Obtener estados únicos de las fichas para el select
+  const availableStatuses = useMemo(() => {
+    if (!fichasTecnicas) return [];
+
+    const statusSet = new Set();
+    fichasTecnicas.forEach((ficha) => {
+      if (ficha.status?.[0]?.name) {
+        statusSet.add(ficha.status[0].name);
+      }
+    });
+
+    return Array.from(statusSet).sort();
+  }, [fichasTecnicas]);
+
+  // Filtrar datos manualmente por inventario y status
+  const filteredData = useMemo(() => {
+    if (!fichasTecnicas) return [];
+
+    let filtered = fichasTecnicas;
+
+    // Filtrar por inventario
+    if (inventoryFilter.trim() !== "") {
+      filtered = filtered.filter((ficha) => {
+        const inventory = ficha.asset?.inventory;
+
+        if (inventory === null || inventory === undefined) {
+          return false;
+        }
+
+        try {
+          const inventoryStr = String(inventory).toLowerCase();
+          const filterStr = inventoryFilter.toLowerCase();
+
+          return inventoryStr.includes(filterStr);
+        } catch (error) {
+          console.warn("Error al filtrar por inventario:", error, ficha);
+          return false;
+        }
+      });
+    }
+
+    // Filtrar por status - Cambiar lógica
+    if (statusFilter !== "all") {
+      filtered = filtered.filter((ficha) => {
+        const statusName = ficha.status?.[0]?.name;
+        return statusName === statusFilter;
+      });
+    }
+
+    return filtered;
+  }, [fichasTecnicas, inventoryFilter, statusFilter]);
 
   const columns = [
     {
@@ -72,7 +122,8 @@ export function FichaIngresoList() {
     },
     {
       accessorKey: "asset.inventory",
-      header: "N° de Patrimonio",
+      id: "asset.inventory",
+      header: "N° de Inventario",
     },
     {
       accessorKey: "date_in",
@@ -86,7 +137,8 @@ export function FichaIngresoList() {
       },
     },
     {
-      accessorKey: "status.name",
+      accessorFn: (row) => row.status?.[0]?.name || "",
+      id: "status",
       header: "Estado",
       cell: ({ row }) => {
         const ficha = row.original;
@@ -95,6 +147,7 @@ export function FichaIngresoList() {
         const getStatusStyles = (status) => {
           switch (status) {
             case "INGRESO":
+            case "INGRESADO":
               return "bg-blue-50 text-blue-600 border-blue-200";
             case "EN REPARACIÓN":
             case "EN REPARACION":
@@ -116,6 +169,8 @@ export function FichaIngresoList() {
             case "EN ESPERA DE REPUESTOS":
               return "bg-amber-50 text-amber-600 border-amber-200";
             case "SE RECOMIENDA BAJA":
+            case "SIN REPARACIÓN":
+            case "SIN REPARACION":
               return "bg-red-50 text-red-600 border-red-200";
             case "EN REPARACIÓN EXTERNA":
             case "EN REPARACION EXTERNA":
@@ -136,7 +191,7 @@ export function FichaIngresoList() {
           </Badge>
         );
       },
-      sortingFn: (rowA, rowB, columnId) => {
+      sortingFn: (rowA, rowB) => {
         const statusA = rowA.original.status[0]?.name?.toUpperCase() || "";
         const statusB = rowB.original.status[0]?.name?.toUpperCase() || "";
 
@@ -147,8 +202,6 @@ export function FichaIngresoList() {
           if (userGroup === USER_GROUPS.ADMINISTRATIVO) {
             return ADMINISTRATIVO_STATUSES.includes(status) ? 0 : 1;
           }
-          // Para ADMIN u otros, todos los estados tienen la misma prioridad (0).
-          // El ordenamiento por fecha (segundo criterio) se encargará del orden.
           return 0;
         };
 
@@ -156,9 +209,8 @@ export function FichaIngresoList() {
         const priorityB = getPriority(statusB);
 
         if (priorityA !== priorityB) {
-          return priorityA - priorityB; // Ordena por prioridad (0 antes que 1)
+          return priorityA - priorityB;
         }
-        // Si la prioridad es la misma, devuelve 0 para que el siguiente criterio de ordenamiento (date_in) decida.
         return 0;
       },
     },
@@ -210,7 +262,7 @@ export function FichaIngresoList() {
   ];
 
   const table = useReactTable({
-    data: fichasTecnicas || [],
+    data: filteredData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -225,6 +277,26 @@ export function FichaIngresoList() {
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
   });
+
+  // Función para limpiar el filtro de inventario
+  const clearInventoryFilter = () => {
+    setInventoryFilter("");
+  };
+
+  // Función para limpiar el filtro de status
+  const clearStatusFilter = () => {
+    setStatusFilter("all"); // Cambiar a "all"
+  };
+
+  // Función para limpiar todos los filtros
+  const clearAllFilters = () => {
+    setInventoryFilter("");
+    setStatusFilter("all"); // Cambiar a "all"
+  };
+
+  // Verificar si hay filtros activos - Actualizar lógica
+  const hasActiveFilters =
+    inventoryFilter.trim() !== "" || statusFilter !== "all";
 
   // Función para renderizar el botón de editar según permisos
   const renderEditButton = (fichaId) => {
@@ -313,12 +385,9 @@ export function FichaIngresoList() {
         <h2 className="text-2xl font-bold tracking-tight">
           Gestión de Fichas de Ingreso
         </h2>
-        <p className="text-sm text-muted-foreground">
-          Grupo actual: <span className="font-medium">{userGroup}</span>
-        </p>
       </div>
 
-      <div className=" shadow-sm rounded-lg p-6">
+      <div className="shadow-sm rounded-lg p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
             {hasPermission(PERMISSIONS.FICHA_INGRESO_CREATE) && (
@@ -331,12 +400,102 @@ export function FichaIngresoList() {
               </Button>
             )}
           </div>
-          <div className="text-sm text-muted-foreground">
-            {userGroup === USER_GROUPS.ADMINISTRADOR && "Acceso completo"}
-            {userGroup === USER_GROUPS.TECNICO && "Edición técnica disponible"}
-            {userGroup === USER_GROUPS.ADMINISTRATIVO &&
-              "Edición administrativa"}
+        </div>
+
+        {/* Filtros de búsqueda */}
+        <div className="mb-6 space-y-4">
+          {/* Título de filtros */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Filter className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm font-medium">Filtros</span>
+            </div>
+            {hasActiveFilters && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={clearAllFilters}
+                className="text-xs"
+              >
+                <X className="h-3 w-3 mr-1" />
+                Limpiar todo
+              </Button>
+            )}
           </div>
+
+          {/* Filtros */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            {/* Filtro por número de inventario */}
+            <div className="flex-1 max-w-sm">
+              <label className="text-xs font-medium text-muted-foreground mb-1 block">
+                Número de Inventario
+              </label>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Input
+                  placeholder="Buscar por N° de Inventario..."
+                  value={inventoryFilter}
+                  onChange={(e) => setInventoryFilter(e.target.value)}
+                  className="pl-9 pr-9"
+                />
+                {inventoryFilter && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearInventoryFilter}
+                    className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 hover:bg-muted"
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            {/* Filtro por estado - CORREGIDO */}
+            <div className="flex-1 max-w-sm">
+              <label className="text-xs font-medium text-muted-foreground mb-1 block">
+                Estado
+              </label>
+              <div className="relative">
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Todos los estados" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos los estados</SelectItem>
+                    {availableStatuses.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        {status}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {statusFilter !== "all" && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearStatusFilter}
+                    className="absolute right-8 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 hover:bg-muted z-10"
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Información de resultados - Actualizar lógica */}
+          {hasActiveFilters && (
+            <div className="text-sm text-muted-foreground">
+              <span>Mostrando {filteredData.length} resultado(s)</span>
+              {inventoryFilter && (
+                <span> • Inventario: "{inventoryFilter}"</span>
+              )}
+              {statusFilter !== "all" && (
+                <span> • Estado: "{statusFilter}"</span>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="rounded-md border">
@@ -406,13 +565,29 @@ export function FichaIngresoList() {
                     className="h-24 text-center"
                   >
                     <div className="flex flex-col items-center gap-2">
-                      <p className="text-muted-foreground">
-                        No se encontraron fichas.
-                      </p>
-                      {hasPermission(PERMISSIONS.FICHA_INGRESO_CREATE) && (
-                        <Button variant="outline" onClick={handleCreateFicha}>
-                          Crear la primera ficha
-                        </Button>
+                      {hasActiveFilters ? (
+                        <>
+                          <p className="text-muted-foreground">
+                            No se encontraron fichas con los filtros aplicados.
+                          </p>
+                          <Button variant="outline" onClick={clearAllFilters}>
+                            Limpiar filtros
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-muted-foreground">
+                            No se encontraron fichas.
+                          </p>
+                          {hasPermission(PERMISSIONS.FICHA_INGRESO_CREATE) && (
+                            <Button
+                              variant="outline"
+                              onClick={handleCreateFicha}
+                            >
+                              Crear la primera ficha
+                            </Button>
+                          )}
+                        </>
                       )}
                     </div>
                   </TableCell>
@@ -422,7 +597,7 @@ export function FichaIngresoList() {
           </Table>
         </div>
 
-        {/* Paginación */}
+        {/* Paginación actualizada */}
         <div className="flex flex-wrap justify-between items-center gap-3 mt-6">
           <div className="flex items-center gap-2">
             <Button
@@ -452,8 +627,23 @@ export function FichaIngresoList() {
               de <span className="font-medium">{table.getPageCount()}</span>
             </span>
             <span className="text-muted-foreground">
-              Total: <span className="font-medium">{table.getRowCount()}</span>{" "}
-              fichas
+              {hasActiveFilters ? (
+                <>
+                  Filtrado:{" "}
+                  <span className="font-medium">{filteredData.length}</span> de{" "}
+                  <span className="font-medium">
+                    {fichasTecnicas?.length || 0}
+                  </span>
+                </>
+              ) : (
+                <>
+                  Total:{" "}
+                  <span className="font-medium">
+                    {fichasTecnicas?.length || 0}
+                  </span>{" "}
+                  fichas
+                </>
+              )}
             </span>
           </div>
 

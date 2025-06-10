@@ -258,7 +258,7 @@ export const FichaIngresoPrint = ({ fichaTecnicaById }) => {
   return (
     <>
       <Button onClick={reactToPrintFn} size="sm">
-        <Printer className="h-4 w-4 mr-2" /> Imprimir
+        <Printer className="h-4 w-4 mr-2" /> Imprimir Ingreso
       </Button>
 
       <div
@@ -266,7 +266,7 @@ export const FichaIngresoPrint = ({ fichaTecnicaById }) => {
         ref={contentRef}
       >
         <ContentPrint fichaTecnicaById={fichaTecnicaById} />
-        <div className=" print:relative print:w-full print:flex print:items-center print:justify-center ">
+        {/* <div className=" print:relative print:w-full print:flex print:items-center print:justify-center ">
           <div className="">
             <ScissorsLineDashed className="h-6 w-6" color="#6a7282" />
           </div>
@@ -277,9 +277,9 @@ export const FichaIngresoPrint = ({ fichaTecnicaById }) => {
               color="#6a7282"
             />
           </div>
-        </div>
+        </div> */}
         {/* Second Detail component - only visible in print */}
-        <ContentPrint fichaTecnicaById={fichaTecnicaById} />
+        {/* <ContentPrint fichaTecnicaById={fichaTecnicaById} /> */}
       </div>
     </>
   );

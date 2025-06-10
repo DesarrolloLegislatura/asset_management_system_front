@@ -462,6 +462,60 @@ export function FichaIngresoForm() {
                       )}
                     />
 
+                    {/* Campos condicionales para cuando el estado es "Retirado" */}
+                    {(() => {
+                      const currentState = availableStatus.find(
+                        (status) => status.id === parseInt(form.watch("status"))
+                      );
+                      const isRetirado = currentState?.name
+                        ?.toLowerCase()
+                        .includes("retirado");
+
+                      return (
+                        isRetirado && (
+                          <>
+                            {/* Fecha de salida */}
+                            <FormField
+                              control={control}
+                              name="date_out"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Fecha Retiro</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      type="date"
+                                      {...field}
+                                      className="w-full"
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            {/* Retirado por */}
+                            <FormField
+                              control={control}
+                              name="retired_by"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Retirado por</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      {...field}
+                                      className="w-full"
+                                      placeholder="Ingrese el nombre del usuario que retiró el bien"
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </>
+                        )
+                      );
+                    })()}
+
                     {/* Descripción Usuario */}
                     <FormField
                       control={control}

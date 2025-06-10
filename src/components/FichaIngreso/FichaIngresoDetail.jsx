@@ -19,10 +19,12 @@ import {
   Computer,
   User,
   MessageSquare,
-  AlertTriangle,
+  ClipboardCheck,
 } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { FichaIngresoPrint } from "./FichaIngresoPrint";
+import { FichaTecnicaPrint } from "../FichaTecnica/FichaTecnicaPrint";
+import NotFound from "../Error/NotFound";
 
 export const FichaIngresoDetail = () => {
   const { idFichaIngreso } = useParams();
@@ -73,44 +75,7 @@ export const FichaIngresoDetail = () => {
     );
 
   // Error State
-  if (error)
-    return (
-      <Card className="max-w-4xl mx-auto border-destructive/30 bg-destructive/10">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-destructive" />
-            Error al cargar los datos
-          </CardTitle>
-          <CardDescription>{error.message}</CardDescription>
-        </CardHeader>
-        <CardFooter>
-          <Button variant="outline" onClick={() => navigate("/")}>
-            <ArrowLeft className="h-4 w-4 mr-2" /> Volver
-          </Button>
-        </CardFooter>
-      </Card>
-    );
-
-  // Not Found State
-  if (!fichaTecnicaById)
-    return (
-      <Card className="max-w-4xl mx-auto">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-amber-500" />
-            No se encontró la ficha
-          </CardTitle>
-          <CardDescription>
-            La ficha técnica solicitada no existe o ha sido eliminada
-          </CardDescription>
-        </CardHeader>
-        <CardFooter>
-          <Button variant="outline" onClick={() => navigate("/")}>
-            <ArrowLeft className="h-4 w-4 mr-2" /> Volver
-          </Button>
-        </CardFooter>
-      </Card>
-    );
+  if (error || !fichaTecnicaById) return <NotFound />;
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
@@ -119,13 +84,13 @@ export const FichaIngresoDetail = () => {
           <div>
             <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
               <Computer className="h-6 w-6 text-primary" />
-              Ficha de Ingreso
+              Ficha Técnica
               <Badge variant="outline" className="ml-2 text-sm">
                 #{fichaTecnicaById.id}
               </Badge>
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Registro de ingreso de equipo
+              Registro de ficha técnica
               {fichaTecnicaById.date_in && ` • ${fichaTecnicaById.date_in}`}
             </p>
           </div>
@@ -137,13 +102,18 @@ export const FichaIngresoDetail = () => {
               <Pencil className="h-4 w-4 mr-2" /> Editar
             </Button>
             <FichaIngresoPrint fichaTecnicaById={fichaTecnicaById} />
+            {fichaTecnicaById.status[0].name === "Retirado" && (
+              <FichaTecnicaPrint fichaTecnicaById={fichaTecnicaById} />
+            )}
           </div>
         </div>
 
         <Tabs defaultValue="info" className="w-full">
-          <TabsList className="grid grid-cols-2 w-full max-w-md mb-6">
-            <TabsTrigger value="info">Información del Bien</TabsTrigger>
-            <TabsTrigger value="contact">Información de Contacto</TabsTrigger>
+          <TabsList className="grid grid-cols-4  w-full mb-10  max-w-2xl m">
+            <TabsTrigger value="info">Info del Bien</TabsTrigger>
+            <TabsTrigger value="contact">Info de Contacto</TabsTrigger>
+            <TabsTrigger value="tech">Resolución Técnica</TabsTrigger>
+            <TabsTrigger value="states">Estados</TabsTrigger>
           </TabsList>
 
           <TabsContent value="info" className="space-y-6">
@@ -159,48 +129,10 @@ export const FichaIngresoDetail = () => {
                   <div className="space-y-4">
                     <div className="flex flex-col">
                       <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Estado
-                      </span>
-                      <span>
-                        {fichaTecnicaById.status?.length > 0 && (
-                          <p>{fichaTecnicaById.status[0].name}</p>
-                        )}
-                      </span>
-                    </div>
-
-                    <div className="flex flex-col">
-                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Tipo de Bien
-                      </span>
-                      <span className="capitalize">
-                        <p>
-                          {fichaTecnicaById.asset?.typeasset?.name ||
-                            "No especificado"}
-                        </p>
-                      </span>
-                    </div>
-
-                    <div className="flex flex-col">
-                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                         Número de Inventario
                       </span>
                       <span>{fichaTecnicaById.asset.inventory || "-"}</span>
                     </div>
-
-                    <div className="flex flex-col">
-                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Medio de Solicitud
-                      </span>
-                      <span className="capitalize">
-                        <p>
-                          {fichaTecnicaById.means_application ||
-                            "No especificado"}
-                        </p>
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
                     <div className="flex flex-col">
                       <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                         Area
@@ -209,6 +141,36 @@ export const FichaIngresoDetail = () => {
                         <p>
                           {fichaTecnicaById.asset?.area?.name ||
                             "No especificada"}
+                        </p>
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                        Fecha Ingreso
+                      </span>
+                      <span>{fichaTecnicaById.date_in || "-"}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                        Estado
+                      </span>
+                      <span>
+                        {fichaTecnicaById.status?.length > 0 && (
+                          <p>{fichaTecnicaById.status[0].name}</p>
+                        )}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="flex flex-col">
+                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                        Tipo de Bien
+                      </span>
+                      <span className="capitalize">
+                        <p>
+                          {fichaTecnicaById.asset?.typeasset?.name ||
+                            "No especificado"}
                         </p>
                       </span>
                     </div>
@@ -237,19 +199,23 @@ export const FichaIngresoDetail = () => {
                         </p>
                       </span>
                     </div>
-
                     <div className="flex flex-col">
                       <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Fecha Ingreso
+                        Medio de Solicitud
                       </span>
-                      <span>{fichaTecnicaById.date_in || "-"}</span>
+                      <span className="capitalize">
+                        <p>
+                          {fichaTecnicaById.means_application ||
+                            "No especificado"}
+                        </p>
+                      </span>
                     </div>
                   </div>
                 </div>
 
                 <Separator className="my-6" />
 
-                <div className="space-y-4">
+                <div className="space-y-4 ">
                   <div className="flex flex-col">
                     <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                       Usuario PC
@@ -316,6 +282,130 @@ export const FichaIngresoDetail = () => {
                       </span>
                     </div>
                   </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-10 mt-10">
+                  <div className="space-y-4">
+                    <div className="flex flex-col">
+                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                        Fecha de Retiro
+                      </span>
+                      <span className="font-medium">
+                        {fichaTecnicaById.date_out || "-"}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="flex flex-col">
+                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                        Nombre del Retirado
+                      </span>
+                      <span className="font-medium">
+                        {fichaTecnicaById.retire_name || "-"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="tech" className="space-y-6">
+            <Card className="shadow-sm">
+              <CardHeader className="bg-muted/50 pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <ClipboardCheck className="h-5 w-5 text-primary" />
+                  Resolución Técnica
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex flex-col">
+                    <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                      Tipo de Asistencia
+                    </span>
+                    <span className="font-medium">
+                      {fichaTecnicaById.assistance || "Sin Datos"}
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col">
+                    <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                      Ponderación
+                    </span>
+                    <span className="font-medium">
+                      {fichaTecnicaById.asset?.weighting.name || "Sin Datos"}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <span className="text-xs text-muted-foreground uppercase tracking-wide mb-2 block">
+                    Descripción de la Resolución
+                  </span>
+                  <div className="bg-muted/30 p-4 rounded-md border border-border/60">
+                    <p className="text-sm whitespace-pre-wrap leading-relaxed">
+                      {fichaTecnicaById.tech_description || "Sin Datos"}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="states" className="space-y-6">
+            <Card className="shadow-sm">
+              <CardHeader className="bg-muted/50 pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <ClipboardCheck className="h-5 w-5 text-primary" />
+                  Estados
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="space-y-4">
+                  {fichaTecnicaById.status &&
+                  fichaTecnicaById.status.length > 0 ? (
+                    fichaTecnicaById.status.map((state, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-4 bg-muted/30 rounded-md border border-border/60"
+                      >
+                        <div className="flex flex-col">
+                          <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                            Estado #{index + 1}
+                          </span>
+                          <span className="font-medium text-sm">
+                            {state.name}
+                          </span>
+                        </div>
+                        <div className="text-right">
+                          <div>
+                            <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                              Fecha
+                            </span>
+                          </div>
+                          <span className="text-sm font-medium">
+                            {state.createdat
+                              ? new Date(state.createdat).toLocaleDateString(
+                                  "es-ES",
+                                  {
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                  }
+                                )
+                              : "Sin fecha"}
+                          </span>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-8">
+                      <p className="text-muted-foreground">
+                        No hay estados registrados para esta ficha
+                      </p>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
