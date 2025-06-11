@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -63,14 +63,29 @@ export function FichaIngresoList() {
   const [inventoryFilter, setInventoryFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("all"); // Cambiar valor inicial
 
+  // Función helper para obtener el estado actual de una ficha de forma segura
+  const getCurrentStatus = (ficha) => {
+    if (
+      ficha.status_users &&
+      Array.isArray(ficha.status_users) &&
+      ficha.status_users.length > 0 &&
+      ficha.status_users[0].status &&
+      ficha.status_users[0].status.name
+    ) {
+      return ficha.status_users[0].status.name;
+    }
+    return null;
+  };
+
   // Obtener estados únicos de las fichas para el select
   const availableStatuses = useMemo(() => {
     if (!fichasTecnicas) return [];
 
     const statusSet = new Set();
     fichasTecnicas.forEach((ficha) => {
-      if (ficha.status?.[0]?.name) {
-        statusSet.add(ficha.status[0].name);
+      const status = getCurrentStatus(ficha);
+      if (status) {
+        statusSet.add(status);
       }
     });
 
@@ -95,7 +110,6 @@ export function FichaIngresoList() {
         try {
           const inventoryStr = String(inventory).toLowerCase();
           const filterStr = inventoryFilter.toLowerCase();
-
           return inventoryStr.includes(filterStr);
         } catch (error) {
           console.warn("Error al filtrar por inventario:", error, ficha);
@@ -104,10 +118,10 @@ export function FichaIngresoList() {
       });
     }
 
-    // Filtrar por status - Cambiar lógica
+    // Filtrar por status con validación
     if (statusFilter !== "all") {
       filtered = filtered.filter((ficha) => {
-        const statusName = ficha.status?.[0]?.name;
+        const statusName = getCurrentStatus(ficha);
         return statusName === statusFilter;
       });
     }
@@ -137,12 +151,13 @@ export function FichaIngresoList() {
       },
     },
     {
-      accessorFn: (row) => row.status?.[0]?.name || "",
+      accessorFn: (row) => getCurrentStatus(row) || "",
       id: "status",
       header: "Estado",
       cell: ({ row }) => {
         const ficha = row.original;
-        const estado = ficha.status[0]?.name?.toUpperCase() || "";
+        const statusName = getCurrentStatus(ficha);
+        const estado = statusName ? statusName.toUpperCase() : "SIN ESTADO";
 
         const getStatusStyles = (status) => {
           switch (status) {
@@ -192,8 +207,11 @@ export function FichaIngresoList() {
         );
       },
       sortingFn: (rowA, rowB) => {
-        const statusA = rowA.original.status[0]?.name?.toUpperCase() || "";
-        const statusB = rowB.original.status[0]?.name?.toUpperCase() || "";
+        const statusA = getCurrentStatus(rowA.original);
+        const statusB = getCurrentStatus(rowB.original);
+
+        const statusAUpper = statusA ? statusA.toUpperCase() : "";
+        const statusBUpper = statusB ? statusB.toUpperCase() : "";
 
         const getPriority = (status) => {
           if (userGroup === USER_GROUPS.TECNICO) {
@@ -205,8 +223,8 @@ export function FichaIngresoList() {
           return 0;
         };
 
-        const priorityA = getPriority(statusA);
-        const priorityB = getPriority(statusB);
+        const priorityA = getPriority(statusAUpper);
+        const priorityB = getPriority(statusBUpper);
 
         if (priorityA !== priorityB) {
           return priorityA - priorityB;
@@ -387,7 +405,7 @@ export function FichaIngresoList() {
         </h2>
       </div>
 
-      <div className="shadow-sm rounded-lg p-6">
+      <div className="shadow-sm rounded-lg p-6 form-container">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
             {hasPermission(PERMISSIONS.FICHA_INGRESO_CREATE) && (
@@ -488,12 +506,8 @@ export function FichaIngresoList() {
           {hasActiveFilters && (
             <div className="text-sm text-muted-foreground">
               <span>Mostrando {filteredData.length} resultado(s)</span>
-              {inventoryFilter && (
-                <span> • Inventario: "{inventoryFilter}"</span>
-              )}
-              {statusFilter !== "all" && (
-                <span> • Estado: "{statusFilter}"</span>
-              )}
+              {inventoryFilter && <span> • Inventario: {inventoryFilter}</span>}
+              {statusFilter !== "all" && <span> • Estado: {statusFilter}</span>}
             </div>
           )}
         </div>

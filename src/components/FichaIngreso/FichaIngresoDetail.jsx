@@ -1,18 +1,5 @@
-import { useEffect, useState } from "react";
-import { useFichaTecnica } from "@/hooks/useFichaTecnica";
+import { lazy, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { Button } from "../ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardFooter,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   ArrowLeft,
   Pencil,
@@ -21,9 +8,19 @@ import {
   MessageSquare,
   ClipboardCheck,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useFichaTecnica } from "@/hooks/useFichaTecnica";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuthStore } from "@/store/authStore";
-import { FichaIngresoPrint } from "./FichaIngresoPrint";
 import { FichaTecnicaPrint } from "../FichaTecnica/FichaTecnicaPrint";
+const FichaIngresoPrint = lazy(async () => {
+  const module = await import("./FichaIngresoPrint");
+  return { default: module.FichaIngresoPrint };
+});
+
 import NotFound from "../Error/NotFound";
 
 export const FichaIngresoDetail = () => {
@@ -102,7 +99,7 @@ export const FichaIngresoDetail = () => {
               <Pencil className="h-4 w-4 mr-2" /> Editar
             </Button>
             <FichaIngresoPrint fichaTecnicaById={fichaTecnicaById} />
-            {fichaTecnicaById.status[0].name === "Retirado" && (
+            {fichaTecnicaById.status_users[0].status.name === "Retirado" && (
               <FichaTecnicaPrint fichaTecnicaById={fichaTecnicaById} />
             )}
           </div>
@@ -155,8 +152,8 @@ export const FichaIngresoDetail = () => {
                         Estado
                       </span>
                       <span>
-                        {fichaTecnicaById.status?.length > 0 && (
-                          <p>{fichaTecnicaById.status[0].name}</p>
+                        {fichaTecnicaById.status_users.length > 0 && (
+                          <p>{fichaTecnicaById.status_users[0].status.name}</p>
                         )}
                       </span>
                     </div>
@@ -301,7 +298,7 @@ export const FichaIngresoDetail = () => {
                         Nombre del Retirado
                       </span>
                       <span className="font-medium">
-                        {fichaTecnicaById.retire_name || "-"}
+                        {fichaTecnicaById.retired_by || "-"}
                       </span>
                     </div>
                   </div>
@@ -363,9 +360,8 @@ export const FichaIngresoDetail = () => {
               </CardHeader>
               <CardContent className="pt-6">
                 <div className="space-y-4">
-                  {fichaTecnicaById.status &&
-                  fichaTecnicaById.status.length > 0 ? (
-                    fichaTecnicaById.status.map((state, index) => (
+                  {fichaTecnicaById.status_users.length > 0 ? (
+                    fichaTecnicaById.status_users.map((stateUser, index) => (
                       <div
                         key={index}
                         className="flex items-center justify-between p-4 bg-muted/30 rounded-md border border-border/60"
@@ -375,25 +371,36 @@ export const FichaIngresoDetail = () => {
                             Estado #{index + 1}
                           </span>
                           <span className="font-medium text-sm">
-                            {state.name}
+                            {stateUser.status.name}
                           </span>
                         </div>
-                        <div className="text-right">
+                        {/* Usuario que realizo el estado */}
+                        <div className="flex flex-col">
+                          <div>
+                            <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                              Usuario
+                            </span>
+                          </div>
+
+                          <span className="text-sm font-medium">
+                            {stateUser.users.username}
+                          </span>
+                        </div>
+                        <div className="flex flex-col">
                           <div>
                             <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                               Fecha
                             </span>
                           </div>
                           <span className="text-sm font-medium">
-                            {state.createdat
-                              ? new Date(state.createdat).toLocaleDateString(
-                                  "es-ES",
-                                  {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                  }
-                                )
+                            {stateUser.createdat
+                              ? new Date(
+                                  stateUser.createdat
+                                ).toLocaleDateString("es-ES", {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                })
                               : "Sin fecha"}
                           </span>
                         </div>

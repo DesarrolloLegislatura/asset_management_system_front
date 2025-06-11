@@ -5,7 +5,7 @@ import { getFilteredNavigation } from "@/utils/navigation";
 
 export function Sidebar() {
   const location = useLocation();
-  const { permissions, userGroup } = usePermission();
+  const { permissions } = usePermission();
 
   // Obtener navegación filtrada basada en permisos
   const navigationItems = getFilteredNavigation(permissions);
@@ -60,14 +60,6 @@ export function Sidebar() {
   return (
     <div className="space-y-6">
       <div className="space-y-1">{navigationItems.map(renderNavItem)}</div>
-
-      {/* Información del usuario */}
-      <div className="pt-4 border-t">
-        <div className="px-3 text-xs text-muted-foreground">
-          <div className="font-semibold">Grupo: {userGroup}</div>
-          <div className="mt-1">Permisos: {permissions?.length || 0}</div>
-        </div>
-      </div>
     </div>
   );
 }

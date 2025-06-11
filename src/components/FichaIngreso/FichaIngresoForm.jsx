@@ -18,7 +18,7 @@ import {
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { useStatus } from "@/hooks/useStatus";
 import { useAuthStore } from "@/store/authStore";
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import { Loader2 } from "lucide-react";
@@ -29,7 +29,8 @@ export function FichaIngresoForm() {
   const { idFichaIngreso } = useParams();
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
-
+  const dateInputRef = useRef(null);
+  const dateOutInputRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [assetSelected, setAssetSelected] = useState(false);
@@ -60,6 +61,8 @@ export function FichaIngresoForm() {
       contact_phone: "",
       means_application: "",
       status: "1",
+      date_out: null,
+      retired_by: "",
     },
   });
   const { control, handleSubmit, setValue, reset } = form;
@@ -69,7 +72,7 @@ export function FichaIngresoForm() {
     (fichaData) => {
       if (!fichaData) return;
 
-      const statusId = fichaData.status?.[0]?.id;
+      const statusId = fichaData.status_users[0].status.id;
 
       // Mapear los datos de la API al formulario
       const formData = {
@@ -91,6 +94,8 @@ export function FichaIngresoForm() {
         contact_phone: fichaData.contact_phone || "",
         means_application: fichaData.means_application || "",
         status: statusId?.toString() || "1",
+        date_out: fichaData.date_out || null,
+        retired_by: fichaData.retired_by || "",
       };
 
       // Resetear el formulario con los nuevos datos
@@ -150,6 +155,8 @@ export function FichaIngresoForm() {
       asset: data.asset,
       status: [parseInt(data.status)], // Convertir a entero para asegurar que se envía como número
       users: [user.id],
+      date_out: data.date_out || null,
+      retired_by: data.retired_by || "",
     };
 
     try {
@@ -230,7 +237,7 @@ export function FichaIngresoForm() {
         <div className="max-w-4xl mx-auto">
           <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              <Card>
+              <Card className="form-container">
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <CardTitle className="flex items-center gap-2">
@@ -395,15 +402,25 @@ export function FichaIngresoForm() {
                     <FormField
                       control={control}
                       name="date_in"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Fecha Ingreso</FormLabel>
-                          <FormControl>
-                            <Input type="date" {...field} className="w-full" />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                      render={({ field }) => {
+                        return (
+                          <FormItem>
+                            <FormLabel>Fecha Ingreso</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="date"
+                                {...field}
+                                ref={dateInputRef}
+                                onClick={() =>
+                                  dateInputRef.current?.showPicker()
+                                }
+                                className="w-full cursor-pointer"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
                     />
                     {/* Estado */}
                     <FormField
@@ -485,7 +502,11 @@ export function FichaIngresoForm() {
                                     <Input
                                       type="date"
                                       {...field}
-                                      className="w-full"
+                                      ref={dateOutInputRef}
+                                      onClick={() =>
+                                        dateOutInputRef.current?.showPicker()
+                                      }
+                                      className="w-full cursor-pointer"
                                     />
                                   </FormControl>
                                   <FormMessage />
@@ -504,7 +525,7 @@ export function FichaIngresoForm() {
                                     <Input
                                       {...field}
                                       className="w-full"
-                                      placeholder="Ingrese el nombre del usuario que retiró el bien"
+                                      placeholder="Ingrese el nombre del agente que retiró el bien"
                                     />
                                   </FormControl>
                                   <FormMessage />
@@ -527,7 +548,7 @@ export function FichaIngresoForm() {
                             <textarea
                               {...field}
                               className="flex w-full h-32 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                              placeholder="Descripción detallada..."
+                              placeholder="Escriba la descripción del problema del bien"
                             />
                           </FormControl>
                           <FormMessage />

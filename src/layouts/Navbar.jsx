@@ -40,20 +40,7 @@ export function Navbar() {
         </Link>
 
         {/* Central Space - puede usarse para navegación o búsqueda */}
-        <div className="hidden md:flex items-center gap-6">
-          <Link
-            to="/ficha-ingreso"
-            className="text-sm font-medium hover:text-primary transition-colors"
-          >
-            Fichas de Ingreso
-          </Link>
-          <Link
-            to="/ficha-toner"
-            className="text-sm font-medium hover:text-primary transition-colors"
-          >
-            Toner
-          </Link>
-        </div>
+        <div className="hidden md:flex items-center gap-6"></div>
 
         {/* User Menu & Mobile Menu */}
         <div className="flex items-center gap-4">
@@ -89,14 +76,6 @@ export function Navbar() {
               <div className="px-6 py-4">
                 {/* Sidebar Navigation */}
                 <Sidebar />
-
-                {/* Theme Toggle en Mobile */}
-                <div className="mt-6 pt-6 border-t">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-medium">Tema</span>
-                    <ThemeToggle />
-                  </div>
-                </div>
 
                 {/* Logout Button */}
                 <div className="mt-2 pt-4 border-t">

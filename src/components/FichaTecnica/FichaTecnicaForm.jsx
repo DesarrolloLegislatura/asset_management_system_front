@@ -106,7 +106,7 @@ export function FichaTecnicaForm() {
 
       console.log("fichaTecnicaById", fichaData);
 
-      const statusId = fichaData.status?.[0]?.id;
+      const statusId = fichaData.status_users[0].status.id;
 
       // Mapear datos de FichaIngreso a campos del formulario
       const formData = {
@@ -194,7 +194,7 @@ export function FichaTecnicaForm() {
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Sección: Información del Equipo (Solo lectura si es modo edición) */}
-          <Card>
+          <Card className="form-container">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2">

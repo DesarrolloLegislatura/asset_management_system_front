@@ -1,5 +1,5 @@
 import { PERMISSIONS } from "@/constants/permissions";
-import { FileText, ClipboardCheck, Printer, Search } from "lucide-react";
+import { ClipboardCheck } from "lucide-react";
 
 /**
  * Definición de items de navegación con sus permisos requeridos
@@ -22,25 +22,6 @@ export const navigationItems = [
         permission: PERMISSIONS.FICHA_INGRESO_CREATE,
       },
     ],
-  },
-  {
-    title: "Fichas Técnicas",
-    href: "/", // Redirige a la lista de fichas de ingreso para seleccionar cuál editar
-    icon: FileText,
-    permission: PERMISSIONS.TECHNICAL_SHEET_VIEW,
-    description: "Ver fichas técnicas (editar desde fichas de ingreso)",
-  },
-  {
-    title: "Ficha Toner",
-    href: "/ficha-toner",
-    icon: Printer,
-    permission: PERMISSIONS.FICHA_TONER_VIEW,
-  },
-  {
-    title: "Inventario",
-    href: "/inventory",
-    icon: Search,
-    permission: PERMISSIONS.INVENTORY_VIEW,
   },
 ];
 

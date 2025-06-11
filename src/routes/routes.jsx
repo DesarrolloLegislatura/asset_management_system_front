@@ -4,13 +4,12 @@ import { MainLayout } from "../layouts/MainLayout";
 import { LoginForm } from "../components/Auth/LoginForm.jsx";
 import { FichaTecnicaForm } from "@/components/FichaTecnica/FichaTecnicaForm.jsx";
 import { AuthGuard } from "../components/Auth/AuthGuard.jsx";
-import { FichaTonerForm } from "@/components/FichaToner/FichaTonerForm.jsx";
 import { FichaIngresoForm } from "@/components/FichaIngreso/FichaIngresoForm.jsx";
 import { FichaIngresoList } from "@/components/FichaIngreso/FichaIngresoList.jsx";
 import NotFound from "@/components/Error/NotFound.jsx";
 import { FichaIngresoDetail } from "@/components/FichaIngreso/FichaIngresoDetail.jsx";
 import { FichaTecnicaDetail } from "@/components/FichaTecnica/FichaTecnicaDetail.jsx";
-import { Unauthorized } from "@/components/pages/Unauthorized.jsx";
+import { Unauthorized } from "@/components/Error/Unauthorized.jsx";
 import { ProtectedRoute } from "@/components/Auth/ProtectedRoute.jsx";
 import { PERMISSIONS } from "@/constants/permissions.js";
 
@@ -90,15 +89,6 @@ const routes = [
         element: (
           <ProtectedRoute permission={PERMISSIONS.FICHA_INGRESO_VIEW}>
             <FichaIngresoDetail />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        // Ficha Toner
-        path: "ficha-toner",
-        element: (
-          <ProtectedRoute permission={PERMISSIONS.FICHA_TONER_VIEW}>
-            <FichaTonerForm />
           </ProtectedRoute>
         ),
       },
