@@ -1,55 +1,29 @@
 import { useState, useMemo } from "react";
 import {
-  flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  ArrowDown,
-  ArrowUp,
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  Edit,
-  Printer,
-  Eye,
-  Plus,
-  Search,
-  X,
-  Filter,
-} from "lucide-react";
+
+import { Edit, Eye, Plus } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { usePermission } from "@/hooks/usePermission";
 import { PERMISSIONS, USER_GROUPS } from "@/constants/permissions";
+import { FichaListPaginate } from "./FichaListPaginate";
+import { FichaListTable } from "./FichaListTable";
+import { FichaListFilter } from "./FichaListFilter";
 
 const TECNICO_STATUSES = ["INGRESADO"];
 
 const ADMINISTRATIVO_STATUSES = ["REPARADO", "INGRESADO"];
 
-export function FichaIngresoList() {
+export const FichaList = () => {
   const navigate = useNavigate();
   const { fichasTecnicas, loading } = useFichaTecnica(true);
 
@@ -402,268 +376,35 @@ export function FichaIngresoList() {
             )}
           </div>
         </div>
+        <FichaListFilter
+          hasActiveFilters={hasActiveFilters}
+          clearAllFilters={clearAllFilters}
+          inventoryFilter={inventoryFilter}
+          setInventoryFilter={setInventoryFilter}
+          clearInventoryFilter={clearInventoryFilter}
+          statusFilter={statusFilter}
+          setStatusFilter={setStatusFilter}
+          clearStatusFilter={clearStatusFilter}
+          availableStatuses={availableStatuses}
+          filteredData={filteredData}
+        />
 
-        {/* Filtros de búsqueda */}
-        <div className="mb-6 space-y-4">
-          {/* Título de filtros */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm font-medium">Filtros</span>
-            </div>
-            {hasActiveFilters && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={clearAllFilters}
-                className="text-xs"
-              >
-                <X className="h-3 w-3 mr-1" />
-                Limpiar todo
-              </Button>
-            )}
-          </div>
+        <FichaListTable
+          table={table}
+          columns={columns}
+          loading={loading}
+          hasActiveFilters={hasActiveFilters}
+          clearAllFilters={clearAllFilters}
+          handleCreateFicha={handleCreateFicha}
+          hasPermission={hasPermission}
+        />
 
-          {/* Filtros */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            {/* Filtro por número de inventario */}
-            <div className="flex-1 max-w-sm">
-              <label className="text-xs font-medium text-muted-foreground mb-1 block">
-                Número de Inventario
-              </label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <Input
-                  placeholder="Buscar por N° de Inventario..."
-                  value={inventoryFilter}
-                  onChange={(e) => setInventoryFilter(e.target.value)}
-                  className="pl-9 pr-9"
-                />
-                {inventoryFilter && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={clearInventoryFilter}
-                    className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 hover:bg-muted"
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                )}
-              </div>
-            </div>
-
-            {/* Filtro por estado - CORREGIDO */}
-            <div className="flex-1 max-w-sm">
-              <label className="text-xs font-medium text-muted-foreground mb-1 block">
-                Estado
-              </label>
-              <div className="relative">
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Todos los estados" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Todos los estados</SelectItem>
-                    {availableStatuses.map((status) => (
-                      <SelectItem key={status} value={status}>
-                        {status}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {statusFilter !== "all" && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={clearStatusFilter}
-                    className="absolute right-8 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 hover:bg-muted z-10"
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Información de resultados - Actualizar lógica */}
-          {hasActiveFilters && (
-            <div className="text-sm text-muted-foreground">
-              <span>Mostrando {filteredData.length} resultado(s)</span>
-              {inventoryFilter && <span> • Inventario: {inventoryFilter}</span>}
-              {statusFilter !== "all" && <span> • Estado: {statusFilter}</span>}
-            </div>
-          )}
-        </div>
-
-        <div className="rounded-md border">
-          <Table>
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <TableHead
-                      key={header.id}
-                      onClick={header.column.getToggleSortingHandler()}
-                      className="cursor-pointer"
-                    >
-                      {header.isPlaceholder ? null : (
-                        <div className="flex items-center gap-1">
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                          <span className="text-xs">
-                            {{
-                              asc: <ArrowUp color="#4e545f" size={12} />,
-                              desc: <ArrowDown color="#4e545f" size={12} />,
-                            }[header.column.getIsSorted()] || ""}
-                          </span>
-                        </div>
-                      )}
-                    </TableHead>
-                  ))}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {loading ? (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    <div className="flex items-center justify-center gap-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-                      Cargando fichas...
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ) : table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                    className="transition-colors hover:bg-muted/50"
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    <div className="flex flex-col items-center gap-2">
-                      {hasActiveFilters ? (
-                        <>
-                          <p className="text-muted-foreground">
-                            No se encontraron fichas con los filtros aplicados.
-                          </p>
-                          <Button variant="outline" onClick={clearAllFilters}>
-                            Limpiar filtros
-                          </Button>
-                        </>
-                      ) : (
-                        <>
-                          <p className="text-muted-foreground">
-                            No se encontraron fichas.
-                          </p>
-                          {hasPermission(PERMISSIONS.FICHA_INGRESO_CREATE) && (
-                            <Button
-                              variant="outline"
-                              onClick={handleCreateFicha}
-                            >
-                              Crear la primera ficha
-                            </Button>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-
-        {/* Paginación actualizada */}
-        <div className="flex flex-wrap justify-between items-center gap-3 mt-6">
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.firstPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              <ChevronsLeft className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-          </div>
-
-          <div className="flex items-center gap-4 text-sm">
-            <span className="text-muted-foreground">
-              Página{" "}
-              <span className="font-medium">
-                {table.getState().pagination.pageIndex + 1}
-              </span>{" "}
-              de <span className="font-medium">{table.getPageCount()}</span>
-            </span>
-            <span className="text-muted-foreground">
-              {hasActiveFilters ? (
-                <>
-                  Filtrado:{" "}
-                  <span className="font-medium">{filteredData.length}</span> de{" "}
-                  <span className="font-medium">
-                    {fichasTecnicas?.length || 0}
-                  </span>
-                </>
-              ) : (
-                <>
-                  Total:{" "}
-                  <span className="font-medium">
-                    {fichasTecnicas?.length || 0}
-                  </span>{" "}
-                  fichas
-                </>
-              )}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.lastPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              <ChevronsRight className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
+        <FichaListPaginate
+          table={table}
+          filteredData={filteredData}
+          hasActiveFilters={hasActiveFilters}
+        />
       </div>
     </div>
   );
-}
+};

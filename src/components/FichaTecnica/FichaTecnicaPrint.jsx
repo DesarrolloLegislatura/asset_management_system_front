@@ -1,9 +1,10 @@
-import { Printer, ScissorsLineDashed } from "lucide-react";
+import { Printer } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
 import { Button } from "../ui/button";
 import { useRef } from "react";
 import { ContentPrintFichaSalida } from "../Print/ContentPrintFichaSalida";
 import { ContentPrintFichaTecnica } from "../Print/ContentPrintFichaTecnica";
+import { ScissorsLine } from "../ui/ScissorsLine";
 
 export const FichaTecnicaPrint = ({ fichaTecnicaById }) => {
   const contentRef = useRef(null);
@@ -60,36 +61,17 @@ export const FichaTecnicaPrint = ({ fichaTecnicaById }) => {
         className="hidden print:flex print:flex-col print:items-center print:mx-auto m-6 print:p-1 print:m-0"
         ref={contentRef}
       >
-        <ContentPrintFichaTecnica fichaTecnicaById={fichaTecnicaById} />
-        <div className=" print:relative print:w-full print:flex print:items-center print:justify-center ">
-          <div className="">
-            <ScissorsLineDashed className="h-6 w-6" color="#6a7282" />
-          </div>
-          <div className="border-t-2 border-dashed border-gray-500 flex-grow"></div>
-          <div className="flex justify-end">
-            <ScissorsLineDashed
-              className="h-6 w-6 transform rotate-180"
-              color="#6a7282"
-            />
-          </div>
-        </div>
+        <ContentPrintFichaTecnica
+          fichaTecnicaById={fichaTecnicaById}
+          ingreso={false}
+        />
+        <ScissorsLine />
         {/* Second Detail component - only visible in print */}
         <ContentPrintFichaSalida
           fichaTecnicaById={fichaTecnicaById}
           ingreso={false}
         />
-        <div className=" print:relative print:w-full print:flex print:items-center print:justify-center ">
-          <div className="">
-            <ScissorsLineDashed className="h-6 w-6" color="#6a7282" />
-          </div>
-          <div className="border-t-2 border-dashed border-gray-500 flex-grow"></div>
-          <div className="flex justify-end">
-            <ScissorsLineDashed
-              className="h-6 w-6 transform rotate-180"
-              color="#6a7282"
-            />
-          </div>
-        </div>
+        <ScissorsLine />
         <ContentPrintFichaSalida
           fichaTecnicaById={fichaTecnicaById}
           ingreso={true}

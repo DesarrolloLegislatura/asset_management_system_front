@@ -1,12 +1,14 @@
 import { Computer } from "lucide-react";
 
+import { QRWhatsAppPrint } from "../QR/QRWhatsAppPrint";
+
 export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
   return (
     <div className="print:page-break-inside-avoid print:h-[138mm] print:overflow-hidden print:w-full print:p-2 print:border-box print:relative">
       {/* Encabezado */}
       <div className="flex justify-between items-center print:mb-[1px]">
         {/* Logo positioned to the left */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-1">
           <img
             src="/assets/svg/pl_logo.svg"
             alt="Logo"
@@ -14,19 +16,9 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
           />
         </div>
 
-        {/* Date and number of the document - positioned to the right */}
-        <div className="flex-shrink-0 flex flex-col items-end">
-          <img
-            src="/assets/images/qr.png"
-            alt="QR"
-            className="h-20 w-auto print:h-14 print:w-auto print:filter print:grayscale print:contrast-125 print:mr-5"
-          />
-          <p className="text-sm print:text-[16px] font-bold text-right print:text-black">
-            Ficha:{" "}
-            <span className="font-normal print:font-medium">
-              N°{fichaTecnicaById.id || ""}
-            </span>
-          </p>
+        {/* QR Code - positioned to the right */}
+        <div className="flex-shrink-1 flex flex-col items-center print:mr-2 print:mt-1">
+          <QRWhatsAppPrint fichaId={fichaTecnicaById.id} />
         </div>
       </div>
 

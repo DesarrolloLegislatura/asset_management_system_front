@@ -5,13 +5,14 @@ import { LoginForm } from "../components/Auth/LoginForm.jsx";
 import { FichaTecnicaForm } from "@/components/FichaTecnica/FichaTecnicaForm.jsx";
 import { AuthGuard } from "../components/Auth/AuthGuard.jsx";
 import { FichaIngresoForm } from "@/components/FichaIngreso/FichaIngresoForm.jsx";
-import { FichaIngresoList } from "@/components/FichaIngreso/FichaIngresoList.jsx";
+// import { FichaIngresoList } from "@/components/FichaIngreso/FichaIngresoList.jsx";
 import NotFound from "@/components/Error/NotFound.jsx";
 import { FichaIngresoDetail } from "@/components/FichaIngreso/FichaIngresoDetail.jsx";
 import { FichaTecnicaDetail } from "@/components/FichaTecnica/FichaTecnicaDetail.jsx";
 import { Unauthorized } from "@/components/Error/Unauthorized.jsx";
 import { ProtectedRoute } from "@/components/Auth/ProtectedRoute.jsx";
 import { PERMISSIONS } from "@/constants/permissions.js";
+import { FichaList } from "@/components/FichaList/FichaList.jsx";
 
 const routes = [
   {
@@ -42,7 +43,7 @@ const routes = [
         index: true,
         element: (
           <ProtectedRoute permission={PERMISSIONS.FICHA_INGRESO_VIEW}>
-            <FichaIngresoList />
+            <FichaList />
           </ProtectedRoute>
         ),
       },

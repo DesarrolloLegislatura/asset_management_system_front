@@ -3,27 +3,17 @@ import { useNavigate, useParams } from "react-router";
 import { Button } from "../ui/button";
 import {
   Card,
-  CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
   CardFooter,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  ArrowLeft,
-  Pencil,
-  ScissorsLineDashed,
-  Computer,
-  MessageSquare,
-  ClipboardCheck,
-  AlertTriangle,
-} from "lucide-react";
+import { ArrowLeft, Pencil, Computer, AlertTriangle } from "lucide-react";
 import { FichaTecnicaPrint } from "./FichaTecnicaPrint";
 import { useAuthStore } from "@/store/authStore";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
+import { FichaDetail } from "../FichaDetail/FichaDetail";
 
 export const FichaTecnicaDetail = () => {
   const { idFichaIngreso } = useParams();
@@ -139,198 +129,9 @@ export const FichaTecnicaDetail = () => {
             <FichaTecnicaPrint fichaTecnicaById={fichaTecnicaById} />
           </div>
         </div>
-
-        <Tabs defaultValue="info" className="w-full">
-          <TabsList className="grid grid-cols-2 w-full max-w-md mb-6">
-            <TabsTrigger value="info">Información General</TabsTrigger>
-            <TabsTrigger value="tech">Resolución Técnica</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="info" className="space-y-6">
-            <Card className="shadow-sm">
-              <CardHeader className="bg-muted/50 pb-3">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Computer className="h-5 w-5 text-primary" />
-                  Información del Bien
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-10">
-                  <div className="space-y-4">
-                    <div className="flex flex-col">
-                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Estado
-                      </span>
-                      <div>
-                        {fichaTecnicaById.status?.[0]?.name || "Sin Datos"}
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col">
-                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Tipo de Bien
-                      </span>
-                      <span className="capitalize">
-                        {fichaTecnicaById.asset?.typeasset?.name || "Sin Datos"}
-                      </span>
-                    </div>
-
-                    <div className="flex flex-col">
-                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Número de Patrimonio
-                      </span>
-                      <span>
-                        {fichaTecnicaById.asset?.inventory || "Sin Datos"}
-                      </span>
-                    </div>
-
-                    <div className="flex flex-col">
-                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Medio de Solicitud
-                      </span>
-                      <span className="capitalize">
-                        {fichaTecnicaById.means_application || "Sin Datos"}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="flex flex-col">
-                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Area
-                      </span>
-                      <span>
-                        {fichaTecnicaById.asset?.area?.name || "Sin Datos"}
-                      </span>
-                    </div>
-
-                    <div className="flex flex-col">
-                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Edificio
-                      </span>
-                      <span>
-                        {fichaTecnicaById.asset?.building?.name || "Sin Datos"}
-                      </span>
-                    </div>
-
-                    <div className="flex flex-col">
-                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Actuación Simple
-                      </span>
-                      <span>
-                        {fichaTecnicaById.act_simple
-                          ? `${fichaTecnicaById.act_simple}/${
-                              fichaTecnicaById.year_act_simple || ""
-                            }`
-                          : "Sin Datos"}
-                      </span>
-                    </div>
-
-                    <div className="flex flex-col">
-                      <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                        Fecha Ingreso
-                      </span>
-                      <span>{fichaTecnicaById.date_in || "Sin Datos"}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <Separator className="my-6" />
-
-                <div className="space-y-3">
-                  <div className="flex flex-col">
-                    <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                      Usuario PC
-                    </span>
-                    <span>{fichaTecnicaById.user_pc || "Sin Datos"}</span>
-                  </div>
-
-                  <div className="flex flex-col">
-                    <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                      Contraseña PC
-                    </span>
-                    <span>{fichaTecnicaById.pass_pc || "Sin Datos"}</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="shadow-sm">
-              <CardHeader className="bg-muted/50 pb-3">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <MessageSquare className="h-5 w-5 text-primary" />
-                  Descripción del Problema
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <div className="bg-muted/30 p-4 rounded-md border border-border/60">
-                  <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                    {fichaTecnicaById.descripcion_user ||
-                      "Sin descripción proporcionada."}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="tech" className="space-y-6">
-            <Card className="shadow-sm">
-              <CardHeader className="bg-muted/50 pb-3">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <ClipboardCheck className="h-5 w-5 text-primary" />
-                  Resolución Técnica
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex flex-col">
-                    <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                      Asistido por
-                    </span>
-                    <span className="font-medium">
-                      {fichaTecnicaById.assistance || "Sin Datos"}
-                    </span>
-                  </div>
-
-                  <div className="flex flex-col">
-                    <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                      Ponderación
-                    </span>
-                    <span className="font-medium">
-                      {fichaTecnicaById.asset?.weighting.name || "Sin Datos"}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <span className="text-xs text-muted-foreground uppercase tracking-wide mb-2 block">
-                    Descripción de la Resolución
-                  </span>
-                  <div className="bg-muted/30 p-4 rounded-md border border-border/60">
-                    <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                      {fichaTecnicaById.tech_description || "Sin Datos"}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
       </div>
 
-      {/* Content for printing - hidden on screen */}
-      <div className="hidden print:block" ref={contentRef}>
-        <FichaTecnicaPrint fichaTecnicaById={fichaTecnicaById} />
-        <div className="w-full flex items-center justify-center my-4">
-          <ScissorsLineDashed className="h-6 w-6" color="#6a7282" />
-          <div className="border-t-2 border-dashed border-gray-500 flex-grow mx-2"></div>
-          <ScissorsLineDashed
-            className="h-6 w-6 transform rotate-180"
-            color="#6a7282"
-          />
-        </div>
-        <FichaTecnicaPrint fichaTecnicaById={fichaTecnicaById} />
-      </div>
+      <FichaDetail fichaTecnicaById={fichaTecnicaById} />
     </div>
   );
 };
