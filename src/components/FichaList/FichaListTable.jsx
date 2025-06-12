@@ -9,7 +9,7 @@ import {
 import { ArrowUp, ArrowDown } from "lucide-react";
 import { flexRender } from "@tanstack/react-table";
 import { Button } from "../ui/button";
-import { useAuthStore } from "@/store/authStore";
+import { usePermission } from "@/hooks/usePermission";
 import { PERMISSIONS } from "@/constants/permissions";
 
 export const FichaListTable = ({
@@ -20,29 +20,29 @@ export const FichaListTable = ({
   clearAllFilters,
   handleCreateFicha,
 }) => {
-  const { hasPermission } = useAuthStore();
+  const { hasPermission } = usePermission();
   return (
     <div className="rounded-md border">
       <Table>
-        <TableHeader>
+        <TableHeader className="text-sm bg-muted/50 font-medium text-muted-foreground border-b border-muted cursor-pointer">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <TableHead
                   key={header.id}
                   onClick={header.column.getToggleSortingHandler()}
-                  className="cursor-pointer"
+                  className=""
                 >
                   {header.isPlaceholder ? null : (
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 text-center justify-center">
                       {flexRender(
                         header.column.columnDef.header,
                         header.getContext()
                       )}
                       <span className="text-xs">
                         {{
-                          asc: <ArrowUp color="#4e545f" size={12} />,
-                          desc: <ArrowDown color="#4e545f" size={12} />,
+                          asc: <ArrowUp size={12} />,
+                          desc: <ArrowDown size={12} />,
                         }[header.column.getIsSorted()] || ""}
                       </span>
                     </div>
@@ -67,7 +67,7 @@ export const FichaListTable = ({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className="transition-colors hover:bg-muted/50"
+                className="transition-colors hover:bg-blue-500/50 text-center items-center justify-center"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>

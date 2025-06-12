@@ -21,6 +21,9 @@ export const FichaListFilter = ({
   clearStatusFilter,
   availableStatuses,
   filteredData,
+  fichaNumberFilter,
+  setFichaNumberFilter,
+  clearFichaNumberFilter,
 }) => {
   return (
     <>
@@ -47,6 +50,31 @@ export const FichaListFilter = ({
 
         {/* Filtros */}
         <div className="flex flex-col sm:flex-row gap-4">
+          {/* Filtro por Numero de Ficha el cual es el ID de la ficha */}
+          <div className="flex-1 max-w-sm">
+            <label className="text-xs font-medium text-muted-foreground mb-1 block">
+              Número de Ficha
+            </label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Input
+                placeholder="Buscar por N° de Ficha..."
+                value={fichaNumberFilter}
+                onChange={(e) => setFichaNumberFilter(e.target.value)}
+                className="pl-9 pr-9"
+              />
+              {fichaNumberFilter && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearFichaNumberFilter}
+                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 hover:bg-muted"
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              )}
+            </div>
+          </div>
           {/* Filtro por número de inventario */}
           <div className="flex-1 max-w-sm">
             <label className="text-xs font-medium text-muted-foreground mb-1 block">
@@ -110,6 +138,7 @@ export const FichaListFilter = ({
         {hasActiveFilters && (
           <div className="text-sm text-muted-foreground">
             <span>Mostrando {filteredData.length} resultado(s)</span>
+            {fichaNumberFilter && <span> • N° Ficha: {fichaNumberFilter}</span>}
             {inventoryFilter && <span> • Inventario: {inventoryFilter}</span>}
             {statusFilter !== "all" && <span> • Estado: {statusFilter}</span>}
           </div>
@@ -130,4 +159,7 @@ FichaListFilter.propTypes = {
   clearStatusFilter: PropTypes.func.isRequired,
   availableStatuses: PropTypes.array.isRequired,
   filteredData: PropTypes.array.isRequired,
+  fichaNumberFilter: PropTypes.string.isRequired,
+  setFichaNumberFilter: PropTypes.func.isRequired,
+  clearFichaNumberFilter: PropTypes.func.isRequired,
 };

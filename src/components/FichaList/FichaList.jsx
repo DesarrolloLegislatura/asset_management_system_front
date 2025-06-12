@@ -36,6 +36,7 @@ export const FichaList = () => {
   const [globalFilter, setGlobalFilter] = useState("");
   const [inventoryFilter, setInventoryFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("all"); // Cambiar valor inicial
+  const [fichaNumberFilter, setFichaNumberFilter] = useState("");
 
   // Función helper para obtener el estado actual de una ficha de forma segura
   const getCurrentStatus = (ficha) => {
@@ -72,6 +73,15 @@ export const FichaList = () => {
 
     let filtered = fichasTecnicas;
 
+    // Filtrar por número de ficha
+    if (fichaNumberFilter.trim() !== "") {
+      filtered = filtered.filter((ficha) => {
+        const fichaId = String(ficha.id).toLowerCase();
+        const filterStr = fichaNumberFilter.toLowerCase();
+        return fichaId.includes(filterStr);
+      });
+    }
+
     // Filtrar por inventario
     if (inventoryFilter.trim() !== "") {
       filtered = filtered.filter((ficha) => {
@@ -101,7 +111,7 @@ export const FichaList = () => {
     }
 
     return filtered;
-  }, [fichasTecnicas, inventoryFilter, statusFilter]);
+  }, [fichasTecnicas, inventoryFilter, statusFilter, fichaNumberFilter]);
 
   const columns = [
     {
@@ -172,7 +182,7 @@ export const FichaList = () => {
         return (
           <Badge
             variant="outline"
-            className={`capitalize whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-medium ${getStatusStyles(
+            className={`capitalize whitespace-nowrap px-3 py-1.5 text-xs font-medium ${getStatusStyles(
               estado
             )}`}
           >
@@ -258,6 +268,11 @@ export const FichaList = () => {
     onGlobalFilterChange: setGlobalFilter,
   });
 
+  // Función para limpiar el filtro de número de ficha
+  const clearFichaNumberFilter = () => {
+    setFichaNumberFilter("");
+  };
+
   // Función para limpiar el filtro de inventario
   const clearInventoryFilter = () => {
     setInventoryFilter("");
@@ -272,11 +287,14 @@ export const FichaList = () => {
   const clearAllFilters = () => {
     setInventoryFilter("");
     setStatusFilter("all"); // Cambiar a "all"
+    setFichaNumberFilter("");
   };
 
   // Verificar si hay filtros activos - Actualizar lógica
   const hasActiveFilters =
-    inventoryFilter.trim() !== "" || statusFilter !== "all";
+    inventoryFilter.trim() !== "" ||
+    statusFilter !== "all" ||
+    fichaNumberFilter.trim() !== "";
 
   // Función para renderizar el botón de editar según permisos
   const renderEditButton = (fichaId) => {
@@ -358,7 +376,7 @@ export const FichaList = () => {
     <div className="max-w-6xl mx-auto max-h-dvh overflow-y-auto">
       <div className="mb-6">
         <h2 className="text-2xl font-bold tracking-tight">
-          Gestión de Fichas de Ingreso
+          Lista de Fichas de Ingreso
         </h2>
       </div>
 
@@ -387,6 +405,9 @@ export const FichaList = () => {
           clearStatusFilter={clearStatusFilter}
           availableStatuses={availableStatuses}
           filteredData={filteredData}
+          fichaNumberFilter={fichaNumberFilter}
+          setFichaNumberFilter={setFichaNumberFilter}
+          clearFichaNumberFilter={clearFichaNumberFilter}
         />
 
         <FichaListTable
