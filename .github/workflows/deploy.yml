@@ -34,6 +34,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }} # La IP o dominio de tu servidor.
           username: ${{ secrets.SSH_USER }} # Tu nombre de usuario en el servidor.
           key: ${{ secrets.SSH_PRIVATE_KEY }} # La clave SSH privada para la autenticación.
+          port: ${{ secrets.SSH_PORT }} # Agregar esta línea para el puerto SSH
 
           # Script: Los comandos que se ejecutarán en tu servidor una vez conectado.
           script: |
@@ -45,11 +46,11 @@ jobs:
             echo "✅ Cambios descargados desde el repositorio."
 
             # 2. Detiene y elimina los contenedores actuales (si están corriendo).
-            docker-compose down
+            docker compose down
             echo "✅ Contenedores anteriores detenidos."
 
             # 3. Construye las nuevas imágenes (si es necesario) y levanta los nuevos contenedores.
             # --build: Reconstruye las imágenes si el Dockerfile ha cambiado.
             # -d: Ejecuta los contenedores en segundo plano (detached mode).
-            docker-compose up --build -d
+            docker compose up --build -d
             echo "🚀 Aplicación desplegada exitosamente."
