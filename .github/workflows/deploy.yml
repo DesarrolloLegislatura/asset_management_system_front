@@ -1,0 +1,55 @@
+# Nombre del Workflow: Aparecerá en la pestaña "Actions" de tu repositorio en GitHub.
+name: Deploy to Server FichaTecnica Frontend
+
+# Disparador (Trigger): Cuándo se debe ejecutar este workflow.
+on:
+  push:
+    # Se ejecutará solo en pushes a la rama 'main'.
+    # Si en el futuro usas 'main' o 'master' para producción, cámbialo aquí.
+    branches:
+      - main
+
+# Trabajos (Jobs): Las tareas que se van a realizar. Puedes tener varios jobs.
+jobs:
+  # Definimos un único job que llamamos 'deploy'.
+  deploy:
+    # Entorno de ejecución: Le pedimos a GitHub una máquina virtual con la última versión de Ubuntu.
+    runs-on: ubuntu-latest
+
+    # Pasos (Steps): La secuencia de acciones que se ejecutarán dentro del job.
+    steps:
+      # Paso 1: Descargar el código del repositorio
+      - name: Checkout code
+        # Usa una acción pre-construida por GitHub para descargar tu código en la máquina virtual.
+        uses: actions/checkout@v3
+
+      # Paso 2: Conexión SSH y despliegue en el servidor
+      - name: SSH and Deploy
+        # Usa una acción popular de la comunidad para manejar la conexión SSH.
+        uses: appleboy/ssh-action@master
+        # Configuración de la acción SSH:
+        with:
+          # Aquí usamos los "Secrets" que configuraste en GitHub.
+          # La sintaxis ${{ secrets.NOMBRE_DEL_SECRETO }} es la forma segura de acceder a ellos.
+          host: ${{ secrets.SSH_HOST }} # La IP o dominio de tu servidor.
+          username: ${{ secrets.SSH_USER }} # Tu nombre de usuario en el servidor.
+          key: ${{ secrets.SSH_PRIVATE_KEY }} # La clave SSH privada para la autenticación.
+
+          # Script: Los comandos que se ejecutarán en tu servidor una vez conectado.
+          script: |
+            # Navega a la carpeta del proyecto en tu servidor.
+            cd ${{ secrets.PROJECT_PATH }}
+
+            # 1. Trae los últimos cambios desde el repositorio de GitHub.
+            git pull
+            echo "✅ Cambios descargados desde el repositorio."
+
+            # 2. Detiene y elimina los contenedores actuales (si están corriendo).
+            docker-compose down
+            echo "✅ Contenedores anteriores detenidos."
+
+            # 3. Construye las nuevas imágenes (si es necesario) y levanta los nuevos contenedores.
+            # --build: Reconstruye las imágenes si el Dockerfile ha cambiado.
+            # -d: Ejecuta los contenedores en segundo plano (detached mode).
+            docker-compose up --build -d
+            echo "🚀 Aplicación desplegada exitosamente."
