@@ -2,7 +2,7 @@ import { User } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
 
-export const InfoContactoTab = ({ fichaTecnicaById }) => {
+export const FichaTabInfoContacto = ({ fichaTecnicaById }) => {
   return (
     <TabsContent value="contact" className="space-y-6">
       <Card className="shadow-sm">
@@ -43,7 +43,16 @@ export const InfoContactoTab = ({ fichaTecnicaById }) => {
                   Fecha de Retiro
                 </span>
                 <span className="font-medium">
-                  {fichaTecnicaById.date_out || "-"}
+                  {fichaTecnicaById.date_out
+                    ? new Date(fichaTecnicaById.date_out).toLocaleDateString(
+                        "es-ES",
+                        {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        }
+                      )
+                    : "-"}
                 </span>
               </div>
             </div>

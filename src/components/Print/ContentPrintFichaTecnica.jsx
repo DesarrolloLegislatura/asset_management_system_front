@@ -6,35 +6,32 @@ export const ContentPrintFichaTecnica = ({ fichaTecnicaById }) => {
   return (
     <div className="print:page-break-inside-avoid print:h-[138mm] print:overflow-hidden print:w-full print:p-2 print:border-box print:relative">
       {/* Encabezado */}
-      <div className="flex justify-between items-center print:mb-[1px]">
+      <div className="flex justify-between items-center ">
         {/* Logo positioned to the left */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-1">
           <img
             src="/assets/svg/pl_logo.svg"
             alt="Logo"
-            className="h-16 w-auto print:h-14 print:w-auto print:filter print:grayscale print:contrast-125"
+            className="h-14 w-auto print:h-14 print:w-auto print:filter print:grayscale print:contrast-125"
           />
         </div>
-
-        {/* Date and number of the document - positioned to the right */}
-        <div className="flex-shrink-0">
-          <p className="text-sm print:text-[16px] font-bold text-right print:text-black">
-            Ficha:{" "}
-            <span className="font-normal print:font-medium">
-              N°{fichaTecnicaById.id || ""}
-            </span>
-          </p>
+        <div className="flex-shrink-1 flex flex-col items-center print:mr-2 print:mt-12">
+          <h1 className="text-4xl font-semibold uppercase underline print:text-[19px] print:text-black print:font-bold print:mb-1">
+            Servicio Técnico
+          </h1>
+          <h2 className="text-lg font-light uppercase print:text-[12px] print:text-black print:font-medium print:mb-1 print:text-center">
+            Ficha de resolución técnica
+          </h2>
         </div>
-      </div>
 
-      {/* Titulo */}
-      <div className="text-center mb-2 print:mb-[3px] print:border-b-2 print:border-black print:pb-1">
-        <h1 className="text-4xl font-semibold uppercase underline print:text-[19px] print:text-black print:font-bold">
-          Servicio Técnico
-        </h1>
-        <h2 className="text-lg font-light uppercase print:text-[12px] print:text-black print:font-medium">
-          Ficha de resolución técnica
-        </h2>
+        <div className="flex-shrink-1 flex flex-col items-center print:mr-2 print:mt-1">
+          <h2 className="text-lg font-light uppercase print:text-[12px] print:text-black print:font-medium print:mb-1 print:text-center">
+            Ficha N°:{" "}
+            <span className="font-bold print:text-black print:font-bold">
+              {fichaTecnicaById.id || ""}
+            </span>
+          </h2>
+        </div>
       </div>
 
       <div className="mb-1 p-1 print:mb-[2px] print:p-[1px]">
@@ -101,16 +98,25 @@ export const ContentPrintFichaTecnica = ({ fichaTecnicaById }) => {
               Fecha Ingreso:{" "}
             </span>
             <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.date_in || "Sin Datos"}
+              {fichaTecnicaById.date_in
+                ? new Date(fichaTecnicaById.date_in).toLocaleDateString(
+                    "es-ES",
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    }
+                  )
+                : "-"}
             </span>
           </div>
           <div className="p-2 print:p-1">
             <span className="font-bold print:text-black print:font-bold">
-              Act. Simple:{" "}
+              Actuación Simple:{" "}
             </span>
             <span className="font-light print:text-black print:font-normal">
-              {`${fichaTecnicaById.act_simple || ""}/${
-                fichaTecnicaById.year_act_simple || ""
+              {`${fichaTecnicaById.act_simple || "-"}/${
+                fichaTecnicaById.year_act_simple || "-"
               }`}
             </span>
           </div>
@@ -122,7 +128,7 @@ export const ContentPrintFichaTecnica = ({ fichaTecnicaById }) => {
               Usuario PC:
             </span>
             <span className="print:text-black print:font-normal">
-              {fichaTecnicaById.user_pc || "Sin Datos"}
+              {fichaTecnicaById.user_pc || "-"}
             </span>
           </div>
           <div className="p-2 print:p-1">
@@ -130,7 +136,7 @@ export const ContentPrintFichaTecnica = ({ fichaTecnicaById }) => {
               Contraseña PC:
             </span>
             <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.pass_pc || "Sin Datos"}
+              {fichaTecnicaById.pass_pc || "-"}
             </span>
           </div>
         </div>
@@ -152,7 +158,7 @@ export const ContentPrintFichaTecnica = ({ fichaTecnicaById }) => {
               Tipo de Asistencia:{" "}
             </span>
             <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.assistance || "Sin Datos"}
+              {fichaTecnicaById.assistance || "-"}
             </span>
           </div>
           <div className="p-2 print:p-1">
@@ -160,7 +166,7 @@ export const ContentPrintFichaTecnica = ({ fichaTecnicaById }) => {
               Ponderación:{" "}
             </span>
             <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.ponderacion || "Sin Datos"}
+              {fichaTecnicaById.ponderacion || "-"}
             </span>
           </div>
         </div>
@@ -172,8 +178,7 @@ export const ContentPrintFichaTecnica = ({ fichaTecnicaById }) => {
           </h3>
           <div className="border border-dotted border-gray-200 print:border-2 print:border-black print:border-solid rounded-sm p-2 print:p-2 print:min-h-[20mm]">
             <p className="text-justify print:pb-1 print:text-black print:leading-tight print:text-[10px]">
-              {fichaTecnicaById.tech_description ||
-                "Sin resolución técnica registrada"}
+              {fichaTecnicaById.tech_description || "-"}
             </p>
           </div>
         </div>

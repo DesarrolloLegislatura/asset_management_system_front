@@ -54,7 +54,7 @@ export const FichaTecnicaPrint = ({ fichaTecnicaById }) => {
   return (
     <>
       <Button onClick={reactToPrintFn} size="sm">
-        <Printer className="h-4 w-4 mr-2" /> Imprimir
+        <Printer className="h-4 w-4 mr-2" /> Técnica
       </Button>
 
       <div

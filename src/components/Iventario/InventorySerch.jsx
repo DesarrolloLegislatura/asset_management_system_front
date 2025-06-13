@@ -137,8 +137,10 @@ export const InventorySerch = ({
     if (inputValue.trim()) {
       return (
         <div className="absolute z-10 w-full mt-1 bg-popover border border-border rounded-md shadow-lg p-4 text-center">
-          <p className="text-muted-foreground">
-            No se encontraron resultados. Puedes ingresar un nuevo Inventory.
+          <p className="text-muted-foreground text-sm">
+            No se encontró un bien con ese número de inventario.
+            <br />
+            Por favor, verifique el número ingresado o cree un nuevo bien.
           </p>
         </div>
       );

@@ -20,10 +20,11 @@ import { useStatus } from "@/hooks/useStatus";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router";
-import { Loader2 } from "lucide-react";
+import { Link, useNavigate, useParams } from "react-router";
+import { Plus } from "lucide-react";
 import { InventorySerch } from "../Iventario/InventorySerch";
 import { Card, CardHeader, CardTitle } from "../ui/card";
+import { LoadingPage } from "../Pages/LoadingPage";
 
 export function FichaIngresoForm() {
   const { idFichaIngreso } = useParams();
@@ -61,7 +62,7 @@ export function FichaIngresoForm() {
       contact_phone: "",
       means_application: "",
       status: "1",
-      date_out: null,
+      date_out: "",
       retired_by: "",
     },
   });
@@ -94,7 +95,7 @@ export function FichaIngresoForm() {
         contact_phone: fichaData.contact_phone || "",
         means_application: fichaData.means_application || "",
         status: statusId?.toString() || "1",
-        date_out: fichaData.date_out || null,
+        date_out: fichaData.date_out ? fichaData.date_out.split("T")[0] : "",
         retired_by: fichaData.retired_by || "",
       };
 
@@ -141,6 +142,7 @@ export function FichaIngresoForm() {
 
   const onSubmit = async (data) => {
     // Construir solo los campos requeridos por la API
+    setIsLoading(true);
     const dataToSend = {
       act_simple: data.act_simple,
       year_act_simple: new Date().getFullYear().toString(),
@@ -173,6 +175,8 @@ export function FichaIngresoForm() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -211,6 +215,9 @@ export function FichaIngresoForm() {
   const handleValueChange = (field) => (value) =>
     setValue(field, value, { shouldValidate: true });
 
+  // Louder de creacion de la ficha, miesntras se crea la ficha, se muestra un loader
+  if (isLoading) return <LoadingPage mensaje="Cargando datos de la ficha..." />;
+
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-6">
@@ -221,18 +228,13 @@ export function FichaIngresoForm() {
         </h1>
         <p className="text-sm text-muted-foreground">
           {isEditMode
-            ? "Complete la información técnica para resolver la incidencia"
-            : "Complete la información técnica para crear la ficha de ingreso"}
+            ? "Edite los campos que desee actualizar "
+            : "Complete los campos requeridos para crear la ficha de ingreso"}
         </p>
       </div>
 
       {isLoading && isEditMode ? (
-        <div className="flex items-center justify-center h-64">
-          <div className="flex flex-col items-center space-y-2">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p>Cargando datos de la ficha...</p>
-          </div>
-        </div>
+        <LoadingPage mensaje="Cargando datos de la ficha..." />
       ) : (
         <div className="max-w-4xl mx-auto">
           <Form {...form}>
@@ -257,21 +259,41 @@ export function FichaIngresoForm() {
                       name="inventory"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Numero de Inventario</FormLabel>
+                          <FormLabel>
+                            Numero de Inventario{" "}
+                            <span className="text-red-500">*</span>
+                          </FormLabel>
                           <FormControl>
-                            <InventorySerch
-                              value={field.value}
-                              onChange={
-                                isEditMode
-                                  ? handleInventoryChangeInEditMode
-                                  : handleInventoryChange
-                              }
-                              onTypeassetChange={handleValueChange("typeasset")}
-                              onAreaChange={handleValueChange("area")}
-                              onBuildingChange={handleValueChange("building")}
-                              onEditMode={isEditMode}
-                              error={fichaTecnicaById?.asset?.error}
-                            />
+                            <div className="grid grid-cols-9 gap-2">
+                              <div className="col-span-8">
+                                <InventorySerch
+                                  value={field.value}
+                                  onChange={
+                                    isEditMode
+                                      ? handleInventoryChangeInEditMode
+                                      : handleInventoryChange
+                                  }
+                                  onTypeassetChange={handleValueChange(
+                                    "typeasset"
+                                  )}
+                                  onAreaChange={handleValueChange("area")}
+                                  onBuildingChange={handleValueChange(
+                                    "building"
+                                  )}
+                                  onEditMode={isEditMode}
+                                  error={fichaTecnicaById?.asset?.error}
+                                />
+                              </div>
+                              <div className="col-span-1">
+                                <Link
+                                  to="http://192.168.200.40:9000/sab/asset/assets/add/"
+                                  target="_blank"
+                                  className="flex items-center justify-center h-full bg-muted/50 rounded-md p-1"
+                                >
+                                  <Plus className="h-4 w-4 text-green-500" />
+                                </Link>
+                              </div>
+                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>

@@ -2,7 +2,7 @@ import { ClipboardCheck } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
 
-export const ResolucionTecnicaTab = ({ fichaTecnicaById }) => {
+export const FichaTabResolucionTecnica = ({ fichaTecnicaById }) => {
   return (
     <TabsContent value="tech" className="space-y-6">
       <Card className="shadow-sm">
@@ -19,7 +19,7 @@ export const ResolucionTecnicaTab = ({ fichaTecnicaById }) => {
                 Tipo de Asistencia
               </span>
               <span className="font-medium">
-                {fichaTecnicaById.assistance || "Sin Datos"}
+                {fichaTecnicaById.assistance || "-"}
               </span>
             </div>
 
@@ -28,7 +28,7 @@ export const ResolucionTecnicaTab = ({ fichaTecnicaById }) => {
                 Ponderación
               </span>
               <span className="font-medium">
-                {fichaTecnicaById.asset?.weighting.name || "Sin Datos"}
+                {fichaTecnicaById.asset?.weighting.name || "-"}
               </span>
             </div>
           </div>

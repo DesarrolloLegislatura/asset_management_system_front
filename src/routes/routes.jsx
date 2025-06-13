@@ -5,14 +5,13 @@ import { LoginForm } from "../components/Auth/LoginForm.jsx";
 import { FichaTecnicaForm } from "@/components/FichaTecnica/FichaTecnicaForm.jsx";
 import { AuthGuard } from "../components/Auth/AuthGuard.jsx";
 import { FichaIngresoForm } from "@/components/FichaIngreso/FichaIngresoForm.jsx";
-// import { FichaIngresoList } from "@/components/FichaIngreso/FichaIngresoList.jsx";
-import NotFound from "@/components/Error/NotFound.jsx";
-import { FichaIngresoDetail } from "@/components/FichaIngreso/FichaIngresoDetail.jsx";
-import { FichaTecnicaDetail } from "@/components/FichaTecnica/FichaTecnicaDetail.jsx";
-import { Unauthorized } from "@/components/Error/Unauthorized.jsx";
+import NotFound from "@/components/Pages/NotFoundPage.jsx";
+
+import { Unauthorized } from "@/components/Pages/UnauthorizedPage.jsx";
 import { ProtectedRoute } from "@/components/Auth/ProtectedRoute.jsx";
 import { PERMISSIONS } from "@/constants/permissions.js";
 import { FichaList } from "@/components/FichaList/FichaList.jsx";
+import { FichaDetail } from "@/components/FichaDetail/FichaDetail.jsx";
 
 const routes = [
   {
@@ -62,7 +61,7 @@ const routes = [
         path: "ficha-tecnica/detail/:idFichaIngreso",
         element: (
           <ProtectedRoute permission={PERMISSIONS.TECHNICAL_SHEET_VIEW}>
-            <FichaTecnicaDetail />
+            <FichaDetail />
           </ProtectedRoute>
         ),
       },
@@ -89,7 +88,7 @@ const routes = [
         path: "ficha-ingreso/detail/:idFichaIngreso",
         element: (
           <ProtectedRoute permission={PERMISSIONS.FICHA_INGRESO_VIEW}>
-            <FichaIngresoDetail />
+            <FichaDetail />
           </ProtectedRoute>
         ),
       },

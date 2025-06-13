@@ -6,14 +6,25 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
   return (
     <div className="print:page-break-inside-avoid print:h-[138mm] print:overflow-hidden print:w-full print:p-2 print:border-box print:relative">
       {/* Encabezado */}
-      <div className="flex justify-between items-center print:mb-[1px]">
+      <div className="flex justify-between items-center ">
         {/* Logo positioned to the left */}
         <div className="flex-shrink-1">
           <img
             src="/assets/svg/pl_logo.svg"
             alt="Logo"
-            className="h-16 w-auto print:h-14 print:w-auto print:filter print:grayscale print:contrast-125"
+            className="h-14 w-auto print:h-14 print:w-auto print:filter print:grayscale print:contrast-125"
           />
+        </div>
+        <div className="flex-shrink-1 flex flex-col items-center print:mr-2 print:mt-12">
+          <h1 className="text-4xl font-semibold uppercase underline print:text-[19px] print:text-black print:font-bold print:mb-1">
+            Servicio Técnico
+          </h1>
+          <h2 className="text-lg font-light uppercase print:text-[12px] print:text-black print:font-medium print:mb-1 print:text-center">
+            Ficha de ingreso N°:{" "}
+            <span className="font-bold print:text-black print:font-bold">
+              {fichaTecnicaById.id || ""}
+            </span>
+          </h2>
         </div>
 
         {/* QR Code - positioned to the right */}
@@ -23,14 +34,6 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
       </div>
 
       {/* Titulo */}
-      <div className="text-center mb-2 print:mb-[3px] print:border-b-2 print:border-black print:pb-1">
-        <h1 className="text-4xl font-semibold uppercase underline print:text-[19px] print:text-black print:font-bold">
-          Servicio Técnico
-        </h1>
-        <h2 className="text-lg font-light uppercase print:text-[12px] print:text-black print:font-medium">
-          Ficha de ingreso del bien
-        </h2>
-      </div>
 
       <div className="mb-1 p-1 print:mb-[2px] print:p-[1px]">
         {/* Encabezado de sección optimizado para B&N */}
@@ -58,7 +61,7 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
               Tipo del Bien:{" "}
             </span>
             <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.asset.typeasset.name || ""}
+              {fichaTecnicaById.asset.typeasset.name || "Sin Datos"}
             </span>
           </div>
           <div className="p-2 print:p-1">
@@ -66,7 +69,7 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
               N° de Inventario:{" "}
             </span>
             <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.asset.inventory || ""}
+              {fichaTecnicaById.asset.inventory || "Sin Datos"}
             </span>
           </div>
         </div>
@@ -77,14 +80,18 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
               Fecha Ingreso:{" "}
             </span>
             <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.date_in || ""}
+              {fichaTecnicaById.date_in || "Sin Datos"}
             </span>
           </div>
           <div className="p-2 print:p-1">
             <span className="font-bold print:text-black print:font-bold">
-              Act. Simple:{" "}
+              Actuación Simple:{" "}
             </span>
-            <span className="font-light print:text-black print:font-normal">{`${fichaTecnicaById.act_simple}/${fichaTecnicaById.year_act_simple}`}</span>
+            <span className="font-light print:text-black print:font-normal">
+              {fichaTecnicaById.act_simple
+                ? `${fichaTecnicaById.act_simple}/${fichaTecnicaById.year_act_simple}`
+                : "Sin Datos"}
+            </span>
           </div>
         </div>
 
@@ -94,7 +101,7 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
               Área:{" "}
             </span>
             <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.asset.area.name || ""}
+              {fichaTecnicaById.asset.area.name || "Sin Datos"}
             </span>
           </div>
           <div className="p-2 print:p-1">
@@ -102,7 +109,7 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
               Edificio:{" "}
             </span>
             <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.asset.building.name || ""}
+              {fichaTecnicaById.asset.building.name || "Sin Datos"}
             </span>
           </div>
         </div>
@@ -113,7 +120,7 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
               Usuario PC:
             </span>
             <span className="print:text-black print:font-normal">
-              {fichaTecnicaById.user_pc || ""}
+              {fichaTecnicaById.user_pc || "Sin Datos"}
             </span>
           </div>
           <div className="p-2 print:p-1">
@@ -121,7 +128,7 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
               Contraseña PC:
             </span>
             <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.pass_pc || ""}
+              {fichaTecnicaById.pass_pc || "Sin Datos"}
             </span>
           </div>
         </div>
@@ -156,7 +163,7 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
               Nombre Completo:{" "}
             </span>
             <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.contact_name || ""}
+              {fichaTecnicaById.contact_name || "Sin Datos"}
             </span>
           </div>
           <div className="p-2 print:p-1">
@@ -164,7 +171,7 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
               Teléfono:{" "}
             </span>
             <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.contact_phone || ""}
+              {fichaTecnicaById.contact_phone || "Sin Datos"}
             </span>
           </div>
         </div>
@@ -174,7 +181,7 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
       <div className="hidden print:flex print:absolute print:bottom-[34px] print:right-0 print:mr-4 print:z-10">
         <div className="border-dotted border-t-2 border-black w-40 text-center">
           <h3 className="font-light print:mt-1 print:text-[10px] print:text-black print:font-medium">
-            Firma y Sello
+            Firma y Aclaración
           </h3>
         </div>
       </div>

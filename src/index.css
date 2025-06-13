@@ -14,11 +14,11 @@
 
 :root {
   /* Modo claro optimizado con transparencias */
-  --background: #fafafae6; /* Fondo principal más suave con 90% opacidad */
+  --background: #fafafa; /* Fondo principal más suave con 90% opacidad */
   --foreground: #1a1a1a; /* Texto principal con buen contraste */
-  --card: #fffffff0; /* Tarjetas blancas con 94% opacidad */
+  --card: #ffffff; /* Tarjetas blancas con 94% opacidad */
   --card-foreground: #1a1a1a;
-  --popover: #fffffff5; /* Popover con 96% opacidad */
+  --popover: #ffffff; /* Popover con 96% opacidad */
   --popover-foreground: #1a1a1a;
   --primary: #2563ebe6; /* Azul moderno con 90% opacidad */
   --primary-foreground: #ffffff;
@@ -33,12 +33,12 @@
   --border: #e2e8f0b3; /* Bordes sutiles con 70% opacidad */
   --input: #ffffff; /* Fondo blanco sólido para inputs en modo claro */
   --input-foreground: #1a1a1a; /* Texto oscuro para inputs */
-  --ring: #3b82f6e6; /* Color de enfoque con 90% opacidad */
-  --chart-1: #3b82f6e6;
-  --chart-2: #06b6d4e6;
-  --chart-3: #8b5cf6e6;
-  --chart-4: #10b981e6;
-  --chart-5: #f59e0be6;
+  --ring: #3b82f6; /* Color de enfoque con 90% opacidad */
+  --chart-1: #3b82f6;
+  --chart-2: #06b6d4;
+  --chart-3: #8b5cf6;
+  --chart-4: #10b981;
+  --chart-5: #f59e0b;
   --radius: 0.625rem;
   --sidebar: #fffffff5; /* Sidebar con 96% opacidad */
   --sidebar-foreground: #1a1a1a;
@@ -46,10 +46,10 @@
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #f1f5f9cc;
   --sidebar-accent-foreground: #334155;
-  --sidebar-border: #e2e8f0b3;
-  --sidebar-ring: #3b82f6e6;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #3b82f6;
   /* Color para fondo de formularios y divs destacados */
-  --form-background: #f8fafcf0; /* Gris azulado muy claro con 94% opacidad */
+  --form-background: #f8fafc; /* Gris azulado muy claro con 94% opacidad */
   --form-foreground: #1e293b;
 }
 

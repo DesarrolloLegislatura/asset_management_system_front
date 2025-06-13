@@ -26,6 +26,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { ASSISTANCE_TYPES } from "@/constants/assistance";
+import { LoadingPage } from "../Pages/LoadingPage";
 
 export function FichaTecnicaForm() {
   const { idFichaIngreso } = useParams();
@@ -169,16 +170,7 @@ export function FichaTecnicaForm() {
 
   const toggleInfoSection = () => setIsInfoSectionOpen(!isInfoSectionOpen);
 
-  if (isLoading && !fichaTecnicaById) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="flex flex-col items-center space-y-2">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p>Cargando datos de la ficha...</p>
-        </div>
-      </div>
-    );
-  }
+  if (isLoading) return <LoadingPage mensaje="Cargando datos de la ficha..." />;
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">

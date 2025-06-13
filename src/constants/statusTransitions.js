@@ -17,10 +17,6 @@ export const FICHA_INGRESO_TRANSITION_RULES = {
 
   "diagnostico pendiente": ["diagnóstico pendiente", "diagnostico pendiente"],
 
-  "en reparación": ["en reparación", "en reparacion"],
-
-  "en reparacion": ["en reparación", "en reparacion"],
-
   "en espera de repuesto": ["en espera de repuesto", "en espera de repuestos"],
 
   "en espera de repuestos": ["en espera de repuesto", "en espera de repuestos"],
@@ -72,6 +68,10 @@ export const FICHA_INGRESO_TRANSITION_RULES = {
     "retirado",
     "finalizado",
   ],
+
+  "en reparación": ["en reparación", "en reparacion"],
+
+  "en reparacion": ["en reparación", "en reparacion"],
 };
 
 // Reglas de transición para Ficha Técnica

@@ -2,7 +2,7 @@ import { ClipboardCheck } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
 
-export const EstadosTab = ({ fichaTecnicaById }) => {
+export const FichaTabEstados = ({ fichaTecnicaById }) => {
   return (
     <TabsContent value="states" className="space-y-6">
       <Card className="shadow-sm">
@@ -56,7 +56,7 @@ export const EstadosTab = ({ fichaTecnicaById }) => {
                               year: "numeric",
                             }
                           )
-                        : "Sin fecha"}
+                        : "-"}
                     </span>
                   </div>
                 </div>

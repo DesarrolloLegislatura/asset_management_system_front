@@ -20,6 +20,7 @@ export const useAuth = () => {
 
       // Decodificar el token para obtener la info del usuario
       const payload = parseJwt(access);
+      console.log(payload);
       if (!payload) {
         throw new Error("No se pudo decodificar el token");
       }
@@ -32,13 +33,15 @@ export const useAuth = () => {
         groups = [],
       } = payload;
 
+      const group = validateGroups(groups);
+
       setUser({
         id,
         username: userName,
         first_name: firstName,
         last_name: lastName,
         groups,
-        group: Array.isArray(groups) ? groups[0] : groups,
+        group: group,
         token: access,
         refreshToken: refresh,
       });
@@ -67,19 +70,33 @@ export const useAuth = () => {
   };
 
   const redirectBasedGroup = (groups = []) => {
-    const userGroups = Array.isArray(groups) ? groups : [groups];
+    const userGroups = groups;
 
     if (userGroups.length === 0) {
       navigate("/unauthorized", { replace: true });
       return;
     }
 
-    if (userGroups.includes("Admin")) {
-      navigate("/ficha-tecnica", { replace: true });
+    if (userGroups.includes("Administrativo")) {
+      navigate("/ficha-ingreso", { replace: true });
     } else if (userGroups.includes("Tecnico")) {
-      navigate("/ficha-tecnica", { replace: true });
+      navigate("/", { replace: true });
+    } else if (userGroups.includes("Administrador")) {
+      navigate("/", { replace: true });
     } else {
       navigate("/unauthorized", { replace: true });
+    }
+  };
+
+  const validateGroups = (groups = []) => {
+    if (groups.includes("Administrativo")) {
+      return "Administrativo";
+    } else if (groups.includes("Tecnico")) {
+      return "Tecnico";
+    } else if (groups.includes("Administrador")) {
+      return "Administrador";
+    } else {
+      return "Unauthorized";
     }
   };
 

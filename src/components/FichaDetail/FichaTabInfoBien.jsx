@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { TabsContent } from "@/components/ui/tabs";
 
-export const InfoBienTab = ({ fichaTecnicaById }) => {
+export const FichaTabInfoBien = ({ fichaTecnicaById }) => {
   return (
     <TabsContent value="info" className="space-y-6">
       <Card className="shadow-sm">
@@ -27,16 +27,25 @@ export const InfoBienTab = ({ fichaTecnicaById }) => {
                   Area
                 </span>
                 <span>
-                  <p>
-                    {fichaTecnicaById.asset?.area?.name || "No especificada"}
-                  </p>
+                  <p>{fichaTecnicaById.asset?.area?.name || "-"}</p>
                 </span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                   Fecha Ingreso
                 </span>
-                <span>{fichaTecnicaById.date_in || "-"}</span>
+                <span>
+                  {fichaTecnicaById.date_in
+                    ? new Date(fichaTecnicaById.date_in).toLocaleDateString(
+                        "es-ES",
+                        {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        }
+                      )
+                    : "-"}
+                </span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
@@ -56,10 +65,7 @@ export const InfoBienTab = ({ fichaTecnicaById }) => {
                   Tipo de Bien
                 </span>
                 <span className="capitalize">
-                  <p>
-                    {fichaTecnicaById.asset?.typeasset?.name ||
-                      "No especificado"}
-                  </p>
+                  <p>{fichaTecnicaById.asset?.typeasset?.name || "-"}</p>
                 </span>
               </div>
 
@@ -68,10 +74,7 @@ export const InfoBienTab = ({ fichaTecnicaById }) => {
                   Edificio
                 </span>
                 <span>
-                  <p>
-                    {fichaTecnicaById.asset?.building?.name ||
-                      "No especificado"}
-                  </p>
+                  <p>{fichaTecnicaById.asset?.building?.name || "-"}</p>
                 </span>
               </div>
 
@@ -81,9 +84,9 @@ export const InfoBienTab = ({ fichaTecnicaById }) => {
                 </span>
                 <span>
                   <p>
-                    {fichaTecnicaById.act_simple +
-                      "/" +
-                      fichaTecnicaById.year_act_simple}
+                    {fichaTecnicaById.act_simple
+                      ? `${fichaTecnicaById.act_simple}/${fichaTecnicaById.year_act_simple}`
+                      : "-"}
                   </p>
                 </span>
               </div>
@@ -92,9 +95,7 @@ export const InfoBienTab = ({ fichaTecnicaById }) => {
                   Medio de Solicitud
                 </span>
                 <span className="capitalize">
-                  <p>
-                    {fichaTecnicaById.means_application || "No especificado"}
-                  </p>
+                  <p>{fichaTecnicaById.means_application || "-"}</p>
                 </span>
               </div>
             </div>
@@ -130,8 +131,7 @@ export const InfoBienTab = ({ fichaTecnicaById }) => {
         <CardContent className="pt-6">
           <div className="bg-muted/30 p-4 rounded-md border border-border/60">
             <p className="text-sm whitespace-pre-wrap leading-relaxed">
-              {fichaTecnicaById.user_description ||
-                "Sin descripción proporcionada."}
+              {fichaTecnicaById.user_description || "-"}
             </p>
           </div>
         </CardContent>

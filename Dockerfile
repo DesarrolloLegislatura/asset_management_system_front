@@ -1,29 +1,33 @@
-# Etapa de construcción
-FROM node:16-alpine as build
+# Etapa de construcción - Cambiar de alpine a bullseye
+FROM node:18-bullseye-slim as build
 
+# Establecer directorio de trabajo
 WORKDIR /app
 
-# Copia archivos de dependencias
+# Copiar archivos de dependencias
 COPY package*.json ./
 
-# Instala dependencias
-RUN npm install
+# Limpiar caché npm y instalar dependencias
+RUN npm cache clean --force && \
+    npm ci
 
-# Copia todo el código fuente
+# Copiar todo el código fuente
 COPY . .
 
-# Construye la aplicación
+# Construir la aplicación para producción
 RUN npm run build
 
 # Etapa de producción
 FROM nginx:stable-alpine
 
-# Copia los archivos construidos desde la etapa de build
-# Nota: Ajusta la carpeta 'build' si tu aplicación utiliza otro nombre (como 'dist')
-COPY --from=build /app/build /usr/share/nginx/html
+# Copiar configuración personalizada de nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expone el puerto 80
-EXPOSE 80
+# Copiar los archivos construidos desde la etapa de build
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# Inicia nginx
+# Exponer el puerto 80
+EXPOSE 9003
+
+# Comando para iniciar nginx
 CMD ["nginx", "-g", "daemon off;"]

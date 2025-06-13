@@ -2,11 +2,10 @@ import { useAuthStore } from "@/store/authStore";
 import axios from "axios";
 import { isTokenExpired } from "@/utils/jwt";
 
-const API_URL_DEV = import.meta.env.VITE_API_URL_DEV;
-// const API_URL_PROD = import.meta.env.VITE_API_URL_PROD;
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 const axiosService = axios.create({
-  baseURL: API_URL_DEV,
+  baseURL: VITE_API_URL,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -32,7 +31,7 @@ axiosService.interceptors.request.use(
       if (isTokenExpired(token) && refreshToken) {
         try {
           const { access, refresh } = await axios
-            .post(`${API_URL_DEV}/auth/token/refresh/`, {
+            .post(`${VITE_API_URL}/auth/token/refresh/`, {
               refresh: refreshToken,
             })
             .then((r) => r.data);
@@ -109,7 +108,7 @@ axiosService.interceptors.response.use(
     isRefreshing = true;
     try {
       const { access, refresh } = await axios
-        .post(`${API_URL_DEV}/auth/token/refresh/`, { refresh: refreshToken })
+        .post(`${VITE_API_URL}/auth/token/refresh/`, { refresh: refreshToken })
         .then((r) => r.data);
 
       useAuthStore.getState().setUser({ token: access, refreshToken: refresh });

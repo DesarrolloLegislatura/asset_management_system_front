@@ -16,7 +16,7 @@ export const QRWhatsAppPrint = (fichaId) => {
       >
         <QRCodeSVG
           value={whatsappUrl}
-          size={50}
+          size={40}
           className="print:contrast-125"
         />
       </div>
