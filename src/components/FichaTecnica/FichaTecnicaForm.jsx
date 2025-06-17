@@ -71,7 +71,7 @@ export function FichaTecnicaForm() {
 
   // Obtener estados filtrados para Ficha Técnica con flujo de trabajo
   const availableStatus = useMemo(() => {
-    return getFichaTecnicaStatesWithFlow(false, currentStatusId);
+    return getFichaTecnicaStatesWithFlow(currentStatusId);
   }, [getFichaTecnicaStatesWithFlow, currentStatusId]);
 
   // Obtener el estado actual para mostrarlo
@@ -451,14 +451,12 @@ export function FichaTecnicaForm() {
                               key={estado.id}
                               value={estado.id.toString()}
                               className={
-                                estado.id === currentStatusId
-                                  ? "bg-blue-50 font-medium"
-                                  : ""
+                                estado.id === currentStatusId ? "font-bold" : ""
                               }
                             >
                               {estado.name}
                               {estado.id === currentStatusId && (
-                                <span className="ml-2 text-blue-600">
+                                <span className="ml-2 text-green-600">
                                   (Actual)
                                 </span>
                               )}

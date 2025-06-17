@@ -88,10 +88,12 @@ export const useStatus = () => {
 
   // Función para obtener estados para Ficha Técnica basado en el estado actual
   const getFichaTecnicaStatesWithFlow = useMemo(() => {
-    return (isCreating = false, currentStatusId = null) => {
+    return (currentStatusId = null) => {
       // En Ficha Técnica no hay modo "creación", siempre es edición
       // En modo edición: mostrar estado actual + posibles transiciones
-      const currentStatus = status.find((s) => s.id === currentStatusId);
+      const currentStatus = status.find(
+        (statu) => statu.id === currentStatusId
+      );
       const currentStatusName = currentStatus?.name || "";
 
       // Obtener transiciones permitidas usando la función helper

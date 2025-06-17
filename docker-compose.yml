@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "9003:9003"
+      - "${VITE_PORT}:${VITE_PORT}"
     restart: unless-stopped
     env_file:
       - .env.production
