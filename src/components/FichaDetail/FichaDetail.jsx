@@ -65,7 +65,7 @@ export const FichaDetail = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <div>
             <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
-              Detalle de Ficha N°
+              Detalle de Ficha N° {fichaTecnicaById.id}
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
               Registro de ficha de ingreso{" "}
