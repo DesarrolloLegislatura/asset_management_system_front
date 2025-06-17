@@ -23,6 +23,12 @@ dist-ssr
 *.sln
 *.sw?
 package-lock.json
+.cursorrules
+.cursorignore
+.cursorrules
+.cursorignore
+.cursorrules
+
 .env
 .env.production
 .env.development
