@@ -30,9 +30,9 @@
   --accent-foreground: #0c4a6e;
   --destructive: #dc2626; /* Rojo para acciones destructivas */
   --destructive-foreground: #ffffff;
-  --border: #e2e8f0b3; /* Bordes sutiles con 70% opacidad */
-  --input: #ffffff; /* Fondo blanco sólido para inputs en modo claro */
-  --input-foreground: #1a1a1a; /* Texto oscuro para inputs */
+  --border: #e2e8f0; /* Bordes sutiles con 70% opacidad */
+  --input: #999999; /* Fondo blanco sólido para inputs en modo claro */
+  --input-foreground: #1d1a1a; /* Texto oscuro para inputs */
   --select: #ffffff;
   --ring: #3b82f6; /* Color de enfoque con 90% opacidad */
   --chart-1: #3b82f6;
@@ -72,7 +72,7 @@
   --destructive: #b91c1c;
   --destructive-foreground: #fef2f2;
   --border: #3a3d46;
-  --input: #2a2d36; /* Fondo más claro que el background para inputs en modo oscuro */
+  --input: #c2c2c2; /* Fondo más claro que el background para inputs en modo oscuro */
   --input-foreground: #e2e8f0; /* Texto claro para inputs */
   --select: #2a2d36;
   --select-foreground: #0767c7;
@@ -156,8 +156,6 @@
   input,
   textarea,
   select {
-    @apply bg-input text-[var(--input-foreground)] border border-border 
-           rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-ring 
-           placeholder:text-muted-foreground transition-colors;
+    @apply bg-input text-[var(--input-foreground)] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-ring border border-border placeholder:text-muted-foreground transition-colors;
   }
 }

@@ -37,6 +37,8 @@ export function FichaIngresoForm() {
   const [assetSelected, setAssetSelected] = useState(false);
   const [currentStatusId, setCurrentStatusId] = useState(null);
   const { loadingStatus, getFichaIngresoStatesWithFlow } = useStatus();
+  const [areaName, setAreaName] = useState("");
+  const [buildingName, setBuildingName] = useState("");
 
   const {
     fichaTecnicaById,
@@ -143,6 +145,7 @@ export function FichaIngresoForm() {
   const onSubmit = async (data) => {
     // Construir solo los campos requeridos por la API
     setIsLoading(true);
+    console.log("data", data);
     const dataToSend = {
       act_simple: data.act_simple,
       year_act_simple: new Date().getFullYear().toString(),
@@ -159,6 +162,8 @@ export function FichaIngresoForm() {
       users: [user.id],
       date_out: data.date_out || null,
       retired_by: data.retired_by || "",
+      area: data.area,
+      building: data.building,
     };
 
     try {
@@ -212,8 +217,15 @@ export function FichaIngresoForm() {
   }, [currentStatusId, isEditMode, availableStatus]);
 
   // Genérico para manejar cambios de campo
-  const handleValueChange = (field) => (value) =>
+  const handleValueChange = (field) => (name, value) => {
     setValue(field, value, { shouldValidate: true });
+    if (field === "area") {
+      setAreaName(name);
+    }
+    if (field === "building") {
+      setBuildingName(name);
+    }
+  };
 
   // Louder de creacion de la ficha, miesntras se crea la ficha, se muestra un loader
   if (isLoading) return <LoadingPage mensaje="Cargando datos de la ficha..." />;
@@ -330,15 +342,17 @@ export function FichaIngresoForm() {
                           <FormLabel>Area</FormLabel>
                           <Input
                             type={"text"}
-                            {...field}
+                            value={areaName}
                             className="w-full"
                             placeholder="Area que pertenece el bien"
                             disabled={true}
                           />
+                          <input {...field} />
                           <FormMessage />
                         </FormItem>
                       )}
                     />
+
                     {/* Edificio */}
                     <FormField
                       control={control}
@@ -348,11 +362,12 @@ export function FichaIngresoForm() {
                           <FormLabel>Edificio </FormLabel>
                           <Input
                             type={"text"}
-                            {...field}
+                            value={buildingName}
                             className="w-full"
                             placeholder="Edificio que pertenece el bien"
                             disabled={true}
                           />
+                          <input {...field} />
                           <FormMessage />
                         </FormItem>
                       )}

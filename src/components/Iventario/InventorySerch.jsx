@@ -75,13 +75,13 @@ export const InventorySerch = ({
       // o si el usuario explícitamente selecciona un nuevo asset
       if (!onEditMode || hasInitialized) {
         if (onTypeassetChange && asset.typeasset?.name) {
-          onTypeassetChange(asset.typeasset.name);
+          onTypeassetChange(asset.typeasset.name, asset.typeasset.id);
         }
         if (onAreaChange && asset.area?.name) {
-          onAreaChange(asset.area.name);
+          onAreaChange(asset.area.name, asset.area.id);
         }
         if (onBuildingChange && asset.building?.name) {
-          onBuildingChange(asset.building.name);
+          onBuildingChange(asset.building.name, asset.building.id);
         }
       }
 

@@ -427,14 +427,7 @@ export function FichaTecnicaForm() {
                   name="status"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>
-                        Estado del Bien
-                        {currentStatus && (
-                          <span className="ml-2 text-sm text-muted-foreground">
-                            (Actual: {currentStatus.name})
-                          </span>
-                        )}
-                      </FormLabel>
+                      <FormLabel>Estado del Bien</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}

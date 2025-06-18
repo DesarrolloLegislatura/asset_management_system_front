@@ -27,7 +27,7 @@ export const FichaTabInfoBien = ({ fichaTecnicaById }) => {
                   Area
                 </span>
                 <span>
-                  <p>{fichaTecnicaById.asset?.area?.name || "-"}</p>
+                  <p>{fichaTecnicaById.area.name || "-"}</p>
                 </span>
               </div>
               <div className="flex flex-col">
@@ -74,7 +74,7 @@ export const FichaTabInfoBien = ({ fichaTecnicaById }) => {
                   Edificio
                 </span>
                 <span>
-                  <p>{fichaTecnicaById.asset?.building?.name || "-"}</p>
+                  <p>{fichaTecnicaById.building?.name || "-"}</p>
                 </span>
               </div>
 

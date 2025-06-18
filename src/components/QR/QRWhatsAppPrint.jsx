@@ -1,11 +1,11 @@
 import { QRCodeSVG } from "qrcode.react";
 
 export const QRWhatsAppPrint = (fichaId) => {
-  console.log(fichaId);
+  const numberWhatsapp = import.meta.env.VITE_NUMBER_WHATSAPP;
 
   const finalMessage = `Hola, quisiera información sobre la ficha N° ${fichaId.fichaId}`;
   const encodedMessage = encodeURIComponent(finalMessage);
-  const whatsappUrl = `https://wa.me/+5493624565024?text=${encodedMessage}`;
+  const whatsappUrl = `https://wa.me/${numberWhatsapp}?text=${encodedMessage}`;
 
   return (
     <>

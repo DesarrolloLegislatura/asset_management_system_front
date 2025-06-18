@@ -1,7 +1,7 @@
 // utils/encryption.ts
 import CryptoJS from "crypto-js";
 
-const SECRET_KEY = "tu-clave-secreta"; // Cambia esto y guárdalo en variables de entorno
+const SECRET_KEY = import.meta.env.VITE_SECRET_JWT; // Cambia esto y guárdalo en variables de entorno
 
 export const encryptData = (data) => {
   return CryptoJS.AES.encrypt(data, SECRET_KEY).toString();
