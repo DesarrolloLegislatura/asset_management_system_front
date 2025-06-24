@@ -82,8 +82,8 @@ export function FichaIngresoForm() {
         asset: fichaData.asset?.id || null,
         inventory: fichaData.asset?.inventory || "",
         typeasset: fichaData.asset?.typeasset?.name || "",
-        area: fichaData.asset?.area?.name || "",
-        building: fichaData.asset?.building?.name || "",
+        area: fichaData.area?.id || "",
+        building: fichaData.building?.id || "",
         act_simple: fichaData.act_simple || "",
         date_in: fichaData.date_in
           ? fichaData.date_in.split("T")[0]
@@ -106,6 +106,8 @@ export function FichaIngresoForm() {
 
       // Guardar el estado actual para determinar transiciones permitidas
       setCurrentStatusId(statusId);
+      setAreaName(fichaData.area?.name || "");
+      setBuildingName(fichaData.building?.name || "");
 
       // Marcar que hay un asset seleccionado si existe
       setAssetSelected(!!fichaData.asset?.id);
@@ -218,12 +220,15 @@ export function FichaIngresoForm() {
 
   // Genérico para manejar cambios de campo
   const handleValueChange = (field) => (name, value) => {
-    setValue(field, value, { shouldValidate: true });
     if (field === "area") {
       setAreaName(name);
+      setValue(field, value, { shouldValidate: true });
     }
     if (field === "building") {
       setBuildingName(name);
+      setValue(field, value, { shouldValidate: true });
+    } else {
+      setValue(field, name, { shouldValidate: true });
     }
   };
 
@@ -269,6 +274,9 @@ export function FichaIngresoForm() {
                     <FormField
                       control={control}
                       name="inventory"
+                      disabled={
+                        isEditMode && currentStatusId !== 1 ? true : false
+                      }
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>
@@ -347,7 +355,7 @@ export function FichaIngresoForm() {
                             placeholder="Area que pertenece el bien"
                             disabled={true}
                           />
-                          <input {...field} />
+                          <input type="hidden" {...field} />
                           <FormMessage />
                         </FormItem>
                       )}
@@ -367,7 +375,7 @@ export function FichaIngresoForm() {
                             placeholder="Edificio que pertenece el bien"
                             disabled={true}
                           />
-                          <input {...field} />
+                          <input type="hidden" {...field} />
                           <FormMessage />
                         </FormItem>
                       )}

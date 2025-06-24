@@ -21,7 +21,7 @@ export const FICHA_INGRESO_TRANSITION_RULES = {
 
   "en espera de repuestos": ["en espera de repuesto", "en espera de repuestos"],
 
-  // Estados de finalización - Permiten transiciones hacia estados de cierre
+  // Estados de finalización - Permiten trasnsiciones hacia estados de cierre
   reparado: ["reparado", "listo para retirar", "retirado", "finalizado"],
 
   "listo para retirar": ["listo para retirar", "retirado", "finalizado"],
