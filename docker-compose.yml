@@ -9,7 +9,7 @@ services:
       - "${VITE_PORT}:${VITE_PORT}"
     restart: unless-stopped
     env_file:
-      - .env.production
+      - .env
     # Opcional: para desarrollo con hot reload
     # volumes:
     #   - ./src:/app/src

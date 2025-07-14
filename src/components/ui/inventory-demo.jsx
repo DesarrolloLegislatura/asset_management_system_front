@@ -22,10 +22,10 @@ export function InventoryDemo() {
     }
   };
 
-  // Solo mostrar en desarrollo
-  if (import.meta.env.PROD) {
-    return null;
-  }
+  // // Solo mostrar en desarrollo
+  // if (import.meta.env.PROD) {
+  //   return null;
+  // }
 
   return (
     <div className="fixed bottom-4 right-4 z-50 w-96">
