@@ -27,7 +27,7 @@ export const FichaTabInfoBien = ({ fichaTecnicaById }) => {
                   Area
                 </span>
                 <span>
-                  <p>{fichaTecnicaById.area.name || "-"}</p>
+                  <p>{fichaTecnicaById.area?.name || "-"}</p>
                 </span>
               </div>
               <div className="flex flex-col">

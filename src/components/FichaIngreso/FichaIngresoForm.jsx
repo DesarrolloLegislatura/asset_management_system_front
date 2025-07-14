@@ -164,8 +164,8 @@ export function FichaIngresoForm() {
       users: [user.id],
       date_out: data.date_out || null,
       retired_by: data.retired_by || "",
-      area: parseInt(data.area),
-      building: parseInt(data.building),
+      area: data.area,
+      building: data.building,
     };
 
     try {
@@ -174,6 +174,8 @@ export function FichaIngresoForm() {
         response = await updateFichaTecnica(idFichaIngreso, dataToSend);
         navigate(`/ficha-ingreso/detail/${idFichaIngreso}`);
       } else {
+        console.log("dataToSend", dataToSend);
+
         response = await createFichaTecnica(dataToSend);
         console.log("Response from API:", response); // Log API response
         if (response.asset) {
@@ -223,8 +225,7 @@ export function FichaIngresoForm() {
     if (field === "area") {
       setAreaName(name);
       setValue(field, value, { shouldValidate: true });
-    }
-    if (field === "building") {
+    } else if (field === "building") {
       setBuildingName(name);
       setValue(field, value, { shouldValidate: true });
     } else {
