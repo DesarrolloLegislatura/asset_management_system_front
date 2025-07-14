@@ -164,8 +164,8 @@ export function FichaIngresoForm() {
       users: [user.id],
       date_out: data.date_out || null,
       retired_by: data.retired_by || "",
-      area: data.area,
-      building: data.building,
+      area: parseInt(data.area),
+      building: parseInt(data.building),
     };
 
     try {
@@ -306,7 +306,7 @@ export function FichaIngresoForm() {
                               </div>
                               <div className="col-span-1">
                                 <Link
-                                  to="http://192.168.200.40:9000/sab/asset/assets/add/"
+                                  to="http://192.168.200.41:9002/sab/asset/assets/add/"
                                   target="_blank"
                                   className="flex items-center justify-center h-full bg-muted/50 rounded-md p-1"
                                 >

@@ -5,11 +5,15 @@ const fichaTecnicaService = {
   },
   create: async (datosIngreso) => {
     // Enviar datos de ingreso en formato application/json
-    return await axiosService.post(`/tds/tds/`, datosIngreso, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      return await axiosService.post(`/tds/tds/`, datosIngreso, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   },
   getAll: async () => {
     return await axiosService.get(`/tds/tds/`);
