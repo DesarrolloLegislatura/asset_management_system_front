@@ -125,17 +125,19 @@ export function FichaTecnicaForm() {
         contact_name: fichaData.contact_name || "",
         contact_phone: fichaData.contact_phone || "",
         means_application: fichaData.means_application || "",
-        // Campos de Resolución Técnica
+        // Campos de Resolución Técnica - MEJORADO
         status: statusId?.toString() || "",
         assistance: fichaData.assistance || "",
         weighting: fichaData.asset?.weighting?.name || "",
         tech_description: fichaData.tech_description || "",
       };
 
-      reset(formData);
-
-      // Guardar el estado actual para determinar transiciones permitidas
-      setCurrentStatusId(statusId);
+      // Usar setTimeout para asegurar que el reset se ejecute después del render
+      setTimeout(() => {
+        reset(formData);
+        // Guardar el estado actual para determinar transiciones permitidas
+        setCurrentStatusId(statusId);
+      }, 0);
     },
     [reset]
   );
@@ -146,6 +148,33 @@ export function FichaTecnicaForm() {
       populateFormWithData(fichaTecnicaById);
     }
   }, [fichaTecnicaById, populateFormWithData]);
+
+  // Nuevo useEffect para manejar el reset cuando los estados están disponibles
+  useEffect(() => {
+    if (fichaTecnicaById && currentStatusId && availableStatus.length > 0) {
+      const statusId = fichaTecnicaById.status_users[0].status.id;
+      const assistance = fichaTecnicaById.assistance;
+
+      // Validar que el estado actual esté en los estados disponibles
+      const isStatusAvailable = availableStatus.some(
+        (status) => status.id === statusId
+      );
+
+      if (isStatusAvailable) {
+        // Actualizar solo los campos problemáticos si no están correctamente establecidos
+        const currentFormStatus = watch("status");
+        const currentFormAssistance = watch("assistance");
+
+        if (currentFormStatus !== statusId.toString()) {
+          form.setValue("status", statusId.toString());
+        }
+
+        if (currentFormAssistance !== assistance && assistance) {
+          form.setValue("assistance", assistance);
+        }
+      }
+    }
+  }, [currentStatusId, availableStatus, fichaTecnicaById, form, watch]);
 
   const onSubmit = async (data) => {
     const dataToSend = {
@@ -431,7 +460,10 @@ export function FichaTecnicaForm() {
                     <FormItem>
                       <FormLabel>Estado del Bien</FormLabel>
                       <Select
-                        onValueChange={field.onChange}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          console.log("Status seleccionado:", value); // Debug en build
+                        }}
                         value={field.value}
                         disabled={loadingStatus}
                       >
@@ -477,7 +509,10 @@ export function FichaTecnicaForm() {
                     <FormItem>
                       <FormLabel>Tipo de Asistencia</FormLabel>
                       <Select
-                        onValueChange={field.onChange}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          console.log("Assistance seleccionado:", value); // Debug en build
+                        }}
                         value={field.value}
                       >
                         <FormControl>
