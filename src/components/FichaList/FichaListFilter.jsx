@@ -24,6 +24,10 @@ export const FichaListFilter = ({
   fichaNumberFilter,
   setFichaNumberFilter,
   clearFichaNumberFilter,
+  areaFilter,
+  setAreaFilter,
+  clearAreaFilter,
+  availableAreas,
 }) => {
   return (
     <>
@@ -48,7 +52,7 @@ export const FichaListFilter = ({
           )}
         </div>
 
-        {/* Filtros */}
+        {/* Primera fila de filtros */}
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Filtro por Numero de Ficha el cual es el ID de la ficha */}
           <div className="flex-1 max-w-sm">
@@ -75,6 +79,7 @@ export const FichaListFilter = ({
               )}
             </div>
           </div>
+
           {/* Filtro por número de inventario */}
           <div className="flex-1 max-w-sm">
             <label className="text-xs font-medium text-muted-foreground mb-1 block">
@@ -101,7 +106,7 @@ export const FichaListFilter = ({
             </div>
           </div>
 
-          {/* Filtro por estado - CORREGIDO */}
+          {/* Filtro por estado */}
           <div className="flex-1 max-w-sm">
             <label className="text-xs font-medium text-muted-foreground mb-1 block">
               Estado
@@ -134,6 +139,45 @@ export const FichaListFilter = ({
           </div>
         </div>
 
+        {/* Segunda fila de filtros - Solo área */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          {/* NUEVO: Filtro por área */}
+          <div className="flex-1 max-w-sm">
+            <label className="text-xs font-medium text-muted-foreground mb-1 block">
+              Área
+            </label>
+            <div className="relative">
+              <Select value={areaFilter} onValueChange={setAreaFilter}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Todas las áreas" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todas las áreas</SelectItem>
+                  {availableAreas.map((area) => (
+                    <SelectItem key={area} value={area}>
+                      {area}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {areaFilter !== "all" && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearAreaFilter}
+                  className="absolute right-8 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 hover:bg-muted z-10"
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              )}
+            </div>
+          </div>
+
+          {/* Espacios vacíos para mantener la alineación */}
+          <div className="flex-1 max-w-sm"></div>
+          <div className="flex-1 max-w-sm"></div>
+        </div>
+
         {/* Información de resultados - Actualizar lógica */}
         {hasActiveFilters && (
           <div className="text-sm text-muted-foreground">
@@ -141,6 +185,7 @@ export const FichaListFilter = ({
             {fichaNumberFilter && <span> • N° Ficha: {fichaNumberFilter}</span>}
             {inventoryFilter && <span> • Inventario: {inventoryFilter}</span>}
             {statusFilter !== "all" && <span> • Estado: {statusFilter}</span>}
+            {areaFilter !== "all" && <span> • Área: {areaFilter}</span>}
           </div>
         )}
       </div>
@@ -162,4 +207,8 @@ FichaListFilter.propTypes = {
   fichaNumberFilter: PropTypes.string.isRequired,
   setFichaNumberFilter: PropTypes.func.isRequired,
   clearFichaNumberFilter: PropTypes.func.isRequired,
+  areaFilter: PropTypes.string.isRequired,
+  setAreaFilter: PropTypes.func.isRequired,
+  clearAreaFilter: PropTypes.func.isRequired,
+  availableAreas: PropTypes.array.isRequired,
 };

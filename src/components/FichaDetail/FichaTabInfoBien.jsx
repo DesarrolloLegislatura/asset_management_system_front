@@ -125,7 +125,7 @@ export const FichaTabInfoBien = ({ fichaTecnicaById }) => {
         <CardHeader className="bg-muted/50 pb-3">
           <CardTitle className="text-lg flex items-center gap-2">
             <MessageSquare className="h-5 w-5 text-primary" />
-            Descripción del Problema
+            Descripción del Problema del Usuario
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-6">

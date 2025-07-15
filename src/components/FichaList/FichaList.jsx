@@ -37,6 +37,7 @@ export const FichaList = () => {
   const [inventoryFilter, setInventoryFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("all"); // Cambiar valor inicial
   const [fichaNumberFilter, setFichaNumberFilter] = useState("");
+  const [areaFilter, setAreaFilter] = useState("all"); // NUEVO: Filtro por área
 
   // Función helper para obtener el estado actual de una ficha de forma segura
   const getCurrentStatus = (ficha) => {
@@ -65,6 +66,21 @@ export const FichaList = () => {
     });
 
     return Array.from(statusSet).sort();
+  }, [fichasTecnicas]);
+
+  // NUEVO: Obtener áreas únicas de las fichas para el select
+  const availableAreas = useMemo(() => {
+    if (!fichasTecnicas) return [];
+
+    const areaSet = new Set();
+    fichasTecnicas.forEach((ficha) => {
+      const areaName = ficha.asset?.area?.name;
+      if (areaName) {
+        areaSet.add(areaName);
+      }
+    });
+
+    return Array.from(areaSet).sort();
   }, [fichasTecnicas]);
 
   // Filtrar datos manualmente por inventario y status
@@ -110,8 +126,22 @@ export const FichaList = () => {
       });
     }
 
+    // NUEVO: Filtrar por área
+    if (areaFilter !== "all") {
+      filtered = filtered.filter((ficha) => {
+        const areaName = ficha.asset?.area?.name;
+        return areaName === areaFilter;
+      });
+    }
+
     return filtered;
-  }, [fichasTecnicas, inventoryFilter, statusFilter, fichaNumberFilter]);
+  }, [
+    fichasTecnicas,
+    inventoryFilter,
+    statusFilter,
+    fichaNumberFilter,
+    areaFilter,
+  ]);
 
   const columns = [
     {
@@ -283,18 +313,25 @@ export const FichaList = () => {
     setStatusFilter("all"); // Cambiar a "all"
   };
 
+  // NUEVO: Función para limpiar el filtro de área
+  const clearAreaFilter = () => {
+    setAreaFilter("all");
+  };
+
   // Función para limpiar todos los filtros
   const clearAllFilters = () => {
     setInventoryFilter("");
     setStatusFilter("all"); // Cambiar a "all"
     setFichaNumberFilter("");
+    setAreaFilter("all"); // NUEVO: Limpiar filtro de área
   };
 
   // Verificar si hay filtros activos - Actualizar lógica
   const hasActiveFilters =
     inventoryFilter.trim() !== "" ||
     statusFilter !== "all" ||
-    fichaNumberFilter.trim() !== "";
+    fichaNumberFilter.trim() !== "" ||
+    areaFilter !== "all"; // NUEVO: Incluir filtro de área
 
   // Función para renderizar el botón de editar según permisos
   const renderEditButton = (fichaId) => {
@@ -408,6 +445,10 @@ export const FichaList = () => {
           fichaNumberFilter={fichaNumberFilter}
           setFichaNumberFilter={setFichaNumberFilter}
           clearFichaNumberFilter={clearFichaNumberFilter}
+          areaFilter={areaFilter}
+          setAreaFilter={setAreaFilter}
+          clearAreaFilter={clearAreaFilter}
+          availableAreas={availableAreas}
         />
 
         <FichaListTable
