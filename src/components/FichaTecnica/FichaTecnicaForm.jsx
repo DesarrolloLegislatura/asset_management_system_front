@@ -177,6 +177,8 @@ export function FichaTecnicaForm() {
   }, [currentStatusId, availableStatus, fichaTecnicaById, form, watch]);
 
   const onSubmit = async (data) => {
+    setIsLoading(true); // Activar estado de carga
+
     const dataToSend = {
       // Mantener datos originales de la ficha de ingreso
       user_pc: data.user_pc,
@@ -196,12 +198,22 @@ export function FichaTecnicaForm() {
       navigate(`/ficha-tecnica/detail/${idFichaIngreso}`);
     } catch (error) {
       console.error("Error al guardar:", error);
+      // Opcional: mostrar mensaje de error al usuario
+    } finally {
+      setIsLoading(false); // Desactivar estado de carga
     }
   };
 
   const toggleInfoSection = () => setIsInfoSectionOpen(!isInfoSectionOpen);
 
-  if (isLoading) return <LoadingPage mensaje="Cargando datos de la ficha..." />;
+  // Si está guardando, mostrar overlay de loading
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm">
+        <LoadingPage mensaje="Guardando datos..." />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
@@ -615,12 +627,13 @@ export function FichaTecnicaForm() {
             </CardContent>
           </Card>
 
-          {/* Botones de acción */}
+          {/* Botones de acción - ACTUALIZADO */}
           <div className="flex justify-end gap-4 pt-6">
             <Button
               type="button"
               variant="outline"
               onClick={() => navigate("/")}
+              disabled={isLoading} // Deshabilitar durante carga
             >
               Cancelar
             </Button>
