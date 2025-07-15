@@ -11,19 +11,14 @@ export const FichaDetailTable = ({ fichaTecnicaById, group }) => {
         <TabsTrigger value="info">Info del Bien</TabsTrigger>
         <TabsTrigger value="contact">Info de Contacto</TabsTrigger>
         <TabsTrigger value="tech">Resolución Técnica</TabsTrigger>
-        {group === "Administrador" ||
-          (group === "Tecnico" && (
-            <TabsTrigger value="states">Estados</TabsTrigger>
-          ))}
+
+        <TabsTrigger value="states">Estados</TabsTrigger>
       </TabsList>
 
       <FichaTabInfoBien fichaTecnicaById={fichaTecnicaById} />
       <FichaTabInfoContacto fichaTecnicaById={fichaTecnicaById} />
       <FichaTabResolucionTecnica fichaTecnicaById={fichaTecnicaById} />
-      {group === "Administrador" ||
-        (group === "Tecnico" && (
-          <FichaTabEstados fichaTecnicaById={fichaTecnicaById} />
-        ))}
+      <FichaTabEstados fichaTecnicaById={fichaTecnicaById} />
     </Tabs>
   );
 };

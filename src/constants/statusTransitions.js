@@ -1,255 +1,270 @@
 /**
- * Reglas de transición de estados para el sistema de gestión de activos
+ * Sistema de gestión de transiciones de estados para fichas técnicas
  *
- * Estructura:
- * - Cada clave representa un estado actual
- * - El valor es un array con los estados a los que puede transicionar
- * - Siempre incluye el estado actual para permitir mantenerlo
+ * Mejoras implementadas:
+ * - Estados como enums para evitar duplicación
+ * - Grupos de estados para simplificar reglas
+ * - Mapeo de variantes para normalización
+ * - Funciones optimizadas con mejor rendimiento
+ * - Validaciones más robustas
  */
 
-// Reglas de transición para Ficha de Ingreso
-export const FICHA_INGRESO_TRANSITION_RULES = {
-  // Estados técnicos - Solo permiten mantenerse en el mismo estado
-  // (Las transiciones se manejan desde Ficha Técnica)
-  ingresado: ["ingresado"],
+// ===== ENUMS DE ESTADOS =====
+export const STATUS = Object.freeze({
+  // Estados iniciales
+  INGRESADO: "ingresado",
 
-  "diagnóstico pendiente": ["diagnóstico pendiente", "diagnostico pendiente"],
+  // Estados de diagnóstico
+  DIAGNOSTICO_PENDIENTE: "diagnóstico pendiente",
 
-  "diagnostico pendiente": ["diagnóstico pendiente", "diagnostico pendiente"],
+  // Estados de trabajo
+  EN_REPARACION: "en reparación",
+  EN_ESPERA_REPUESTO: "en espera de repuesto",
+  EN_REPARACION_EXTERNA: "en reparación externa",
 
-  "en espera de repuesto": ["en espera de repuesto", "en espera de repuestos"],
+  // Estados finales técnicos
+  REPARADO: "reparado",
+  SIN_REPARACION: "sin reparación",
+  SE_RECOMIENDA_BAJA: "se recomienda baja",
 
-  "en espera de repuestos": ["en espera de repuesto", "en espera de repuestos"],
+  // Estados de cierre logístico
+  LISTO_PARA_RETIRAR: "listo para retirar",
+  RETIRADO: "retirado",
+  FINALIZADO: "finalizado",
+});
 
-  // Estados de finalización - Permiten trasnsiciones hacia estados de cierre
-  reparado: ["reparado", "listo para retirar", "retirado", "finalizado"],
+// ===== GRUPOS DE ESTADOS =====
+const STATUS_GROUPS = Object.freeze({
+  INICIAL: [STATUS.INGRESADO],
 
-  "listo para retirar": ["listo para retirar", "retirado", "finalizado"],
+  DIAGNOSTICO: [STATUS.DIAGNOSTICO_PENDIENTE],
 
-  retirado: ["retirado", "finalizado"],
-
-  finalizado: ["finalizado"],
-
-  "sin reparación": [
-    "sin reparación",
-    "sin reparacion",
-    "listo para retirar",
-    "retirado",
-    "finalizado",
+  TRABAJO_TECNICO: [
+    STATUS.EN_REPARACION,
+    STATUS.EN_ESPERA_REPUESTO,
+    STATUS.EN_REPARACION_EXTERNA,
   ],
 
-  "sin reparacion": [
-    "sin reparación",
-    "sin reparacion",
-    "listo para retirar",
-    "retirado",
-    "finalizado",
+  FINALES_TECNICOS: [
+    STATUS.REPARADO,
+    STATUS.SIN_REPARACION,
+    STATUS.SE_RECOMIENDA_BAJA,
   ],
 
-  "se recomienda baja": [
-    "se recomienda baja",
-    "listo para retirar",
-    "retirado",
-    "finalizado",
+  CIERRE_LOGISTICO: [
+    STATUS.LISTO_PARA_RETIRAR,
+    STATUS.RETIRADO,
+    STATUS.FINALIZADO,
   ],
+});
 
-  "en reparación externa": [
-    "en reparación externa",
-    "en reparacion externa",
-    "listo para retirar",
-    "retirado",
-    "finalizado",
-  ],
+// ===== MAPEO DE VARIANTES =====
+const STATUS_VARIANTS_MAP = Object.freeze({
+  // Variantes de "diagnóstico pendiente"
+  "diagnostico pendiente": STATUS.DIAGNOSTICO_PENDIENTE,
 
-  "en reparacion externa": [
-    "en reparación externa",
-    "en reparacion externa",
-    "listo para retirar",
-    "retirado",
-    "finalizado",
-  ],
+  // Variantes de "en reparación"
+  "en reparacion": STATUS.EN_REPARACION,
 
-  "en reparación": ["en reparación", "en reparacion"],
+  // Variantes de "en espera de repuesto"
+  "en espera de repuestos": STATUS.EN_ESPERA_REPUESTO,
+});
 
-  "en reparacion": ["en reparación", "en reparacion"],
+// ===== FUNCIONES DE UTILIDAD =====
+
+/**
+ * Normaliza un estado manejando variantes y inconsistencias
+ */
+export const normalizeStatus = (status) => {
+  if (!status) return "";
+
+  const statusLower = status.toLowerCase().trim();
+  return STATUS_VARIANTS_MAP[statusLower] || statusLower;
 };
 
-// Reglas de transición para Ficha Técnica
-export const FICHA_TECNICA_TRANSITION_RULES = {
-  ingresado: [
-    "ingresado",
-    "diagnóstico pendiente",
-    "diagnostico pendiente",
-    "en reparación",
-    "en reparacion",
-    "en espera de repuesto",
-    "en espera de repuestos",
-    "reparado",
-    "sin reparación",
-    "sin reparacion",
-    "se recomienda baja",
-    "en reparación externa",
-    "en reparacion externa",
-  ],
-
-  "diagnóstico pendiente": [
-    "diagnóstico pendiente",
-    "diagnostico pendiente",
-    "en reparación",
-    "en reparacion",
-    "en espera de repuesto",
-    "en espera de repuestos",
-    "reparado",
-    "sin reparación",
-    "sin reparacion",
-    "se recomienda baja",
-    "en reparación externa",
-    "en reparacion externa",
-  ],
-
-  "diagnostico pendiente": [
-    "diagnóstico pendiente",
-    "diagnostico pendiente",
-    "en reparación",
-    "en reparacion",
-    "en espera de repuesto",
-    "en espera de repuestos",
-    "reparado",
-    "sin reparación",
-    "sin reparacion",
-    "se recomienda baja",
-    "en reparación externa",
-    "en reparacion externa",
-  ],
-
-  "en reparación": [
-    "en reparación",
-    "en reparacion",
-    "en espera de repuesto",
-    "en espera de repuestos",
-    "reparado",
-    "sin reparación",
-    "sin reparacion",
-    "se recomienda baja",
-    "en reparación externa",
-    "en reparacion externa",
-  ],
-
-  "en reparacion": [
-    "en reparación",
-    "en reparacion",
-    "en espera de repuesto",
-    "en espera de repuestos",
-    "reparado",
-    "sin reparación",
-    "sin reparacion",
-    "se recomienda baja",
-    "en reparación externa",
-    "en reparacion externa",
-  ],
-
-  "en espera de repuesto": [
-    "en espera de repuesto",
-    "en espera de repuestos",
-    "en reparación",
-    "en reparacion",
-    "reparado",
-    "sin reparación",
-    "sin reparacion",
-    "se recomienda baja",
-    "en reparación externa",
-    "en reparacion externa",
-  ],
-
-  "en espera de repuestos": [
-    "en espera de repuesto",
-    "en espera de repuestos",
-    "en reparación",
-    "en reparacion",
-    "reparado",
-    "sin reparación",
-    "sin reparacion",
-    "se recomienda baja",
-    "en reparación externa",
-    "en reparacion externa",
-  ],
-
-  // Estados finales de reparación - Solo permiten mantenerse (no más cambios técnicos)
-  reparado: ["reparado"],
-  "sin reparación": ["sin reparación", "sin reparacion"],
-  "sin reparacion": ["sin reparación", "sin reparacion"],
-  "se recomienda baja": ["se recomienda baja"],
-  "en reparación externa": ["en reparación externa", "en reparacion externa"],
-  "en reparacion externa": ["en reparación externa", "en reparacion externa"],
+/**
+ * Obtiene todos los estados de un grupo
+ */
+const getGroupStates = (...groups) => {
+  return groups.flatMap((group) => STATUS_GROUPS[group] || []);
 };
 
-// Estados permitidos para cada contexto
-export const ALLOWED_STATES_BY_CONTEXT = {
+// ===== REGLAS DE TRANSICIÓN OPTIMIZADAS =====
+
+/**
+ * Genera reglas de transición basadas en la lógica del negocio
+ */
+const createTransitionRules = () => {
+  const rules = new Map();
+
+  // Estados iniciales → pueden ir a diagnóstico o trabajo técnico
+  STATUS_GROUPS.INICIAL.forEach((status) => {
+    rules.set(status, [
+      status, // Mantener estado actual
+      ...STATUS_GROUPS.DIAGNOSTICO,
+      ...STATUS_GROUPS.TRABAJO_TECNICO,
+      ...STATUS_GROUPS.FINALES_TECNICOS,
+    ]);
+  });
+
+  // Estados de diagnóstico → pueden ir a trabajo técnico o finales
+  STATUS_GROUPS.DIAGNOSTICO.forEach((status) => {
+    rules.set(status, [
+      status, // Mantener estado actual
+      ...STATUS_GROUPS.TRABAJO_TECNICO,
+      ...STATUS_GROUPS.FINALES_TECNICOS,
+    ]);
+  });
+
+  // Estados de trabajo técnico → pueden cambiar entre sí o ir a finales
+  STATUS_GROUPS.TRABAJO_TECNICO.forEach((status) => {
+    rules.set(status, [
+      status, // Mantener estado actual
+      ...STATUS_GROUPS.TRABAJO_TECNICO,
+      ...STATUS_GROUPS.FINALES_TECNICOS,
+    ]);
+  });
+
+  // Estados finales técnicos → pueden ir a cierre logístico (solo en ficha ingreso)
+  STATUS_GROUPS.FINALES_TECNICOS.forEach((status) => {
+    rules.set(status, [status]); // Por defecto solo se mantienen
+  });
+
+  return rules;
+};
+
+/**
+ * Genera reglas específicas para ficha de ingreso
+ */
+const createFichaIngresoRules = () => {
+  const baseRules = createTransitionRules();
+  const fichaIngresoRules = new Map(baseRules);
+
+  // Los estados finales técnicos pueden avanzar al cierre logístico
+  STATUS_GROUPS.FINALES_TECNICOS.forEach((status) => {
+    fichaIngresoRules.set(status, [status, ...STATUS_GROUPS.CIERRE_LOGISTICO]);
+  });
+
+  // Estados de cierre logístico siguen su flujo natural
+  fichaIngresoRules.set(STATUS.LISTO_PARA_RETIRAR, [
+    STATUS.LISTO_PARA_RETIRAR,
+    STATUS.RETIRADO,
+    STATUS.FINALIZADO,
+  ]);
+
+  fichaIngresoRules.set(STATUS.RETIRADO, [STATUS.RETIRADO, STATUS.FINALIZADO]);
+
+  fichaIngresoRules.set(STATUS.FINALIZADO, [STATUS.FINALIZADO]);
+
+  // Estados técnicos en ficha ingreso son de solo lectura (no cambian)
+  [
+    STATUS.INGRESADO,
+    STATUS.DIAGNOSTICO_PENDIENTE,
+    STATUS.EN_ESPERA_REPUESTO,
+    STATUS.EN_REPARACION,
+  ].forEach((status) => {
+    fichaIngresoRules.set(status, [status]);
+  });
+
+  return fichaIngresoRules;
+};
+
+// ===== REGLAS EXPORTADAS =====
+export const FICHA_TECNICA_TRANSITION_RULES = createTransitionRules();
+export const FICHA_INGRESO_TRANSITION_RULES = createFichaIngresoRules();
+
+// ===== CONTEXTOS PERMITIDOS =====
+export const ALLOWED_STATES_BY_CONTEXT = Object.freeze({
   ficha_tecnica: [
-    "en reparación",
-    "en reparacion",
-    "en espera de repuesto",
-    "en espera de repuestos",
-    "diagnóstico pendiente",
-    "diagnostico pendiente",
-    "reparado",
-    "se recomienda baja",
-    "en reparación externa",
-    "en reparacion externa",
-    "sin reparación",
-    "sin reparacion",
+    ...STATUS_GROUPS.TRABAJO_TECNICO,
+    ...STATUS_GROUPS.DIAGNOSTICO,
+    ...STATUS_GROUPS.FINALES_TECNICOS,
   ],
 
-  ficha_ingreso_creation: ["ingresado"],
+  ficha_ingreso_creation: STATUS_GROUPS.INICIAL,
 
   ficha_ingreso_edition: [
-    "diagnóstico pendiente",
-    "en espera de repuesto",
-    "en reparación",
-    "en reparación externa",
-    "finalizado",
-    "ingresado",
-    "listo para retirar",
-    "reparado",
-    "retirado",
-    "se recomienda baja",
-    "sin reparación",
+    ...STATUS_GROUPS.DIAGNOSTICO,
+    ...STATUS_GROUPS.TRABAJO_TECNICO,
+    ...STATUS_GROUPS.FINALES_TECNICOS,
+    ...STATUS_GROUPS.CIERRE_LOGISTICO,
+    ...STATUS_GROUPS.INICIAL,
   ],
-};
+});
 
-// Función helper para obtener transiciones por estado actual
+// ===== FUNCIONES OPTIMIZADAS =====
+
+/**
+ * Obtiene las transiciones permitidas para un estado actual
+ * Optimizada para mejor rendimiento
+ */
 export const getTransitionsByCurrentState = (
   currentStateName,
   context = "ficha_ingreso"
 ) => {
+  if (!currentStateName) return [];
+
+  const normalizedState = normalizeStatus(currentStateName);
   const rules =
     context === "ficha_tecnica"
       ? FICHA_TECNICA_TRANSITION_RULES
       : FICHA_INGRESO_TRANSITION_RULES;
 
-  const normalizedStateName = currentStateName?.toLowerCase() || "";
-
-  // Buscar las transiciones permitidas para el estado actual
-  for (const [key, transitions] of Object.entries(rules)) {
-    if (normalizedStateName.includes(key)) {
-      return transitions;
-    }
-  }
-
-  // Si no se encuentra regla específica, retornar array vacío
-  return [];
+  return rules.get(normalizedState) || [];
 };
 
-// Función helper para verificar si una transición es válida
+/**
+ * Verifica si una transición es válida
+ * Optimizada con búsqueda directa en lugar de iteración
+ */
 export const isValidTransition = (
   fromState,
   toState,
   context = "ficha_ingreso"
 ) => {
-  const allowedTransitions = getTransitionsByCurrentState(fromState, context);
-  const normalizedToState = toState?.toLowerCase() || "";
+  if (!fromState || !toState) return false;
 
-  return allowedTransitions.some((allowed) =>
-    normalizedToState.includes(allowed.toLowerCase())
-  );
+  const allowedTransitions = getTransitionsByCurrentState(fromState, context);
+  const normalizedToState = normalizeStatus(toState);
+
+  return allowedTransitions.includes(normalizedToState);
+};
+
+/**
+ * Obtiene información detallada sobre un estado
+ */
+export const getStatusInfo = (status) => {
+  const normalizedStatus = normalizeStatus(status);
+
+  for (const [groupName, statuses] of Object.entries(STATUS_GROUPS)) {
+    if (statuses.includes(normalizedStatus)) {
+      return {
+        status: normalizedStatus,
+        group: groupName,
+        isInitial: STATUS_GROUPS.INICIAL.includes(normalizedStatus),
+        isFinal:
+          STATUS_GROUPS.FINALES_TECNICOS.includes(normalizedStatus) ||
+          STATUS_GROUPS.CIERRE_LOGISTICO.includes(normalizedStatus),
+        isTechnical: STATUS_GROUPS.TRABAJO_TECNICO.includes(normalizedStatus),
+      };
+    }
+  }
+
+  return {
+    status: normalizedStatus,
+    group: "UNKNOWN",
+    isInitial: false,
+    isFinal: false,
+    isTechnical: false,
+  };
+};
+
+/**
+ * Valida si un estado es permitido en un contexto específico
+ */
+export const isStatusAllowedInContext = (status, context) => {
+  const normalizedStatus = normalizeStatus(status);
+  const allowedStates = ALLOWED_STATES_BY_CONTEXT[context] || [];
+
+  return allowedStates.includes(normalizedStatus);
 };
