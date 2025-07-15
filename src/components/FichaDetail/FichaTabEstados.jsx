@@ -22,7 +22,7 @@ export const FichaTabEstados = ({ fichaTecnicaById }) => {
                 >
                   <div className="flex flex-col">
                     <span className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                      Estado #{index + 1}
+                      Estado #{fichaTecnicaById.status_users.length - index}
                     </span>
                     <span className="font-medium text-sm">
                       {stateUser.status.name}
