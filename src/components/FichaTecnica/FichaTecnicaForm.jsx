@@ -152,6 +152,8 @@ export function FichaTecnicaForm() {
       // Mantener datos originales de la ficha de ingreso
       user_pc: data.user_pc,
       pass_pc: data.pass_pc,
+      contact_name: data.contact_name,
+      contact_phone: data.contact_phone,
       // Datos de resolución técnica
       tech_description: data.tech_description,
       assistance: data.assistance,
@@ -374,7 +376,7 @@ export function FichaTecnicaForm() {
                         <FormControl>
                           <Input
                             {...field}
-                            disabled={true}
+                            // disabled={true}
                             placeholder="Nombre completo"
                             className="text-lg font-bold bg-muted text-muted-foreground"
                           />
@@ -394,7 +396,7 @@ export function FichaTecnicaForm() {
                         <FormControl>
                           <Input
                             {...field}
-                            disabled={true}
+                            // disabled={true}
                             className="text-lg font-bold bg-muted text-muted-foreground"
                             placeholder="Número de teléfono"
                           />
