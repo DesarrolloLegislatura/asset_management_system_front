@@ -87,9 +87,13 @@ export const ContentPrintFichaSalida = ({ fichaTecnicaById, ingreso }) => {
             <span className="print:font-medium">Fecha Retiro: </span>
             <span>
               {fichaTecnicaById.date_out
-                ? new Date(fichaTecnicaById.date_out).toLocaleDateString(
-                    "es-AR"
-                  )
+                ? new Date(
+                    fichaTecnicaById.date_out + "T12:00:00"
+                  ).toLocaleDateString("es-AR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })
                 : "___/___/____"}
             </span>
           </p>

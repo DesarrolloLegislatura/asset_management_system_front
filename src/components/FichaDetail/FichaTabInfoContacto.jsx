@@ -44,14 +44,13 @@ export const FichaTabInfoContacto = ({ fichaTecnicaById }) => {
                 </span>
                 <span className="font-medium">
                   {fichaTecnicaById.date_out
-                    ? new Date(fichaTecnicaById.date_out).toLocaleDateString(
-                        "es-ES",
-                        {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        }
-                      )
+                    ? new Date(
+                        fichaTecnicaById.date_out + "T12:00:00"
+                      ).toLocaleDateString("es-AR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
                     : "-"}
                 </span>
               </div>

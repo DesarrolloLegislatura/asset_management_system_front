@@ -80,7 +80,15 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
               Fecha Ingreso:{" "}
             </span>
             <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.date_in || "Sin Datos"}
+              {fichaTecnicaById.date_in
+                ? new Date(
+                    fichaTecnicaById.date_in + "T12:00:00"
+                  ).toLocaleDateString("es-AR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })
+                : "___/___/____"}
             </span>
           </div>
           <div className="p-2 print:p-1">
@@ -90,7 +98,7 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
             <span className="font-light print:text-black print:font-normal">
               {fichaTecnicaById.act_simple
                 ? `${fichaTecnicaById.act_simple}/${fichaTecnicaById.year_act_simple}`
-                : "Sin Datos"}
+                : "___/____"}
             </span>
           </div>
         </div>

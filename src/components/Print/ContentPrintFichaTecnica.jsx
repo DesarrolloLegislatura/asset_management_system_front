@@ -99,14 +99,13 @@ export const ContentPrintFichaTecnica = ({ fichaTecnicaById }) => {
             </span>
             <span className="font-light print:text-black print:font-normal">
               {fichaTecnicaById.date_in
-                ? new Date(fichaTecnicaById.date_in).toLocaleDateString(
-                    "es-ES",
-                    {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    }
-                  )
+                ? new Date(
+                    fichaTecnicaById.date_in + "T12:00:00"
+                  ).toLocaleDateString("es-AR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })
                 : "-"}
             </span>
           </div>
