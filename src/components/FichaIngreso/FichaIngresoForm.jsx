@@ -307,7 +307,7 @@ export function FichaIngresoForm() {
                               </div>
                               <div className="col-span-1">
                                 <Link
-                                  to="http://192.168.200.41:9002/sab/asset/assets/add/"
+                                  to={import.meta.env.VITE_URL_SAB_ADD}
                                   target="_blank"
                                   className="flex items-center justify-center h-full bg-muted/50 rounded-md p-1"
                                 >
