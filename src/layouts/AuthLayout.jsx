@@ -1,4 +1,4 @@
-import { Cpu } from "lucide-react";
+import { FilePenLine } from "lucide-react";
 import { Outlet } from "react-router";
 import { useThemeWatcher } from "@/hooks/useThemeWatcher";
 
@@ -11,8 +11,8 @@ export const AuthLayout = () => {
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="#" className="flex items-center gap-2 font-medium">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <Cpu className="size-4" />
+            <div className="flex h-6 w-6 items-center justify-center  text-primary">
+              <FilePenLine size={24} />
             </div>
             Ficha Tecnica
           </a>
