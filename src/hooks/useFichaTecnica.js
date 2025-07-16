@@ -101,6 +101,42 @@ export const useFichaTecnica = (autoFetch = false) => {
     }
   }, [autoFetch, fetchAllFichasTecnicas]);
 
+  // Polling para actualizaciones automáticas
+  useEffect(() => {
+    if (!autoFetch) return;
+
+    const interval = setInterval(() => {
+      // Solo refrescar si no hay una operación en curso
+      if (!state.loading) {
+        fetchAllFichasTecnicas();
+      }
+    }, 30000); // Refrescar cada 30 segundos
+
+    return () => clearInterval(interval);
+  }, [autoFetch, fetchAllFichasTecnicas, state.loading]);
+
+  // Refrescar cuando el usuario vuelve a la pestaña
+  useEffect(() => {
+    if (!autoFetch) return;
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden && !state.loading) {
+        fetchAllFichasTecnicas();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, [autoFetch, fetchAllFichasTecnicas, state.loading]);
+
+  // Función para refrescar datos manualmente
+  const refreshData = useCallback(async () => {
+    if (autoFetch) {
+      await fetchAllFichasTecnicas();
+    }
+  }, [autoFetch, fetchAllFichasTecnicas]);
+
   return {
     fichasTecnicas: state.fichasTecnicas,
     fichaTecnicaById: state.fichaTecnicaById,
@@ -110,5 +146,6 @@ export const useFichaTecnica = (autoFetch = false) => {
     fetchAllFichasTecnicas,
     fetchByIdFichaTecnica,
     updateFichaTecnica,
+    refreshData,
   };
 };

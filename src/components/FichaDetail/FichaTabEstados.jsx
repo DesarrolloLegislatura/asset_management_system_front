@@ -48,13 +48,14 @@ export const FichaTabEstados = ({ fichaTecnicaById }) => {
                     </div>
                     <span className="text-sm font-medium">
                       {stateUser.createdat
-                        ? new Date(
-                            stateUser.createdat + "T12:00:00"
-                          ).toLocaleDateString("es-AR", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                          })
+                        ? new Date(stateUser.createdat).toLocaleDateString(
+                            "es-AR",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            }
+                          )
                         : "-"}
                     </span>
                   </div>

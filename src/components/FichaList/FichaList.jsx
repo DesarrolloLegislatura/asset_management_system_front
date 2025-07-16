@@ -25,7 +25,7 @@ const ADMINISTRATIVO_STATUSES = ["REPARADO", "INGRESADO"];
 
 export const FichaList = () => {
   const navigate = useNavigate();
-  const { fichasTecnicas, loading } = useFichaTecnica(true);
+  const { fichasTecnicas, loading, refreshData } = useFichaTecnica(true);
 
   const { userGroup, hasPermission } = usePermission();
   const [sorting, setSorting] = useState([
@@ -459,6 +459,7 @@ export const FichaList = () => {
           clearAllFilters={clearAllFilters}
           handleCreateFicha={handleCreateFicha}
           hasPermission={hasPermission}
+          refreshData={refreshData}
         />
 
         <FichaListPaginate
