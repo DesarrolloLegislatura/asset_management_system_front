@@ -33,9 +33,9 @@ export function Navbar() {
       <div className="flex items-center justify-between w-full">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded bg-primary/10 flex items-center justify-center">
+          <div className="w-8 h-8 rounded  flex items-center justify-center">
             <span className="text-primary font-bold">
-              <FilePenLine />
+              <FilePenLine className="text-green-600" />
             </span>
           </div>
           <h1 className="text-xl font-bold hidden md:block">

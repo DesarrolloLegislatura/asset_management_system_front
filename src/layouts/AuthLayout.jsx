@@ -11,8 +11,8 @@ export const AuthLayout = () => {
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="#" className="flex items-center gap-2 font-medium">
-            <div className="flex h-6 w-6 items-center justify-center  text-primary">
-              <FilePenLine size={24} />
+            <div className="flex h-10 w-10 items-center justify-center  text-primary">
+              <FilePenLine size={34} className="text-green-600" />
             </div>
             Ficha Tecnica
           </a>

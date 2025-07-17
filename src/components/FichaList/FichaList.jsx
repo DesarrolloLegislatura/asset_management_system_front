@@ -412,7 +412,8 @@ export const FichaList = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto max-h-dvh overflow-y-auto">
+    // max-h-dvh
+    <div className="max-w-6xl mx-auto overflow-y-auto">
       <div className="mb-6">
         <h2 className="text-2xl font-bold tracking-tight">
           Lista de Fichas de Ingreso
