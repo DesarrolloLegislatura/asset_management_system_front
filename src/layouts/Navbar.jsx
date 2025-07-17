@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu, User, LogOut, FilePenLine } from "lucide-react";
+import { Menu, User, LogOut, FilePenLine, ExternalLink } from "lucide-react";
 import { Sidebar } from "./Sidebar";
 import { useAuthStore } from "@/store/authStore";
 import { useNavigate } from "react-router";
@@ -22,6 +22,10 @@ export function Navbar() {
   const handleLogout = () => {
     clearAuth();
     navigate("/auth/login", { replace: true });
+  };
+
+  const handleSabClick = () => {
+    window.open(import.meta.env.VITE_URL_SAB, "_blank");
   };
 
   return (
@@ -44,6 +48,24 @@ export function Navbar() {
 
         {/* User Menu & Mobile Menu */}
         <div className="flex items-center gap-4">
+          {/* SAB Button - Tamaño sm con estilos modernos */}
+          <Button
+            size="sm"
+            onClick={handleSabClick}
+            className="hidden sm:flex items-center gap-1 relative overflow-hidden
+                     bg-gradient-to-r from-emerald-500 to-teal-600 
+                     dark:from-emerald-400 dark:to-teal-500
+                     text-white shadow-lg 
+                     hover:from-emerald-600 hover:to-teal-700
+                     dark:hover:from-emerald-500 dark:hover:to-teal-600
+                     cursor-pointer
+                    "
+            title="Acceder al Sistema SAB"
+          >
+            <ExternalLink className="h-4 w-4 drop-shadow-sm" />
+            <span className="hidden md:inline drop-shadow-sm">SAB</span>
+          </Button>
+
           {/* Theme Toggle */}
           <ThemeToggle />
 
@@ -74,6 +96,31 @@ export function Navbar() {
               </SheetHeader>
 
               <div className="px-6 py-4">
+                {/* SAB Button for Mobile - Tamaño default con estilos modernos */}
+                <div className="mb-4 pb-4 ">
+                  <Button
+                    size="default"
+                    onClick={handleSabClick}
+                    className="w-full relative overflow-hidden group
+                             bg-gradient-to-r from-emerald-500 to-teal-600 
+                             dark:from-emerald-400 dark:to-teal-500
+                             text-white shadow-lg 
+                             hover:from-emerald-600 hover:to-teal-700
+                             dark:hover:from-emerald-500 dark:hover:to-teal-600
+                           focus:ring-emerald-400 
+                             dark:focus:ring-emerald-300 cursor-pointer"
+                  >
+                    <ExternalLink className="mr-2 h-4 w-4 drop-shadow-sm z-10" />
+                    <span className="drop-shadow-sm z-10">Acceder a SAB</span>
+                    {/* Efecto de brillo animado */}
+                    <div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent 
+                                  transform -skew-x-12 -translate-x-full group-hover:translate-x-full 
+                                  transition-transform duration-700 ease-in-out"
+                    />
+                  </Button>
+                </div>
+
                 {/* Sidebar Navigation */}
                 <Sidebar />
 

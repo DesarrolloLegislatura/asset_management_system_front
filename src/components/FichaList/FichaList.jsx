@@ -250,10 +250,7 @@ export const FichaList = () => {
       accessorKey: "asset.area.name",
       header: "Área",
     },
-    {
-      accessorKey: "asset.building.name",
-      header: "Edificio",
-    },
+
     {
       id: "actions",
       header: "Acciones",
