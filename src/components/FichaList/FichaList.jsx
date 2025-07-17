@@ -153,6 +153,11 @@ export const FichaList = () => {
       id: "asset.inventory",
       header: "N° de Inventario",
     },
+
+    {
+      accessorKey: "asset.typeasset.name",
+      header: "Tipo de Equipo",
+    },
     {
       accessorKey: "date_in",
       header: "Fecha Ingreso",

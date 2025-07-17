@@ -55,30 +55,6 @@ export const FichaListFilter = ({
         {/* Primera fila de filtros */}
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Filtro por Numero de Ficha el cual es el ID de la ficha */}
-          <div className="flex-1 max-w-sm">
-            <label className="text-xs font-medium text-muted-foreground mb-1 block">
-              Número de Ficha
-            </label>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input
-                placeholder="Buscar por N° de Ficha..."
-                value={fichaNumberFilter}
-                onChange={(e) => setFichaNumberFilter(e.target.value)}
-                className="pl-9 pr-9"
-              />
-              {fichaNumberFilter && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={clearFichaNumberFilter}
-                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 hover:bg-muted"
-                >
-                  <X className="h-3 w-3" />
-                </Button>
-              )}
-            </div>
-          </div>
 
           {/* Filtro por número de inventario */}
           <div className="flex-1 max-w-sm">
@@ -98,6 +74,31 @@ export const FichaListFilter = ({
                   variant="ghost"
                   size="sm"
                   onClick={clearInventoryFilter}
+                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 hover:bg-muted"
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              )}
+            </div>
+          </div>
+
+          <div className="flex-1 max-w-sm">
+            <label className="text-xs font-medium text-muted-foreground mb-1 block">
+              Número de Ficha
+            </label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Input
+                placeholder="Buscar por N° de Ficha..."
+                value={fichaNumberFilter}
+                onChange={(e) => setFichaNumberFilter(e.target.value)}
+                className="pl-9 pr-9"
+              />
+              {fichaNumberFilter && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearFichaNumberFilter}
                   className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 hover:bg-muted"
                 >
                   <X className="h-3 w-3" />

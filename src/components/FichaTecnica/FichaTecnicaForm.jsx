@@ -24,8 +24,8 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ChevronDown, ChevronUp, Loader2 } from "lucide-react";
-import { ASSISTANCE_TYPES } from "@/constants/assistance";
+import { ChevronDown, ChevronUp, Loader2, Edit } from "lucide-react";
+// import { ASSISTANCE_TYPES } from "@/constants/assistance";
 import { LoadingPage } from "../Pages/LoadingPage";
 
 export function FichaTecnicaForm() {
@@ -55,7 +55,7 @@ export function FichaTecnicaForm() {
     contact_phone: "",
     means_application: "",
     status: "",
-    assistance: "",
+    // assistance: "",
     weighting: "",
     tech_description: "",
   };
@@ -127,7 +127,7 @@ export function FichaTecnicaForm() {
         means_application: fichaData.means_application || "",
         // Campos de Resolución Técnica - MEJORADO
         status: statusId?.toString() || "",
-        assistance: fichaData.assistance || "",
+        // assistance: fichaData.assistance || "",
         weighting: fichaData.asset?.weighting?.name || "",
         tech_description: fichaData.tech_description || "",
       };
@@ -153,7 +153,7 @@ export function FichaTecnicaForm() {
   useEffect(() => {
     if (fichaTecnicaById && currentStatusId && availableStatus.length > 0) {
       const statusId = fichaTecnicaById.status_users[0].status.id;
-      const assistance = fichaTecnicaById.assistance;
+      // const assistance = fichaTecnicaById.assistance;
 
       // Validar que el estado actual esté en los estados disponibles
       const isStatusAvailable = availableStatus.some(
@@ -163,15 +163,15 @@ export function FichaTecnicaForm() {
       if (isStatusAvailable) {
         // Actualizar solo los campos problemáticos si no están correctamente establecidos
         const currentFormStatus = watch("status");
-        const currentFormAssistance = watch("assistance");
+        // const currentFormAssistance = watch("assistance");
 
         if (currentFormStatus !== statusId.toString()) {
           form.setValue("status", statusId.toString());
         }
 
-        if (currentFormAssistance !== assistance && assistance) {
-          form.setValue("assistance", assistance);
-        }
+        // if (currentFormAssistance !== assistance && assistance) {
+        //   form.setValue("assistance", assistance);
+        // }
       }
     }
   }, [currentStatusId, availableStatus, fichaTecnicaById, form, watch]);
@@ -187,7 +187,7 @@ export function FichaTecnicaForm() {
       contact_phone: data.contact_phone,
       // Datos de resolución técnica
       tech_description: data.tech_description,
-      assistance: data.assistance,
+      // assistance: data.assistance,
       status: [parseInt(data.status)],
       users: [user.id],
       asset: fichaTecnicaById?.asset?.id || null,
@@ -216,7 +216,7 @@ export function FichaTecnicaForm() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-6">
+    <div className="max-w-5xl mx-auto px-4 py-2">
       <div className="mb-6">
         <h1 className="text-2xl font-bold tracking-tight">
           Resolución Técnica - Ficha N° {idFichaIngreso}
@@ -229,7 +229,7 @@ export function FichaTecnicaForm() {
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Sección: Información del Equipo (Solo lectura si es modo edición) */}
-          <Card className="form-container">
+          <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2">
@@ -239,24 +239,27 @@ export function FichaTecnicaForm() {
                     Solo lectura
                   </Badge>
                 </CardTitle>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={toggleInfoSection}
-                >
-                  {isInfoSectionOpen ? (
-                    <ChevronUp className="h-4 w-4" />
-                  ) : (
-                    <ChevronDown className="h-4 w-4" />
-                  )}
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={toggleInfoSection}
+                    className="text-slate-600 hover:text-slate-800 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 transition-colors"
+                  >
+                    {isInfoSectionOpen ? (
+                      <ChevronUp className="h-4 w-4" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </div>
             </CardHeader>
 
             {isInfoSectionOpen && (
               <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   {/* Número de Inventario */}
                   <FormField
                     control={control}
@@ -292,6 +295,22 @@ export function FichaTecnicaForm() {
                             placeholder="Tipo de bien"
                           />
                         </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="weighting"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Ponderación</FormLabel>
+                        <Input
+                          {...field}
+                          disabled={true}
+                          className="bg-muted"
+                          placeholder="Ponderación"
+                        />
                         <FormMessage />
                       </FormItem>
                     )}
@@ -405,48 +424,6 @@ export function FichaTecnicaForm() {
                     </FormItem>
                   )}
                 />
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* Contacto Nombre */}
-                  <FormField
-                    control={control}
-                    name="contact_name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nombre de Contacto</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            // disabled={true}
-                            placeholder="Nombre completo"
-                            className="text-lg font-bold bg-muted text-muted-foreground"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Teléfono Contacto */}
-                  <FormField
-                    control={control}
-                    name="contact_phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Teléfono de Contacto</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            // disabled={true}
-                            className="text-lg font-bold bg-muted text-muted-foreground"
-                            placeholder="Número de teléfono"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
               </CardContent>
             )}
           </Card>
@@ -459,6 +436,32 @@ export function FichaTecnicaForm() {
                   <span className="text-green-600">🔧</span>
                   Resolución Técnica
                 </CardTitle>
+                <div className="flex items-center gap-2">
+                  {fichaTecnicaById?.asset?.id && (
+                    <div className="flex justify-end items-end col-span-3">
+                      <Button
+                        type="button"
+                        size="sm"
+                        onClick={() => {
+                          const editUrl = `${
+                            import.meta.env.VITE_URL_SAB_EDIT_ASSET
+                          }${fichaTecnicaById.asset.id}/change/`;
+                          window.open(editUrl, "_blank");
+                        }}
+                        className="flex items-center gap-2 relative overflow-hidden
+                               bg-gradient-to-r from-emerald-500 to-teal-600 
+                               dark:from-emerald-400 dark:to-teal-500
+                               text-white shadow-lg 
+                               hover:from-emerald-600 hover:to-teal-700
+                               dark:hover:from-emerald-500 dark:hover:to-teal-600
+                               cursor-pointer h-10"
+                      >
+                        <Edit className="h-4 w-4 drop-shadow-sm" />
+                        Modificar Información del Bien dentro de SAB
+                      </Button>
+                    </div>
+                  )}
+                </div>
               </div>
             </CardHeader>
 
@@ -514,7 +517,7 @@ export function FichaTecnicaForm() {
                 />
 
                 {/* Asistido */}
-                <FormField
+                {/* <FormField
                   control={control}
                   name="assistance"
                   render={({ field }) => (
@@ -550,26 +553,11 @@ export function FichaTecnicaForm() {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
-                {/* Ponderación */}
-                <FormField
-                  control={control}
-                  name="weighting"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Ponderación</FormLabel>
-                      <Input
-                        {...field}
-                        disabled={true}
-                        className="bg-muted"
-                        placeholder="Ponderación"
-                      />
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                {/* Botón Modificar Información del Bien */}
               </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Usuario PC */}
                 <FormField
@@ -624,6 +612,41 @@ export function FichaTecnicaForm() {
                   </FormItem>
                 )}
               />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Contacto Nombre */}
+                <FormField
+                  control={control}
+                  name="contact_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nombre de Contacto</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          // disabled={true}
+                          placeholder="Nombre completo"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Teléfono Contacto */}
+                <FormField
+                  control={control}
+                  name="contact_phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Teléfono de Contacto</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="Número de teléfono" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </CardContent>
           </Card>
 

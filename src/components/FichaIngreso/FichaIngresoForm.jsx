@@ -62,7 +62,7 @@ export function FichaIngresoForm() {
       user_description: "",
       contact_name: "",
       contact_phone: "",
-      means_application: "",
+      means_application: "mostrador", // Cambiado de "🏢 Mostrador" a "mostrador"
       status: "1",
       date_out: "",
       retired_by: "",
