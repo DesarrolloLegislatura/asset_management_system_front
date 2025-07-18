@@ -157,24 +157,29 @@ export const ContentPrintFichaTecnica = ({ fichaTecnicaById }) => {
           </h3>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 print:gap-1 print:text-[11px] print:border print:border-black">
-          <div className="p-2 print:p-1 print:border-r print:border-black">
-            <span className="font-bold print:text-black print:font-bold">
-              Tipo de Asistencia:{" "}
-            </span>
-            <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.assistance || "-"}
-            </span>
-          </div>
-          <div className="p-2 print:p-1">
-            <span className="font-bold print:text-black print:font-bold">
-              Ponderación:{" "}
-            </span>
-            <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.ponderacion || "-"}
-            </span>
-          </div>
-        </div>
+        {fichaTecnicaById.status_users[0].status.name !==
+          FICHA_STATUS.EN_REPARACION_EXTERNA && (
+          <>
+            <div className="grid grid-cols-2 gap-4 print:gap-1 print:text-[11px] print:border print:border-black">
+              <div className="p-2 print:p-1 print:border-r print:border-black">
+                <span className="font-bold print:text-black print:font-bold">
+                  Tipo de Asistencia:{" "}
+                </span>
+                <span className="font-light print:text-black print:font-normal">
+                  {fichaTecnicaById.assistance || "-"}
+                </span>
+              </div>
+              <div className="p-2 print:p-1">
+                <span className="font-bold print:text-black print:font-bold">
+                  Ponderación:{" "}
+                </span>
+                <span className="font-light print:text-black print:font-normal">
+                  {fichaTecnicaById.ponderacion || "-"}
+                </span>
+              </div>
+            </div>
+          </>
+        )}
 
         {/* Descripción técnica con mejor formato */}
         <div className="mb-3 p-2 print:mb-[6px] print:text-[11px] print:p-0">
