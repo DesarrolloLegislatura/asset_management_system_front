@@ -525,7 +525,7 @@ export function FichaIngresoForm() {
                       )}
                     />
 
-                    {/* Campos condicionales para cuando el estado es "Retirado" */}
+                    {/* Campos condicionales para cuando el estado es "Retirado" o "En reparación externa" */}
                     {(() => {
                       const currentState = availableStatus.find(
                         (status) => status.id === parseInt(form.watch("status"))
@@ -533,9 +533,12 @@ export function FichaIngresoForm() {
                       const isRetirado = currentState?.name
                         ?.toLowerCase()
                         .includes("retirado");
+                      const isEnReparacionExterna = currentState?.name
+                        ?.toLowerCase()
+                        .includes("reparación externa");
 
                       return (
-                        isRetirado && (
+                        (isRetirado || isEnReparacionExterna) && (
                           <>
                             {/* Fecha de salida */}
                             <FormField
@@ -543,7 +546,11 @@ export function FichaIngresoForm() {
                               name="date_out"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Fecha Retiro</FormLabel>
+                                  <FormLabel>
+                                    {isRetirado
+                                      ? "Fecha Retiro"
+                                      : "Fecha Salida"}
+                                  </FormLabel>
                                   <FormControl>
                                     <Input
                                       type="date"
@@ -566,12 +573,16 @@ export function FichaIngresoForm() {
                               name="retired_by"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Retirado por</FormLabel>
+                                  <FormLabel>{"Retirado por"}</FormLabel>
                                   <FormControl>
                                     <Input
                                       {...field}
                                       className="w-full"
-                                      placeholder="Ingrese el nombre del agente que retiró el bien"
+                                      placeholder={
+                                        isRetirado
+                                          ? "Ingrese el nombre del agente que retiró el bien"
+                                          : "Ingrese el nombre de la empresa/persona que retiro el bien"
+                                      }
                                     />
                                   </FormControl>
                                   <FormMessage />

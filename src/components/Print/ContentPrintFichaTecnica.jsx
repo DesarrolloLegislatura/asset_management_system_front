@@ -1,4 +1,5 @@
 import { Computer } from "lucide-react";
+import FICHA_STATUS from "../../constants/statusFicha";
 
 export const ContentPrintFichaTecnica = ({ fichaTecnicaById }) => {
   console.log("fichaTecnicaById", fichaTecnicaById);
@@ -92,53 +93,58 @@ export const ContentPrintFichaTecnica = ({ fichaTecnicaById }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 print:gap-1 mb-3 print:mb-[4px] print:text-[11px] print:border print:border-black print:border-t-0">
-          <div className="p-2 print:p-1 print:border-r print:border-black">
-            <span className="font-bold print:text-black print:font-bold">
-              Fecha Ingreso:{" "}
-            </span>
-            <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.date_in
-                ? new Date(
-                    fichaTecnicaById.date_in + "T12:00:00"
-                  ).toLocaleDateString("es-AR", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })
-                : "-"}
-            </span>
-          </div>
-          <div className="p-2 print:p-1">
-            <span className="font-bold print:text-black print:font-bold">
-              Actuación Simple:{" "}
-            </span>
-            <span className="font-light print:text-black print:font-normal">
-              {`${fichaTecnicaById.act_simple || "-"}/${
-                fichaTecnicaById.year_act_simple || "-"
-              }`}
-            </span>
-          </div>
-        </div>
+        {fichaTecnicaById.status_users[0].status.name !==
+          FICHA_STATUS.EN_REPARACION_EXTERNA && (
+          <>
+            <div className="grid grid-cols-2 gap-4 print:gap-1 mb-3 print:mb-[4px] print:text-[11px] print:border print:border-black print:border-t-0">
+              <div className="p-2 print:p-1 print:border-r print:border-black">
+                <span className="font-bold print:text-black print:font-bold">
+                  Fecha Ingreso:{" "}
+                </span>
+                <span className="font-light print:text-black print:font-normal">
+                  {fichaTecnicaById.date_in
+                    ? new Date(
+                        fichaTecnicaById.date_in + "T12:00:00"
+                      ).toLocaleDateString("es-AR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                    : "-"}
+                </span>
+              </div>
+              <div className="p-2 print:p-1">
+                <span className="font-bold print:text-black print:font-bold">
+                  Actuación Simple:{" "}
+                </span>
+                <span className="font-light print:text-black print:font-normal">
+                  {`${fichaTecnicaById.act_simple || "-"}/${
+                    fichaTecnicaById.year_act_simple || "-"
+                  }`}
+                </span>
+              </div>
+            </div>
 
-        <div className="grid grid-cols-2 gap-4 print:gap-1 mb-3 print:mb-[6px] print:text-[11px] print:border print:border-black print:border-t-0">
-          <div className="p-2 print:p-1 print:border-r print:border-black">
-            <span className="font-bold print:text-black print:font-bold">
-              Usuario PC:
-            </span>
-            <span className="print:text-black print:font-normal">
-              {fichaTecnicaById.user_pc || "-"}
-            </span>
-          </div>
-          <div className="p-2 print:p-1">
-            <span className="font-bold print:text-black print:font-bold">
-              Contraseña PC:
-            </span>
-            <span className="font-light print:text-black print:font-normal">
-              {fichaTecnicaById.pass_pc || "-"}
-            </span>
-          </div>
-        </div>
+            <div className="grid grid-cols-2 gap-4 print:gap-1 mb-3 print:mb-[6px] print:text-[11px] print:border print:border-black print:border-t-0">
+              <div className="p-2 print:p-1 print:border-r print:border-black">
+                <span className="font-bold print:text-black print:font-bold">
+                  Usuario PC:
+                </span>
+                <span className="print:text-black print:font-normal">
+                  {fichaTecnicaById.user_pc || "-"}
+                </span>
+              </div>
+              <div className="p-2 print:p-1">
+                <span className="font-bold print:text-black print:font-bold">
+                  Contraseña PC:
+                </span>
+                <span className="font-light print:text-black print:font-normal">
+                  {fichaTecnicaById.pass_pc || "-"}
+                </span>
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Sección de resolución técnica mejorada */}
@@ -173,7 +179,10 @@ export const ContentPrintFichaTecnica = ({ fichaTecnicaById }) => {
         {/* Descripción técnica con mejor formato */}
         <div className="mb-3 p-2 print:mb-[6px] print:text-[11px] print:p-0">
           <h3 className="font-bold mb-2 print:mb-[2px] print:text-black print:font-bold print:text-[12px]">
-            Descripción de la Resolución Técnica:
+            {fichaTecnicaById.status_users[0].status.name ===
+            FICHA_STATUS.EN_REPARACION_EXTERNA
+              ? "Descripción del Posible Problema:"
+              : "Descripción de la Resolución Técnica:"}
           </h3>
           <div className="border border-dotted border-gray-200 print:border-2 print:border-black print:border-solid rounded-sm p-2 print:p-2 print:min-h-[20mm]">
             <p className="text-justify print:pb-1 print:text-black print:leading-tight print:text-[10px]">

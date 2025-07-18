@@ -18,6 +18,11 @@ const FichaIngresoPrint = lazy(() =>
     default: module.FichaIngresoPrint,
   }))
 );
+const FichaSalidaExternaPrint = lazy(() =>
+  import("../FichaTecnica/FichaSalidaExternaPrint").then((module) => ({
+    default: module.FichaSalidaExternaPrint,
+  }))
+);
 
 export const FichaDetail = () => {
   const { idFichaIngreso } = useParams();
@@ -94,11 +99,15 @@ export const FichaDetail = () => {
               fichaTecnicaById.status_users[0].status.name.toLowerCase() !==
                 "en espera de repuesto" &&
               fichaTecnicaById.status_users[0].status.name.toLowerCase() !==
-                "en reparacion" &&
+                "en reparación externa" &&
               fichaTecnicaById.status_users[0].status.name.toLowerCase() !==
                 "diagnóstico pendiente" && (
                 <FichaTecnicaPrint fichaTecnicaById={fichaTecnicaById} />
               )}
+            {fichaTecnicaById.status_users[0].status.name.toLowerCase() ===
+              "en reparación externa" && (
+              <FichaSalidaExternaPrint fichaTecnicaById={fichaTecnicaById} />
+            )}
           </div>
         </div>
         <FichaDetailTable fichaTecnicaById={fichaTecnicaById} group={group} />
