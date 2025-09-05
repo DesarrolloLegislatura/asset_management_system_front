@@ -537,8 +537,14 @@ export function FichaIngresoForm() {
                         ?.toLowerCase()
                         .includes("reparación externa");
 
+                      const isReasignado = currentState?.name
+                        ?.toLowerCase()
+                        .includes("reasignar");
+
                       return (
-                        (isRetirado || isEnReparacionExterna) && (
+                        (isRetirado ||
+                          isEnReparacionExterna ||
+                          isReasignado) && (
                           <>
                             {/* Fecha de salida */}
                             <FormField
