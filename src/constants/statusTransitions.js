@@ -31,11 +31,12 @@ export const STATUS = Object.freeze({
   LISTO_PARA_RETIRAR: "listo para retirar",
   RETIRADO: "retirado",
   FINALIZADO: "finalizado",
+  REASIGNAR: "reasignar",
 });
 
 // ===== GRUPOS DE ESTADOS =====
 const STATUS_GROUPS = Object.freeze({
-  INICIAL: [STATUS.INGRESADO],
+  INICIAL: [STATUS.INGRESADO, STATUS.REASIGNAR, STATUS.RETIRADO],
 
   DIAGNOSTICO: [STATUS.DIAGNOSTICO_PENDIENTE],
 
@@ -181,7 +182,7 @@ export const ALLOWED_STATES_BY_CONTEXT = Object.freeze({
     ...STATUS_GROUPS.FINALES_TECNICOS,
   ],
 
-  ficha_ingreso_creation: STATUS_GROUPS.INICIAL,
+  ficha_ingreso_creation: [...STATUS_GROUPS.INICIAL],
 
   ficha_ingreso_edition: [
     ...STATUS_GROUPS.DIAGNOSTICO,

@@ -44,10 +44,14 @@ export const useStatus = () => {
   const getFichaIngresoStatesWithFlow = useMemo(() => {
     return (isCreating = false, currentStatusId = null) => {
       if (isCreating) {
-        // Al crear: solo "Ingresado"
-        return status.filter((estado) =>
-          estado.name.toLowerCase().includes("ingresado")
-        );
+        // Al crear: permitir "Ingresado" y "Reasignar"
+        return status.filter((estado) => {
+          const nombreEstado = estado.name.toLowerCase();
+          return (
+            nombreEstado.includes("ingresado") ||
+            nombreEstado.includes("reasignar")
+          );
+        });
       } else {
         // En modo edición: mostrar estado actual + posibles transiciones
         const currentStatus = status.find((s) => s.id === currentStatusId);
