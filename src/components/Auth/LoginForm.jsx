@@ -101,7 +101,7 @@ export function LoginForm({ className, ...props }) {
           <Input
             id="username"
             type="text"
-            placeholder="ohpallud"
+            placeholder="usuario"
             autoComplete="username"
             aria-invalid={!!errors.username}
             aria-describedby="username-error"
