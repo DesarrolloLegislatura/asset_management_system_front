@@ -218,7 +218,7 @@ export const FichaList = () => {
           <Badge
             variant="outline"
             className={`capitalize whitespace-nowrap px-3 py-1.5 text-xs font-medium ${getStatusStyles(
-              estado
+              estado,
             )}`}
           >
             {estado}
@@ -252,7 +252,7 @@ export const FichaList = () => {
       },
     },
     {
-      accessorKey: "asset.area.name",
+      accessorKey: "area.name",
       header: "Área",
     },
 

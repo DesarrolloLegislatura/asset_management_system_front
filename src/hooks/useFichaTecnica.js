@@ -83,7 +83,7 @@ export const useFichaTecnica = (autoFetch = false) => {
     try {
       const response = await fichaTecnicaService.update(
         idFicha,
-        datosActualizados
+        datosActualizados,
       );
       return response.data;
     } catch (error) {
@@ -110,7 +110,7 @@ export const useFichaTecnica = (autoFetch = false) => {
       if (!state.loading) {
         fetchAllFichasTecnicas();
       }
-    }, 30000); // Refrescar cada 30 segundos
+    }, 300000000); // Refrescar cada 3 min
 
     return () => clearInterval(interval);
   }, [autoFetch, fetchAllFichasTecnicas, state.loading]);

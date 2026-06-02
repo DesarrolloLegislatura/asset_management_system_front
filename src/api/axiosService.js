@@ -6,7 +6,7 @@ const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 const axiosService = axios.create({
   baseURL: VITE_API_URL,
-  timeout: 10000,
+  timeout: 100000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -18,7 +18,7 @@ axiosService.interceptors.request.use(
     // Rutas que no requieren token (para login/registro)
     const publicRoutes = ["/auth/login", "/auth/register"];
     const isPublicRoute = publicRoutes.some((route) =>
-      config.url.includes(route)
+      config.url.includes(route),
     );
 
     if (!isPublicRoute) {
@@ -56,7 +56,7 @@ axiosService.interceptors.request.use(
   (error) => {
     console.error("Error en la solicitud:", error);
     return Promise.reject(error);
-  }
+  },
 );
 
 // Respuesta: capturar 401 para intentar refresh automáticamente
@@ -123,7 +123,7 @@ axiosService.interceptors.response.use(
     } finally {
       isRefreshing = false;
     }
-  }
+  },
 );
 
 export default axiosService;

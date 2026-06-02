@@ -11,17 +11,17 @@ import NotFound from "../Pages/NotFoundPage";
 const FichaTecnicaPrint = lazy(() =>
   import("../FichaTecnica/FichaTecnicaPrint").then((module) => ({
     default: module.FichaTecnicaPrint,
-  }))
+  })),
 );
 const FichaIngresoPrint = lazy(() =>
   import("../FichaIngreso/FichaIngresoPrint").then((module) => ({
     default: module.FichaIngresoPrint,
-  }))
+  })),
 );
 const FichaSalidaExternaPrint = lazy(() =>
   import("../FichaTecnica/FichaSalidaExternaPrint").then((module) => ({
     default: module.FichaSalidaExternaPrint,
-  }))
+  })),
 );
 
 export const FichaDetail = () => {
@@ -76,7 +76,7 @@ export const FichaDetail = () => {
               Registro de ficha de ingreso{" "}
               {fichaTecnicaById.date_in
                 ? ` • ${new Date(
-                    fichaTecnicaById.date_in + "T12:00:00"
+                    fichaTecnicaById.date_in + "T12:00:00",
                   ).toLocaleDateString("es-AR", {
                     day: "2-digit",
                     month: "2-digit",
