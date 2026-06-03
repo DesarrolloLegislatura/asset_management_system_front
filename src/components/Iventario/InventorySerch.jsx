@@ -62,7 +62,7 @@ export const InventorySerch = ({
         setIsOpen(false);
       }
     },
-    [onChange, onEditMode, hasInitialized]
+    [onChange, onEditMode, hasInitialized],
   );
 
   // Memorizar la función handleSelectAsset
@@ -94,7 +94,7 @@ export const InventorySerch = ({
       onBuildingChange,
       onEditMode,
       hasInitialized,
-    ]
+    ],
   );
 
   // Memorizar las partes filtradas para evitar recalcularlas en cada render
@@ -103,7 +103,7 @@ export const InventorySerch = ({
     return assets.filter(
       (asset) =>
         asset.inventory !== null &&
-        asset.inventory.toString().includes(inputValue)
+        asset.inventory.toString().includes(inputValue),
     );
   }, [inputValue, assets]);
 
@@ -157,11 +157,11 @@ export const InventorySerch = ({
           value={inputValue}
           onChange={handleInputChange}
           onFocus={() => inputValue.trim() && setIsOpen(true)}
-          placeholder="Ingresar Numero de Inventario"
+          placeholder={"Ingresar Numero de Inventario"}
           className={`w-full ${
             error ? "border-destructive focus:border-destructive" : ""
           }`}
-          disabled={disabled}
+          disabled={disabled || loading}
           maxLength={10}
         />
         <div className="absolute right-3 text-muted-foreground">
@@ -176,6 +176,11 @@ export const InventorySerch = ({
       {dropdownContent}
 
       <div className="flex justify-between items-center mt-1">
+        {loading && (
+          <p className="text-md text-muted-foreground text-red-500 animate-pulse flex items-center gap-2 justify-center w-full text-bold">
+            Cargando listado de inventarios
+          </p>
+        )}
         {error && <p className="text-destructive text-xs">{error}</p>}
       </div>
     </div>
