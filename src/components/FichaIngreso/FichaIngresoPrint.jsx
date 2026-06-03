@@ -62,8 +62,9 @@ export const FichaIngresoPrint = ({ fichaTecnicaById }) => {
         ref={contentRef}
       >
         <ContentPrintFichaIngreso fichaTecnicaById={fichaTecnicaById} />
-
         <ScissorsLine />
+
+        <ContentPrintFichaIngreso fichaTecnicaById={fichaTecnicaById} />
       </div>
     </>
   );

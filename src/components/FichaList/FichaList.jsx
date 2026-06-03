@@ -298,6 +298,11 @@ export const FichaList = () => {
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
+    initialState: {
+      pagination: {
+        pageSize: 20, // Cambia el 10 por 25, 50, o las que necesites
+      },
+    },
   });
 
   // Función para limpiar el filtro de número de ficha

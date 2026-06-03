@@ -82,7 +82,7 @@ export const ContentPrintFichaIngreso = ({ fichaTecnicaById }) => {
             <span className="font-light print:text-black print:font-normal">
               {fichaTecnicaById.date_in
                 ? new Date(
-                    fichaTecnicaById.date_in + "T12:00:00"
+                    fichaTecnicaById.date_in + "T12:00:00",
                   ).toLocaleDateString("es-AR", {
                     day: "2-digit",
                     month: "2-digit",
