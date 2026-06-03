@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useForm } from "react-hook-form";
 import { useAuthStore } from "@/store/authStore";
@@ -24,6 +24,14 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { ChevronDown, ChevronUp, Loader2, Edit } from "lucide-react";
 // import { ASSISTANCE_TYPES } from "@/constants/assistance";
 import { LoadingPage } from "../Pages/LoadingPage";
@@ -32,6 +40,9 @@ export function FichaTecnicaForm() {
   const { idFichaIngreso } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [currentStatusId, setCurrentStatusId] = useState(null);
+  const [showStatusReminder, setShowStatusReminder] = useState(false);
+  const [pendingSubmitData, setPendingSubmitData] = useState(null);
+  const isConfirmingSaveRef = useRef(false);
   const navigate = useNavigate();
 
   const { fichaTecnicaById, updateFichaTecnica, fetchByIdFichaTecnica } =
@@ -176,19 +187,16 @@ export function FichaTecnicaForm() {
     }
   }, [currentStatusId, availableStatus, fichaTecnicaById, form, watch]);
 
-  const onSubmit = async (data) => {
-    setIsLoading(true); // Activar estado de carga
+  const performSubmit = async (data) => {
+    setIsLoading(true);
 
     const dataToSend = {
-      // Mantener datos originales de la ficha de ingreso
       user_pc: data.user_pc,
       pass_pc: data.pass_pc,
       contact_name: data.contact_name,
       contact_phone: data.contact_phone,
-      // Datos de resolución técnica
       tech_description: data.tech_description,
-      // assistance: data.assistance,
-      status: [parseInt(data.status)],
+      status: [parseInt(data.status, 10)],
       users: [user.id],
       asset: fichaTecnicaById?.asset?.id || null,
     };
@@ -198,9 +206,41 @@ export function FichaTecnicaForm() {
       navigate(`/ficha-tecnica/detail/${idFichaIngreso}`);
     } catch (error) {
       console.error("Error al guardar:", error);
-      // Opcional: mostrar mensaje de error al usuario
     } finally {
-      setIsLoading(false); // Desactivar estado de carga
+      setIsLoading(false);
+    }
+  };
+
+  const onSubmit = async (data) => {
+    if (
+      currentStatusId != null &&
+      parseInt(data.status, 10) === currentStatusId
+    ) {
+      setPendingSubmitData(data);
+      setShowStatusReminder(true);
+      return;
+    }
+    await performSubmit(data);
+  };
+
+  const handleConfirmSaveWithoutStatusChange = async () => {
+    if (!pendingSubmitData) return;
+    const data = pendingSubmitData;
+    isConfirmingSaveRef.current = true;
+    setShowStatusReminder(false);
+    setPendingSubmitData(null);
+    await performSubmit(data);
+    isConfirmingSaveRef.current = false;
+  };
+
+  const handleStayOnEdit = () => {
+    setShowStatusReminder(false);
+    setPendingSubmitData(null);
+  };
+
+  const handleStatusReminderOpenChange = (open) => {
+    if (!open && !isConfirmingSaveRef.current) {
+      handleStayOnEdit();
     }
   };
 
@@ -673,6 +713,43 @@ export function FichaTecnicaForm() {
           </div>
         </form>
       </Form>
+
+      <Dialog
+        open={showStatusReminder}
+        onOpenChange={handleStatusReminderOpenChange}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>¿Actualizó el estado del bien?</DialogTitle>
+            <DialogDescription>
+              No olvide actualizar el campo <strong>Estado del Bien</strong> si
+              el bien cambió de situación
+              {currentStatus?.name && (
+                <>
+                  {" "}
+                  (estado actual: <strong>{currentStatus.name}</strong>)
+                </>
+              )}
+              . Si ya lo hizo o desea guardar igual, confirme abajo.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleStayOnEdit}
+            >
+              No actualicé, volver a editar
+            </Button>
+            <Button
+              type="button"
+              onClick={handleConfirmSaveWithoutStatusChange}
+            >
+              Ya actualicé los datos
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
