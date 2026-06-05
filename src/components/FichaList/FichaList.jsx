@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-import { Edit, Eye, Plus } from "lucide-react";
+import { Edit, Eye, Plus, Wrench } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { usePermission } from "@/hooks/usePermission";
@@ -437,6 +437,15 @@ export const FichaList = () => {
                 Crear Nueva Ficha
               </Button>
             )}
+
+            <Button
+              variant="outline"
+              className="flex items-center gap-2"
+              onClick={() => navigate("/ficha-servicio")}
+            >
+              <Wrench className="h-4 w-4" />
+              Crear Nueva Ficha de Servicio
+            </Button>
           </div>
         </div>
         <FichaListFilter

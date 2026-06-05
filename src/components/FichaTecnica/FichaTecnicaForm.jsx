@@ -150,7 +150,7 @@ export function FichaTecnicaForm() {
         setCurrentStatusId(statusId);
       }, 0);
     },
-    [reset]
+    [reset],
   );
 
   // Poblar formulario cuando se cargan los datos - ACTUALIZADO
@@ -168,7 +168,7 @@ export function FichaTecnicaForm() {
 
       // Validar que el estado actual esté en los estados disponibles
       const isStatusAvailable = availableStatus.some(
-        (status) => status.id === statusId
+        (status) => status.id === statusId,
       );
 
       if (isStatusAvailable) {
@@ -722,23 +722,23 @@ export function FichaTecnicaForm() {
           <DialogHeader>
             <DialogTitle>¿Actualizó el estado del bien?</DialogTitle>
             <DialogDescription>
-              No olvide actualizar el campo <strong>Estado del Bien</strong> si
-              el bien cambió de situación
+              No olvide actualizar el campo <strong>Estado del Bien</strong>{" "}
+              <br />
               {currentStatus?.name && (
                 <>
                   {" "}
-                  (estado actual: <strong>{currentStatus.name}</strong>)
+                  Estado actual es{" "}
+                  <strong className="text-green-600 font-bold">
+                    {currentStatus.name}
+                  </strong>
                 </>
-              )}
-              . Si ya lo hizo o desea guardar igual, confirme abajo.
+              )}{" "}
+              <br />
+              Si ya lo hizo o desea guardar igual, confirme abajo.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleStayOnEdit}
-            >
+            <Button type="button" variant="outline" onClick={handleStayOnEdit}>
               No actualicé, volver a editar
             </Button>
             <Button

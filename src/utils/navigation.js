@@ -1,5 +1,5 @@
 import { PERMISSIONS } from "@/constants/permissions";
-import { ClipboardCheck } from "lucide-react";
+import { ClipboardCheck, Wrench } from "lucide-react";
 
 /**
  * Definición de items de navegación con sus permisos requeridos
@@ -22,6 +22,12 @@ export const navigationItems = [
         permission: PERMISSIONS.FICHA_INGRESO_CREATE,
       },
     ],
+  },
+  {
+    title: "Fichas de Servicio",
+    href: "/ficha-servicio",
+    icon: Wrench,
+    permission: PERMISSIONS.FICHA_SERVICIO_VIEW,
   },
 ];
 

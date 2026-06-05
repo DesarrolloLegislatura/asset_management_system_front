@@ -12,6 +12,7 @@ import { ProtectedRoute } from "@/components/Auth/ProtectedRoute.jsx";
 import { PERMISSIONS } from "@/constants/permissions.js";
 import { FichaList } from "@/components/FichaList/FichaList.jsx";
 import { FichaDetail } from "@/components/FichaDetail/FichaDetail.jsx";
+import { FichaServicioForm } from "@/components/FichaServicion/FichaServicioForm.jsx";
 
 const routes = [
   {
@@ -89,6 +90,15 @@ const routes = [
         element: (
           <ProtectedRoute permission={PERMISSIONS.FICHA_INGRESO_VIEW}>
             <FichaDetail />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        // Crear ficha de servicio
+        path: "ficha-servicio",
+        element: (
+          <ProtectedRoute permission={PERMISSIONS.FICHA_SERVICIO_CREATE}>
+            <FichaServicioForm />
           </ProtectedRoute>
         ),
       },

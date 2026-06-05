@@ -159,3 +159,33 @@
     @apply bg-input text-[var(--input-foreground)] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-ring border border-border placeholder:text-muted-foreground transition-colors;
   }
 }
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  nav,
+  footer {
+    display: none !important;
+  }
+
+  .print-container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Evitar cortes de página dentro de tarjetas */
+  .print-container [data-slot="card"] {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+}

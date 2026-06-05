@@ -23,6 +23,10 @@ export const PERMISSIONS = {
   FICHA_TONER_CREATE: "ficha_toner.create",
   FICHA_TONER_EDIT: "ficha_toner.edit",
 
+  // Ficha Servicio
+  FICHA_SERVICIO_VIEW: "ficha_servicio.view",
+  FICHA_SERVICIO_CREATE: "ficha_servicio.create",
+
   // Inventario
   INVENTORY_VIEW: "inventory.view",
   INVENTORY_SEARCH: "inventory.search",
@@ -52,6 +56,10 @@ export const GROUP_PERMISSIONS = {
     PERMISSIONS.FICHA_TONER_CREATE,
     PERMISSIONS.FICHA_TONER_EDIT,
 
+    // Ficha Servicio (acceso completo)
+    PERMISSIONS.FICHA_SERVICIO_VIEW,
+    PERMISSIONS.FICHA_SERVICIO_CREATE,
+
     // Inventario (solo visualización)
     PERMISSIONS.INVENTORY_VIEW,
     PERMISSIONS.INVENTORY_SEARCH,
@@ -66,6 +74,9 @@ export const GROUP_PERMISSIONS = {
 
     // Ficha Toner (solo visualización)
     PERMISSIONS.FICHA_TONER_VIEW,
+
+    // Ficha Servicio (solo visualización)
+    PERMISSIONS.FICHA_SERVICIO_VIEW,
 
     // Inventario (solo visualización)
     PERMISSIONS.INVENTORY_VIEW,
@@ -83,6 +94,7 @@ export const GROUP_ROUTES = {
     "/ficha-tecnica/:idFichaIngreso", // Solo edición
     "/ficha-tecnica/detail/:idFichaIngreso",
     "/ficha-toner",
+    "/ficha-servicio",
     "/inventory",
   ],
 
@@ -94,6 +106,7 @@ export const GROUP_ROUTES = {
     "/ficha-tecnica/:idFichaIngreso", // Solo edición
     "/ficha-tecnica/detail/:idFichaIngreso",
     "/ficha-toner",
+    "/ficha-servicio",
     "/inventory",
   ],
 
@@ -103,6 +116,7 @@ export const GROUP_ROUTES = {
     "/ficha-ingreso/:idFichaIngreso",
     "/ficha-ingreso/detail/:idFichaIngreso",
     "/ficha-toner",
+    "/ficha-servicio",
     "/inventory",
   ],
 };
