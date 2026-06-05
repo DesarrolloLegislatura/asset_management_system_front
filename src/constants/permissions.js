@@ -77,6 +77,7 @@ export const GROUP_PERMISSIONS = {
 
     // Ficha Servicio (solo visualización)
     PERMISSIONS.FICHA_SERVICIO_VIEW,
+    PERMISSIONS.FICHA_SERVICIO_CREATE,
 
     // Inventario (solo visualización)
     PERMISSIONS.INVENTORY_VIEW,
