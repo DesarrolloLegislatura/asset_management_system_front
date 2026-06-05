@@ -94,6 +94,27 @@ export const useFichaTecnica = (autoFetch = false) => {
     }
   }, []);
 
+  // Delete ficha técnica
+  const deleteFichaTecnica = useCallback(async (idFicha) => {
+    if (!idFicha) return false;
+    dispatch({ type: "REQUEST_START" });
+    try {
+      await fichaTecnicaService.delete(idFicha);
+      dispatch({
+        type: "SET_ALL_FICHAS",
+        payload: state.fichasTecnicas.filter(
+          (f) => String(f.id) !== String(idFicha),
+        ),
+      });
+      return true;
+    } catch (error) {
+      dispatch({ type: "REQUEST_FAILURE", payload: error });
+      return false;
+    } finally {
+      dispatch({ type: "REQUEST_SUCCESS" });
+    }
+  }, [state.fichasTecnicas]);
+
   // Auto-fetch si está habilitado
   useEffect(() => {
     if (autoFetch) {
@@ -146,6 +167,7 @@ export const useFichaTecnica = (autoFetch = false) => {
     fetchAllFichasTecnicas,
     fetchByIdFichaTecnica,
     updateFichaTecnica,
+    deleteFichaTecnica,
     refreshData,
   };
 };

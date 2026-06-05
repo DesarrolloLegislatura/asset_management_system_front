@@ -529,22 +529,23 @@ export const REALIZADO_POR_MOCK = [
 ];
 
 export const TIPOS_BIEN_MOCK = [
-  { id: "1", name: "Pendrive" },
-  { id: "2", name: "Notebook / Laptop" },
-  { id: "3", name: "Monitor" },
-  { id: "4", name: "Impresora" },
-  { id: "5", name: "Teclado" },
-  { id: "6", name: "Mouse" },
-  { id: "7", name: "UPS / No-break" },
-  { id: "8", name: "Switch de red" },
-  { id: "9", name: "Teléfono IP" },
-  { id: "10", name: "Proyector" },
-  { id: "11", name: "Tarjeta de memoria" },
-  { id: "12", name: "Cargador" },
   { id: "13", name: "Cable de red" },
-  { id: "14", name: "Cable de power" },
   { id: "15", name: "Cable de audio" },
+  { id: "14", name: "Cable de power" },
   { id: "16", name: "Cable de video" },
+  { id: "12", name: "Cargador" },
+  { id: "4", name: "Impresora" },
+  { id: "6", name: "Mouse" },
+  { id: "3", name: "Monitor" },
+  { id: "2", name: "Notebook / Laptop" },
+  { id: "1", name: "Pendrive" },
+  { id: "10", name: "Proyector" },
+  { id: "8", name: "Switch de red" },
+  { id: "11", name: "Tarjeta de memoria" },
+  { id: "5", name: "Teclado" },
+  { id: "9", name: "Teléfono IP" },
+  { id: "17", name: "Toner de impresora" },
+  { id: "7", name: "UPS / No-break" },
 ];
 
 export const SERVICIOS_MOCK = [

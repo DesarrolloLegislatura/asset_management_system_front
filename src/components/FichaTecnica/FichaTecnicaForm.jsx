@@ -32,7 +32,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ChevronDown, ChevronUp, Loader2, Edit } from "lucide-react";
+import { ChevronDown, ChevronUp, Loader2, Edit, Trash2 } from "lucide-react";
 // import { ASSISTANCE_TYPES } from "@/constants/assistance";
 import { LoadingPage } from "../Pages/LoadingPage";
 
@@ -42,11 +42,17 @@ export function FichaTecnicaForm() {
   const [currentStatusId, setCurrentStatusId] = useState(null);
   const [showStatusReminder, setShowStatusReminder] = useState(false);
   const [pendingSubmitData, setPendingSubmitData] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const isConfirmingSaveRef = useRef(false);
   const navigate = useNavigate();
 
-  const { fichaTecnicaById, updateFichaTecnica, fetchByIdFichaTecnica } =
-    useFichaTecnica(false);
+  const {
+    fichaTecnicaById,
+    updateFichaTecnica,
+    fetchByIdFichaTecnica,
+    deleteFichaTecnica,
+  } = useFichaTecnica(false);
 
   const { loadingStatus, getFichaTecnicaStatesWithFlow } = useStatus();
   const user = useAuthStore((state) => state.user);
@@ -246,6 +252,20 @@ export function FichaTecnicaForm() {
 
   const toggleInfoSection = () => setIsInfoSectionOpen(!isInfoSectionOpen);
 
+  const handleDeleteFichaTecnica = async () => {
+    setIsDeleting(true);
+    try {
+      const success = await deleteFichaTecnica(idFichaIngreso);
+      if (success) {
+        setShowDeleteConfirm(false);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error al eliminar la ficha:", error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
   // Si está guardando, mostrar overlay de loading
   if (isLoading) {
     return (
@@ -710,9 +730,81 @@ export function FichaTecnicaForm() {
                 <>Actualizar Resolución</>
               )}
             </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              disabled={isLoading || isDeleting}
+              onClick={() => setShowDeleteConfirm(true)}
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              Eliminar Ficha
+            </Button>
           </div>
         </form>
       </Form>
+
+      {/* Dialog confirmación de eliminación */}
+      <Dialog
+        open={showDeleteConfirm}
+        onOpenChange={(open) => {
+          if (!isDeleting) setShowDeleteConfirm(open);
+        }}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-destructive">
+              <Trash2 className="h-5 w-5" />
+              Eliminar ficha #{idFichaIngreso}
+            </DialogTitle>
+            <DialogDescription>
+              Esta acción es <strong>permanente e irreversible</strong>.
+              <br />
+              <br />
+              Se eliminará la ficha de ingreso N°{" "}
+              <strong>{idFichaIngreso}</strong>
+              {fichaTecnicaById?.asset?.inventory && (
+                <>
+                  {" "}
+                  correspondiente al patrimonio{" "}
+                  <strong>{fichaTecnicaById.asset.inventory}</strong>
+                </>
+              )}
+              , junto con toda su resolución técnica asociada.
+              <br />
+              <br />
+              ¿Está seguro que desea continuar?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isDeleting}
+              onClick={() => setShowDeleteConfirm(false)}
+            >
+              Cancelar
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              disabled={isDeleting}
+              onClick={handleDeleteFichaTecnica}
+            >
+              {isDeleting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Eliminando...
+                </>
+              ) : (
+                <>
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Sí, eliminar ficha
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Dialog
         open={showStatusReminder}

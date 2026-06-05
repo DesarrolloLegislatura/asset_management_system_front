@@ -19,6 +19,9 @@ const fichaTecnicaService = {
     return await axiosService.get(`/tds/tds/`);
     // const respuesta = await axiosService.get(`/tds/tds/`);
   },
+  delete: async (id) => {
+    return await axiosService.delete(`/tds/tds/${id}`);
+  },
   update: async (id, datosActualizados) => {
     return await axiosService.put(`/tds/tds/${id}/`, datosActualizados);
   },
