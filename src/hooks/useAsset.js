@@ -9,7 +9,6 @@ export const useAsset = () => {
     setLoading(true);
     try {
       const response = await assetsService.getAllAssets();
-      console.log(response);
 
       setAssets(response.data);
     } catch (error) {

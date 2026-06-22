@@ -20,7 +20,6 @@ export const useAuth = () => {
 
       // Decodificar el token para obtener la info del usuario
       const payload = parseJwt(access);
-      console.log(payload);
       if (!payload) {
         throw new Error("No se pudo decodificar el token");
       }

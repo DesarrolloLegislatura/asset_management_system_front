@@ -36,13 +36,11 @@ export function LoginForm({ className, ...props }) {
     if (isAuthenticated) {
       // Redirigir según el grupo del usuario
       const userGroup = user.group;
-      console.log(!userGroup);
 
       if (!userGroup) {
         navigate("/unauthorized", { replace: true });
         return;
       }
-      console.log(!userGroup);
 
       if (userGroup.includes("Administrativo")) {
         navigate("/ficha-ingreso", { replace: true });
@@ -62,7 +60,6 @@ export function LoginForm({ className, ...props }) {
         clearErrors();
         const { username, password } = data;
         await login(username, password);
-        console.log(data);
       } catch (error) {
         console.error(error);
       }

@@ -95,7 +95,6 @@ export function FichaServicioForm() {
   }, []);
 
   const onSubmit = (data) => {
-    console.log("Datos de la ficha de servicio:", data);
   };
 
   return (

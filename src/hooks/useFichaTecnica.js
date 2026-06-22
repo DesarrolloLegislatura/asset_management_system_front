@@ -52,7 +52,6 @@ export const useFichaTecnica = (autoFetch = false) => {
     try {
       const response = await fichaTecnicaService.getById(idFicha);
       dispatch({ type: "SET_FICHA_BY_ID", payload: response.data });
-      console.log("Ficha técnica obtenida:", response.data);
 
       return response.data;
     } catch (error) {

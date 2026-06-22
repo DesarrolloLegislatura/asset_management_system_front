@@ -1,0 +1,4 @@
+# pnpm v11 config
+allowBuilds:
+  "@swc/core": true
+  esbuild: true

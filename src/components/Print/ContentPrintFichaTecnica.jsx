@@ -2,7 +2,6 @@ import { Computer } from "lucide-react";
 import FICHA_STATUS from "../../constants/statusFicha";
 
 export const ContentPrintFichaTecnica = ({ fichaTecnicaById }) => {
-  console.log("fichaTecnicaById", fichaTecnicaById);
 
   return (
     <div className="print:page-break-inside-avoid print:h-[138mm] print:overflow-hidden print:w-full print:p-2 print:border-box print:relative">

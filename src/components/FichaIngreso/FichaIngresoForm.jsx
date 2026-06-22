@@ -122,7 +122,6 @@ export function FichaIngresoForm() {
         setIsLoading(true);
         try {
           const fichaEdit = await fetchByIdFichaTecnica(idFichaIngreso);
-          console.log("fichaEdit", fichaEdit);
 
           if (fichaEdit) {
             populateFormWithData(fichaEdit);
@@ -147,7 +146,6 @@ export function FichaIngresoForm() {
   const onSubmit = async (data) => {
     // Construir solo los campos requeridos por la API
     setIsLoading(true);
-    console.log("data", data);
     const dataToSend = {
       act_simple: data.act_simple,
       year_act_simple: new Date().getFullYear().toString(),
@@ -174,16 +172,14 @@ export function FichaIngresoForm() {
         response = await updateFichaTecnica(idFichaIngreso, dataToSend);
         navigate(`/ficha-ingreso/detail/${idFichaIngreso}`);
       } else {
-        console.log("dataToSend", dataToSend);
 
         response = await createFichaTecnica(dataToSend);
-        console.log("Response from API:", response); // Log API response
         if (response.asset) {
           navigate(`/ficha-ingreso/detail/${response.id}`);
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }

@@ -123,12 +123,6 @@ Todas las rutas están protegidas por permisos específicos:
 - Ejemplo: `feat(login): agregar validación de contraseña`.
 - Mensaje de commit debe ser claro, en tiempo presente y mantener el scope.
 
-# Solucion de Error
+# Nota
 
-Si no funciona el comando `npm i` ejecutar el siguiente comando:
-
-```bash
-npm install @vitejs/plugin-react-swc@latest --save-dev
-```
-
-Esto soluciona el error de que esta desactualizado el plugin de react-swc.
+Gestor de paquetes: **pnpm** v11. Todos los comandos usan `pnpm` en lugar de `npm`.

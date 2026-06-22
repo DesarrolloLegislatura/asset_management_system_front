@@ -1,21 +1,21 @@
 # Etapa de construcción - Cambiar de alpine a bullseye
-FROM node:18-bullseye-slim as build
+FROM node:22-bookworm-slim as build
 
 # Establecer directorio de trabajo
 WORKDIR /app
 
 # Copiar archivos de dependencias
-COPY package*.json ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 
-# Limpiar caché npm y instalar dependencias
-RUN npm cache clean --force && \
-    npm ci
+# Instalar pnpm y las dependencias
+RUN npm install -g pnpm@11 && \
+    pnpm install --frozen-lockfile --fetch-retries=5 --fetch-timeout=300000
 
 # Copiar todo el código fuente
 COPY . .
 
 # Construir la aplicación para producción
-RUN npm run build
+RUN pnpm run build
 
 # Etapa de producción
 FROM nginx:stable-alpine

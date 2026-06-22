@@ -1,0 +1,1471 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Documentación API REST - App Documentos - SAB",
+    "description": "Documentación de la API REST de la aplicación de Documentos del Sistema de Administración de Bienes de la Dirección de Sistemas y Comunicaciones.",
+    "termsOfService": "https://www.google.com/policies/terms/",
+    "contact": {
+      "email": "desarrollo.legislaturachaco@gmail.com"
+    },
+    "license": {
+      "name": "BSD License"
+    },
+    "version": "v1"
+  },
+  "host": "10.12.9.47:9002",
+  "schemes": ["http"],
+  "basePath": "/api",
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "securityDefinitions": {
+    "Basic": {
+      "type": "basic"
+    }
+  },
+  "security": [
+    {
+      "Basic": []
+    }
+  ],
+  "paths": {
+    "/auth/login/": {
+      "post": {
+        "operationId": "auth_login_create",
+        "description": "Takes a set of user credentials and returns an access and refresh JSON web\ntoken pair to prove the authentication of those credentials.",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MyTokenObtainPair"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MyTokenObtainPair"
+            }
+          }
+        },
+        "tags": ["auth"]
+      },
+      "parameters": []
+    },
+    "/auth/token/refresh/": {
+      "post": {
+        "operationId": "auth_token_refresh_create",
+        "description": "Takes a refresh type JSON web token and returns an access type JSON web\ntoken if the refresh token is valid.",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TokenRefresh"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TokenRefresh"
+            }
+          }
+        },
+        "tags": ["auth"]
+      },
+      "parameters": []
+    },
+    "/documents/document/": {
+      "get": {
+        "operationId": "documents_document_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Document"
+              }
+            }
+          }
+        },
+        "tags": ["documents"]
+      },
+      "post": {
+        "operationId": "documents_document_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Document"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Document"
+            }
+          }
+        },
+        "tags": ["documents"]
+      },
+      "parameters": []
+    },
+    "/documents/document/{id}/": {
+      "get": {
+        "operationId": "documents_document_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Document"
+            }
+          }
+        },
+        "tags": ["documents"]
+      },
+      "put": {
+        "operationId": "documents_document_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Document"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Document"
+            }
+          }
+        },
+        "tags": ["documents"]
+      },
+      "patch": {
+        "operationId": "documents_document_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Document"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Document"
+            }
+          }
+        },
+        "tags": ["documents"]
+      },
+      "delete": {
+        "operationId": "documents_document_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": ["documents"]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Documento.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/documents/typedocument/": {
+      "get": {
+        "operationId": "documents_typedocument_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TypeDocument"
+              }
+            }
+          }
+        },
+        "tags": ["documents"]
+      },
+      "post": {
+        "operationId": "documents_typedocument_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TypeDocument"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TypeDocument"
+            }
+          }
+        },
+        "tags": ["documents"]
+      },
+      "parameters": []
+    },
+    "/documents/typedocument/{id}/": {
+      "get": {
+        "operationId": "documents_typedocument_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TypeDocument"
+            }
+          }
+        },
+        "tags": ["documents"]
+      },
+      "put": {
+        "operationId": "documents_typedocument_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TypeDocument"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TypeDocument"
+            }
+          }
+        },
+        "tags": ["documents"]
+      },
+      "patch": {
+        "operationId": "documents_typedocument_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TypeDocument"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TypeDocument"
+            }
+          }
+        },
+        "tags": ["documents"]
+      },
+      "delete": {
+        "operationId": "documents_typedocument_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": ["documents"]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Tipo de Documento.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/tds/assets/": {
+      "get": {
+        "operationId": "tds_assets_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Assets"
+              }
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "post": {
+        "operationId": "tds_assets_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Assets"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Assets"
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "parameters": []
+    },
+    "/tds/assets/{id}/": {
+      "get": {
+        "operationId": "tds_assets_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Assets"
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "put": {
+        "operationId": "tds_assets_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Assets"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Assets"
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "patch": {
+        "operationId": "tds_assets_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Assets"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Assets"
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "delete": {
+        "operationId": "tds_assets_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": ["tds"]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Bien.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/tds/status/": {
+      "get": {
+        "operationId": "tds_status_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Status"
+              }
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "post": {
+        "operationId": "tds_status_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "parameters": []
+    },
+    "/tds/status/{id}/": {
+      "get": {
+        "operationId": "tds_status_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "put": {
+        "operationId": "tds_status_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "patch": {
+        "operationId": "tds_status_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "delete": {
+        "operationId": "tds_status_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": ["tds"]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Estado.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/tds/tds/": {
+      "get": {
+        "operationId": "tds_tds_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TechnicalDataSheetsRead"
+              }
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "post": {
+        "operationId": "tds_tds_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TechnicalDataSheetsWrite"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TechnicalDataSheetsWrite"
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "parameters": []
+    },
+    "/tds/tds/{id}/": {
+      "get": {
+        "operationId": "tds_tds_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TechnicalDataSheetsRead"
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "put": {
+        "operationId": "tds_tds_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TechnicalDataSheetsWrite"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TechnicalDataSheetsWrite"
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "patch": {
+        "operationId": "tds_tds_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TechnicalDataSheetsRead"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TechnicalDataSheetsRead"
+            }
+          }
+        },
+        "tags": ["tds"]
+      },
+      "delete": {
+        "operationId": "tds_tds_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": ["tds"]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Ficha Técnica.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "MyTokenObtainPair": {
+      "required": ["username", "password"],
+      "type": "object",
+      "properties": {
+        "username": {
+          "title": "Username",
+          "type": "string",
+          "minLength": 1
+        },
+        "password": {
+          "title": "Password",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "TokenRefresh": {
+      "required": ["refresh"],
+      "type": "object",
+      "properties": {
+        "refresh": {
+          "title": "Refresh",
+          "type": "string",
+          "minLength": 1
+        },
+        "access": {
+          "title": "Access",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        }
+      }
+    },
+    "TypeDocument": {
+      "required": ["name"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Nombre",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "description": {
+          "title": "Descripción",
+          "type": "string",
+          "x-nullable": true
+        },
+        "active": {
+          "title": "Activo",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": -2147483648
+        },
+        "createdat": {
+          "title": "Fecha de creación",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updatedat": {
+          "title": "Fecha de actualización",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "User": {
+      "required": ["username"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "username": {
+          "title": "Nombre de usuario",
+          "description": "Obligatorio. Longitud máxima de 150 caracteres. Solo puede estar formado por letras, números y los caracteres @/./+/-/_.",
+          "type": "string",
+          "pattern": "^[\\w.@+-]+$",
+          "maxLength": 150,
+          "minLength": 1
+        },
+        "first_name": {
+          "title": "Nombre",
+          "type": "string",
+          "maxLength": 150
+        },
+        "last_name": {
+          "title": "Apellido",
+          "type": "string",
+          "maxLength": 150
+        }
+      }
+    },
+    "DocumentArea": {
+      "required": ["name"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Nombre",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        }
+      }
+    },
+    "AttachedDocument": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Nombre",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "type": {
+          "title": "Tipo",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "description": {
+          "title": "Descripción",
+          "type": "string",
+          "x-nullable": true
+        },
+        "date": {
+          "title": "Date",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "company": {
+          "title": "Empresa",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "number": {
+          "title": "Numero",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "active": {
+          "title": "Activo",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": -2147483648
+        },
+        "createdat": {
+          "title": "Fecha de creación",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updatedat": {
+          "title": "Fecha de actualización",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "attached_type_document": {
+          "title": "Tipo de Documento adjunto",
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "RecursiveField": {
+      "type": "object",
+      "properties": {}
+    },
+    "Document": {
+      "required": ["input_output", "total_page", "type_document", "user"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "number": {
+          "title": "Numero",
+          "type": "string",
+          "maxLength": 50,
+          "x-nullable": true
+        },
+        "year": {
+          "title": "Año",
+          "type": "string",
+          "maxLength": 10,
+          "x-nullable": true
+        },
+        "date": {
+          "title": "Fecha",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "input_output": {
+          "title": "Ingreso/Egreso",
+          "type": "string",
+          "maxLength": 10,
+          "minLength": 1
+        },
+        "total_page": {
+          "title": "Foja",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": -2147483648
+        },
+        "scope_document": {
+          "title": "Alcance",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "description": {
+          "title": "Descripción",
+          "type": "string",
+          "x-nullable": true
+        },
+        "active": {
+          "title": "Activo",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": -2147483648
+        },
+        "type_document": {
+          "title": "Tipo de Documento",
+          "type": "integer"
+        },
+        "user": {
+          "title": "Usuario",
+          "type": "integer"
+        },
+        "area": {
+          "title": "Area",
+          "type": "integer",
+          "x-nullable": true
+        },
+        "bibliorato": {
+          "title": "Bibliorato",
+          "type": "integer",
+          "x-nullable": true
+        },
+        "reference": {
+          "title": "Referencia (Padre)",
+          "type": "integer",
+          "x-nullable": true
+        },
+        "attacheds": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "x-nullable": true
+          },
+          "uniqueItems": true
+        },
+        "type_document_details": {
+          "$ref": "#/definitions/TypeDocument"
+        },
+        "user_details": {
+          "$ref": "#/definitions/User"
+        },
+        "area_details": {
+          "$ref": "#/definitions/DocumentArea"
+        },
+        "parent_info": {
+          "title": "Parent info",
+          "type": "string",
+          "readOnly": true
+        },
+        "attached_documents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AttachedDocument"
+          },
+          "readOnly": true
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RecursiveField"
+          },
+          "readOnly": true
+        },
+        "createdat": {
+          "title": "Fecha de creación",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updatedat": {
+          "title": "Fecha de actualización",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "Assets": {
+      "required": ["typeasset", "building", "situation", "weighting", "state"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "inventory": {
+          "title": "Inventario",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "x-nullable": true
+        },
+        "description": {
+          "title": "Descripción",
+          "type": "string",
+          "x-nullable": true
+        },
+        "typeasset": {
+          "title": "Tipo Bien",
+          "type": "integer"
+        },
+        "area": {
+          "title": "Area",
+          "type": "integer",
+          "x-nullable": true
+        },
+        "building": {
+          "title": "Edificio",
+          "type": "integer"
+        },
+        "situation": {
+          "title": "Situación",
+          "type": "integer"
+        },
+        "weighting": {
+          "title": "Ponderación",
+          "type": "integer"
+        },
+        "state": {
+          "title": "Estado",
+          "type": "integer"
+        }
+      }
+    },
+    "Status": {
+      "required": ["name"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Nombre",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "description": {
+          "title": "Descripción",
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    },
+    "TdsArea": {
+      "required": ["name"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Nombre",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "description": {
+          "title": "Descripción",
+          "type": "string",
+          "x-nullable": true
+        },
+        "email": {
+          "title": "Email",
+          "type": "string",
+          "maxLength": 50,
+          "x-nullable": true
+        },
+        "telephone": {
+          "title": "Teléfono",
+          "type": "string",
+          "maxLength": 20,
+          "x-nullable": true
+        },
+        "active": {
+          "title": "Activo",
+          "type": "boolean"
+        },
+        "createdat": {
+          "title": "Fecha de creación",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updatedat": {
+          "title": "Fecha de actualización",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "Building": {
+      "required": ["name"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Nombre",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "description": {
+          "title": "Descripción",
+          "type": "string",
+          "x-nullable": true
+        },
+        "active": {
+          "title": "Activo",
+          "type": "boolean"
+        },
+        "createdat": {
+          "title": "Fecha de creación",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updatedat": {
+          "title": "Fecha de actualización",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "TdsStatusUser": {
+      "required": ["tds"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "tds": {
+          "title": "Fichas Técnicas",
+          "type": "integer"
+        },
+        "status": {
+          "$ref": "#/definitions/Status"
+        },
+        "users": {
+          "$ref": "#/definitions/User"
+        },
+        "createdat": {
+          "title": "Fecha de creación",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updatedat": {
+          "title": "Fecha de actualización",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "TechnicalDataSheetsRead": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "act_simple": {
+          "title": "Actuación Simple",
+          "type": "string",
+          "maxLength": 200,
+          "x-nullable": true
+        },
+        "year_act_simple": {
+          "title": "Año Actualización Simple",
+          "type": "integer",
+          "maximum": 32767,
+          "minimum": 0,
+          "x-nullable": true
+        },
+        "user_description": {
+          "title": "Descripción del usuario",
+          "type": "string",
+          "x-nullable": true
+        },
+        "tech_description": {
+          "title": "Descripción del técnico",
+          "type": "string",
+          "x-nullable": true
+        },
+        "date": {
+          "title": "Fecha de repación",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "user_pc": {
+          "title": "Usuario pc",
+          "type": "string",
+          "maxLength": 200,
+          "x-nullable": true
+        },
+        "pass_pc": {
+          "title": "Password usuario pc",
+          "type": "string",
+          "x-nullable": true
+        },
+        "contact_name": {
+          "title": "Nombre del contacto",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "contact_phone": {
+          "title": "Teléfono de contacto",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "means_application": {
+          "title": "Medio de solicitud",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "assistance": {
+          "title": "Tipo de asistencia",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "date_in": {
+          "title": "Fecha de ingreso",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "date_out": {
+          "title": "Fecha de egreso",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "retired_by": {
+          "title": "Retirado por",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "active": {
+          "title": "Activo",
+          "type": "boolean"
+        },
+        "createdat": {
+          "title": "Fecha de creación",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updatedat": {
+          "title": "Fecha de actualización",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "asset": {
+          "$ref": "#/definitions/Assets"
+        },
+        "area": {
+          "$ref": "#/definitions/TdsArea"
+        },
+        "building": {
+          "$ref": "#/definitions/Building"
+        },
+        "status_users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TdsStatusUser"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "TechnicalDataSheetsWrite": {
+      "required": ["asset"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "act_simple": {
+          "title": "Actuación Simple",
+          "type": "string",
+          "maxLength": 200,
+          "x-nullable": true
+        },
+        "year_act_simple": {
+          "title": "Año Actualización Simple",
+          "type": "integer",
+          "maximum": 32767,
+          "minimum": 0,
+          "x-nullable": true
+        },
+        "user_description": {
+          "title": "Descripción del usuario",
+          "type": "string",
+          "x-nullable": true
+        },
+        "tech_description": {
+          "title": "Descripción del técnico",
+          "type": "string",
+          "x-nullable": true
+        },
+        "date": {
+          "title": "Fecha de repación",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "user_pc": {
+          "title": "Usuario pc",
+          "type": "string",
+          "maxLength": 200,
+          "x-nullable": true
+        },
+        "pass_pc": {
+          "title": "Password usuario pc",
+          "type": "string",
+          "x-nullable": true
+        },
+        "contact_name": {
+          "title": "Nombre del contacto",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "contact_phone": {
+          "title": "Teléfono de contacto",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "means_application": {
+          "title": "Medio de solicitud",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "assistance": {
+          "title": "Tipo de asistencia",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "date_in": {
+          "title": "Fecha de ingreso",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "date_out": {
+          "title": "Fecha de egreso",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "retired_by": {
+          "title": "Retirado por",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "active": {
+          "title": "Activo",
+          "type": "boolean"
+        },
+        "asset": {
+          "title": "Asset",
+          "type": "integer"
+        },
+        "area": {
+          "title": "Area",
+          "type": "integer",
+          "x-nullable": true
+        },
+        "building": {
+          "title": "Building",
+          "type": "integer",
+          "x-nullable": true
+        },
+        "status": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "uniqueItems": true
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

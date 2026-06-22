@@ -14,7 +14,6 @@ export const useStatus = () => {
     setLoadingStatus(true);
     try {
       const response = await statusService.getAll();
-      console.log("Status cargados:", response.data);
       setStatus(response.data || []);
       setError(null);
     } catch (err) {

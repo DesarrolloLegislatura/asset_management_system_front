@@ -16,13 +16,7 @@ export function useThemeWatcher() {
         );
       }
 
-      // Log para desarrollo
-      console.log(`🎨 Tema actual: ${theme}`, {
-        isDark,
-        isLight,
-        documentClasses: htmlElement.className,
-        localStorageTheme: localStorage.getItem("theme"),
-      });
+   
 
       // Verificar variables CSS están disponibles
       const computedStyle = getComputedStyle(htmlElement);

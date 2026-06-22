@@ -122,7 +122,7 @@ export function FichaTecnicaForm() {
     (fichaData) => {
       if (!fichaData || Object.keys(fichaData).length === 0) return;
 
-      console.log("fichaTecnicaById", fichaData);
+
 
       const statusId = fichaData.status_users[0].status.id;
 
@@ -537,7 +537,6 @@ export function FichaTecnicaForm() {
                       <Select
                         onValueChange={(value) => {
                           field.onChange(value);
-                          console.log("Status seleccionado:", value); // Debug en build
                         }}
                         value={field.value}
                         disabled={loadingStatus}
@@ -576,44 +575,7 @@ export function FichaTecnicaForm() {
                   )}
                 />
 
-                {/* Asistido */}
-                {/* <FormField
-                  control={control}
-                  name="assistance"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tipo de Asistencia</FormLabel>
-                      <Select
-                        onValueChange={(value) => {
-                          field.onChange(value);
-                          console.log("Assistance seleccionado:", value); // Debug en build
-                        }}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Seleccione asistencia" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value={ASSISTANCE_TYPES.PRESENCIAL}>
-                            👨‍💼 Presencial
-                          </SelectItem>
-                          <SelectItem value={ASSISTANCE_TYPES.REMOTO}>
-                            💻 Remoto
-                          </SelectItem>
-                          <SelectItem value={ASSISTANCE_TYPES.TELEFONO}>
-                            📞 Telefónico
-                          </SelectItem>
-                          <SelectItem value={ASSISTANCE_TYPES.OTRO}>
-                            🔧 Otro
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
+               
 
                 {/* Botón Modificar Información del Bien */}
               </div>
