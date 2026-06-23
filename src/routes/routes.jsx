@@ -3,16 +3,14 @@ import { AuthLayout } from "../layouts/AuthLayout.jsx";
 import { MainLayout } from "../layouts/MainLayout";
 import { LoginForm } from "../components/Auth/LoginForm.jsx";
 import { FichaTecnicaForm } from "@/components/FichaTecnica/FichaTecnicaForm.jsx";
-import { AuthGuard } from "../components/Auth/AuthGuard.jsx";
 import { FichaIngresoForm } from "@/components/FichaIngreso/FichaIngresoForm.jsx";
 import NotFound from "@/components/Pages/NotFoundPage.jsx";
-
 import { Unauthorized } from "@/components/Pages/UnauthorizedPage.jsx";
-import { ProtectedRoute } from "@/components/Auth/ProtectedRoute.jsx";
 import { PERMISSIONS } from "@/constants/permissions.js";
 import { FichaList } from "@/components/FichaList/FichaList.jsx";
 import { FichaDetail } from "@/components/FichaDetail/FichaDetail.jsx";
 import { FichaServicioForm } from "@/components/FichaServicion/FichaServicioForm.jsx";
+import { requireAuth, protect, redirectIfAuthenticated } from "./guards.js";
 
 const routes = [
   {
@@ -22,6 +20,7 @@ const routes = [
       {
         path: "login",
         element: <LoginForm />,
+        loader: redirectIfAuthenticated,
       },
     ],
   },
@@ -32,75 +31,51 @@ const routes = [
   },
   {
     path: "/",
-    element: (
-      <AuthGuard>
-        <MainLayout />
-      </AuthGuard>
-    ),
+    element: <MainLayout />,
+    // Gate de autenticación a nivel layout (reemplaza al antiguo <AuthGuard>).
+    loader: ({ request }) => requireAuth(request),
     children: [
       {
         // Página principal - Lista de Fichas de Ingreso
         index: true,
-        element: (
-          <ProtectedRoute permission={PERMISSIONS.FICHA_INGRESO_VIEW}>
-            <FichaList />
-          </ProtectedRoute>
-        ),
+        element: <FichaList />,
+        loader: protect(PERMISSIONS.FICHA_INGRESO_VIEW),
       },
-
       {
         // Editar ficha técnica (desde una ficha de ingreso existente)
         path: "ficha-tecnica/:idFichaIngreso",
-        element: (
-          <ProtectedRoute permission={PERMISSIONS.TECHNICAL_SHEET_EDIT}>
-            <FichaTecnicaForm />
-          </ProtectedRoute>
-        ),
+        element: <FichaTecnicaForm />,
+        loader: protect(PERMISSIONS.TECHNICAL_SHEET_EDIT),
       },
       {
         // Ver detalle de ficha técnica
         path: "ficha-tecnica/detail/:idFichaIngreso",
-        element: (
-          <ProtectedRoute permission={PERMISSIONS.TECHNICAL_SHEET_VIEW}>
-            <FichaDetail />
-          </ProtectedRoute>
-        ),
+        element: <FichaDetail />,
+        loader: protect(PERMISSIONS.TECHNICAL_SHEET_VIEW),
       },
       {
         // Crear nueva ficha de ingreso
         path: "ficha-ingreso",
-        element: (
-          <ProtectedRoute permission={PERMISSIONS.FICHA_INGRESO_CREATE}>
-            <FichaIngresoForm />
-          </ProtectedRoute>
-        ),
+        element: <FichaIngresoForm />,
+        loader: protect(PERMISSIONS.FICHA_INGRESO_CREATE),
       },
       {
         // Editar ficha de ingreso
         path: "ficha-ingreso/:idFichaIngreso",
-        element: (
-          <ProtectedRoute permission={PERMISSIONS.FICHA_INGRESO_EDIT}>
-            <FichaIngresoForm />
-          </ProtectedRoute>
-        ),
+        element: <FichaIngresoForm />,
+        loader: protect(PERMISSIONS.FICHA_INGRESO_EDIT),
       },
       {
         // Ver detalle de ficha de ingreso
         path: "ficha-ingreso/detail/:idFichaIngreso",
-        element: (
-          <ProtectedRoute permission={PERMISSIONS.FICHA_INGRESO_VIEW}>
-            <FichaDetail />
-          </ProtectedRoute>
-        ),
+        element: <FichaDetail />,
+        loader: protect(PERMISSIONS.FICHA_INGRESO_VIEW),
       },
       {
         // Crear ficha de servicio
         path: "ficha-servicio",
-        element: (
-          <ProtectedRoute permission={PERMISSIONS.FICHA_SERVICIO_CREATE}>
-            <FichaServicioForm />
-          </ProtectedRoute>
-        ),
+        element: <FichaServicioForm />,
+        loader: protect(PERMISSIONS.FICHA_SERVICIO_CREATE),
       },
     ],
   },

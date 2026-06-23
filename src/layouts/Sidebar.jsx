@@ -1,11 +1,11 @@
 import { Link } from "react-router";
 import { useLocation } from "react-router";
-import { usePermission } from "@/hooks/usePermission";
+import { usePermissions } from "@/hooks/usePermissions";
 import { getFilteredNavigation } from "@/utils/navigation";
 
 export function Sidebar() {
   const location = useLocation();
-  const { permissions } = usePermission();
+  const { permissions } = usePermissions();
 
   // Obtener navegación filtrada basada en permisos
   const navigationItems = getFilteredNavigation(permissions);

@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
-import { usePermission } from "@/hooks/usePermission";
+import { usePermissions } from "@/hooks/usePermissions";
 
 /**
  * Componente que renderiza contenido basado en condiciones de permisos
  * Útil para mostrar/ocultar elementos de UI según el rol del usuario
  */
 export const ConditionalRender = ({ condition, children, fallback = null }) => {
-  const permission = usePermission();
+  const permission = usePermissions();
 
   // Evaluar la condición pasando el objeto de permisos
   const shouldRender =
@@ -27,7 +27,7 @@ ConditionalRender.propTypes = {
  * Componente específico para renderizar basado en grupo
  */
 export const GroupRender = ({ groups, children, fallback = null }) => {
-  const { isInGroup } = usePermission();
+  const { isInGroup } = usePermissions();
 
   return isInGroup(groups) ? children : fallback;
 };
@@ -45,7 +45,7 @@ GroupRender.propTypes = {
  * Componente para renderizar basado en una acción específica
  */
 export const CanRender = ({ action, resource, children, fallback = null }) => {
-  const { can } = usePermission();
+  const { can } = usePermissions();
 
   return can(action, resource) ? children : fallback;
 };

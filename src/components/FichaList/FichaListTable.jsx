@@ -9,7 +9,7 @@ import {
 import { ArrowUp, ArrowDown, RefreshCw } from "lucide-react";
 import { flexRender } from "@tanstack/react-table";
 import { Button } from "../ui/button";
-import { usePermission } from "@/hooks/usePermission";
+import { usePermissions } from "@/hooks/usePermissions";
 import { PERMISSIONS } from "@/constants/permissions";
 
 export const FichaListTable = ({
@@ -21,7 +21,7 @@ export const FichaListTable = ({
   handleCreateFicha,
   refreshData,
 }) => {
-  const { hasPermission } = usePermission();
+  const { hasPermission } = usePermissions();
   return (
     <div className="space-y-4">
       {/* Header con botón de refresco */}

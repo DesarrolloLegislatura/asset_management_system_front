@@ -4,6 +4,7 @@ import { ArrowLeft, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { useAuthStore } from "@/store/authStore";
+import { getEditRoute } from "@/utils/navigation";
 import { FichaDetailTable } from "./FichaDetailTable";
 import { LoadingPage } from "../Pages/LoadingPage";
 import NotFound from "../Pages/NotFoundPage";
@@ -48,11 +49,8 @@ export const FichaDetail = () => {
   }, [idFichaIngreso, fetchByIdFichaTecnica]);
 
   const handlerEdit = () => {
-    if (group === "Administrador" || group === "Admin" || group === "Tecnico") {
-      navigate(`/ficha-tecnica/${idFichaIngreso}`);
-    } else if (group === "Administrativo") {
-      navigate(`/ficha-ingreso/${idFichaIngreso}`);
-    }
+    const editRoute = getEditRoute(group, idFichaIngreso);
+    if (editRoute) navigate(editRoute);
   };
 
   // Loading State

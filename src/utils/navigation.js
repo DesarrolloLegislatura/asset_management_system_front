@@ -1,4 +1,4 @@
-import { PERMISSIONS } from "@/constants/permissions";
+import { PERMISSIONS, USER_GROUPS } from "@/constants/permissions";
 import { ClipboardCheck, Wrench } from "lucide-react";
 
 /**
@@ -78,4 +78,53 @@ export const getDefaultRoute = (userPermissions) => {
   }
 
   return "/unauthorized";
+};
+
+/**
+ * Ruta por defecto tras el login según el grupo del usuario.
+ * Fuente única reutilizada por useAuth y los loaders de auth.
+ * @param {string|null} group
+ * @returns {string}
+ */
+export const getDefaultRouteForGroup = (group) => {
+  switch (group) {
+    case USER_GROUPS.ADMINISTRATIVO:
+      return "/ficha-ingreso";
+    case USER_GROUPS.TECNICO:
+    case USER_GROUPS.ADMINISTRADOR:
+      return "/";
+    default:
+      return "/unauthorized";
+  }
+};
+
+/**
+ * Ruta de "ver detalle" de una ficha según el grupo.
+ * @param {string|null} group
+ * @param {string|number} id
+ * @returns {string}
+ */
+export const getDetailRoute = (group, id) => {
+  if (group === USER_GROUPS.TECNICO) return `/ficha-tecnica/detail/${id}`;
+  if (
+    group === USER_GROUPS.ADMINISTRATIVO ||
+    group === USER_GROUPS.ADMINISTRADOR
+  ) {
+    return `/ficha-ingreso/detail/${id}`;
+  }
+  return "/unauthorized";
+};
+
+/**
+ * Ruta de "editar" una ficha según el grupo (null si el grupo no puede editar).
+ * @param {string|null} group
+ * @param {string|number} id
+ * @returns {string|null}
+ */
+export const getEditRoute = (group, id) => {
+  if (group === USER_GROUPS.ADMINISTRADOR || group === USER_GROUPS.TECNICO) {
+    return `/ficha-tecnica/${id}`;
+  }
+  if (group === USER_GROUPS.ADMINISTRATIVO) return `/ficha-ingreso/${id}`;
+  return null;
 };

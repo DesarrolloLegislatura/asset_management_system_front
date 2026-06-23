@@ -2,74 +2,49 @@ import { cn } from "@/utils/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useForm } from "react-hook-form";
 import { useAuth } from "@/hooks/useAuth";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleAlert } from "lucide-react";
-import { useCallback, useEffect } from "react";
+import { useActionState } from "react";
 import { z } from "zod";
-import { useNavigate } from "react-router";
-import { useAuthStore } from "@/store/authStore";
+
 // Schema de validación
 const loginSchema = z.object({
   username: z.string().min(5, "El usuario debe tener al menos 5 caracteres"),
   password: z.string().min(5, "La contraseña debe tener al menos 5 caracteres"),
-  // .regex(/[A-Z]/, "Debe contener al menos una mayúscula"),
 });
 
+const initialState = { fieldErrors: {}, formError: null };
+
 export function LoginForm({ className, ...props }) {
-  const navigate = useNavigate();
-  const { login, authError, isAuthenticated } = useAuth();
-  const user = useAuthStore((state) => state.user);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting, isDirty },
-    clearErrors,
-  } = useForm({
-    resolver: zodResolver(loginSchema),
-    mode: "onBlur",
-    reValidateMode: "onChange",
-  });
+  const { login } = useAuth();
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      // Redirigir según el grupo del usuario
-      const userGroup = user.group;
+  // React 19 Action: gestiona pending y errores sin estado manual.
+  // La validación de campos (Zod) corre dentro del Action; la redirección
+  // en caso de éxito la realiza useAuth.login.
+  const [state, formAction, isPending] = useActionState(async (_prev, formData) => {
+    const parsed = loginSchema.safeParse({
+      username: formData.get("username"),
+      password: formData.get("password"),
+    });
 
-      if (!userGroup) {
-        navigate("/unauthorized", { replace: true });
-        return;
-      }
-
-      if (userGroup.includes("Administrativo")) {
-        navigate("/ficha-ingreso", { replace: true });
-      } else if (userGroup.includes("Tecnico")) {
-        navigate("/", { replace: true });
-      } else if (userGroup.includes("Admin")) {
-        navigate("/", { replace: true });
-      } else {
-        navigate("/unauthorized", { replace: true });
-      }
+    if (!parsed.success) {
+      return {
+        fieldErrors: parsed.error.flatten().fieldErrors,
+        formError: null,
+      };
     }
-  }, [isAuthenticated, navigate, user]);
 
-  const onSubmit = useCallback(
-    async (data) => {
-      try {
-        clearErrors();
-        const { username, password } = data;
-        await login(username, password);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    [login, clearErrors]
-  );
+    try {
+      await login(parsed.data.username, parsed.data.password);
+      return initialState;
+    } catch (error) {
+      return { fieldErrors: {}, formError: error.message };
+    }
+  }, initialState);
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      action={formAction}
       className={cn("flex flex-col gap-6", className)}
       {...props}
       noValidate
@@ -82,13 +57,13 @@ export function LoginForm({ className, ...props }) {
         </p>
       </div>
 
-      {errors.root && (
+      {state.formError && (
         <div
           role="alert"
           className="flex items-center gap-2 p-3 text-sm text-red-600 bg-red-50 rounded-md"
         >
           <CircleAlert className="w-5 h-5" />
-          <span>{errors.root.message}</span>
+          <span>{state.formError}</span>
         </div>
       )}
 
@@ -97,21 +72,21 @@ export function LoginForm({ className, ...props }) {
           <Label htmlFor="username">Usuario</Label>
           <Input
             id="username"
+            name="username"
             type="text"
             placeholder="usuario"
             autoComplete="username"
-            aria-invalid={!!errors.username}
+            aria-invalid={!!state.fieldErrors.username}
             aria-describedby="username-error"
-            disabled={isSubmitting}
-            {...register("username")}
+            disabled={isPending}
           />
-          {errors.username && (
+          {state.fieldErrors.username && (
             <p
               id="username-error"
               className="flex items-center gap-1 mt-1 text-sm text-red-600"
             >
               <CircleAlert className="w-4 h-4" />
-              {errors.username.message}
+              {state.fieldErrors.username[0]}
             </p>
           )}
         </div>
@@ -120,42 +95,32 @@ export function LoginForm({ className, ...props }) {
           <Label htmlFor="password">Contraseña</Label>
           <Input
             id="password"
+            name="password"
             type="password"
             placeholder="********"
             autoComplete="current-password"
-            aria-invalid={!!errors.password}
+            aria-invalid={!!state.fieldErrors.password}
             aria-describedby="password-error"
-            disabled={isSubmitting}
-            {...register("password")}
+            disabled={isPending}
           />
-          {errors.password && (
+          {state.fieldErrors.password && (
             <p
               id="password-error"
               className="flex items-center gap-1 mt-1 text-sm text-red-600"
             >
               <CircleAlert className="w-4 h-4" />
-              {errors.password.message}
+              {state.fieldErrors.password[0]}
             </p>
           )}
         </div>
-        {authError && (
-          <>
-            <p
-              id="username-error"
-              className="flex items-center gap-1 mt-1 text-sm text-red-600"
-            >
-              <CircleAlert className="w-10 h-10" />
-              {authError}
-            </p>
-          </>
-        )}
+
         <Button
           type="submit"
           className="w-full"
-          disabled={isSubmitting || !isDirty}
-          aria-disabled={isSubmitting || !isDirty}
+          disabled={isPending}
+          aria-disabled={isPending}
         >
-          {isSubmitting ? "Iniciando sesión..." : "Iniciar Sesión"}
+          {isPending ? "Iniciando sesión..." : "Iniciar Sesión"}
         </Button>
       </div>
     </form>

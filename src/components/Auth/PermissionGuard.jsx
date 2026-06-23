@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { usePermissions } from "@/contexts/PermissionContext";
+import { usePermissions } from "@/hooks/usePermissions";
 
 /**
  * Componente que renderiza children solo si el usuario tiene los permisos necesarios

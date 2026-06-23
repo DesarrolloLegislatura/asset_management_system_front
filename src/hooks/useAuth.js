@@ -1,24 +1,41 @@
 import authService from "@/api/authService";
 import { parseJwt } from "@/utils/jwt";
 import { useAuthStore } from "@/store/authStore";
-import { useState } from "react";
 import { useNavigate } from "react-router";
+import { resolvePrimaryGroup } from "@/lib/authz";
+import { getDefaultRouteForGroup } from "@/utils/navigation";
+
+/**
+ * Deriva un mensaje de error amigable a partir del error de red/HTTP.
+ */
+const getAuthErrorMessage = (error) => {
+  if (error?.message === "No se pudo decodificar el token") return error.message;
+  if (error?.response) {
+    return error.response.status === 404
+      ? "Usuario no encontrado"
+      : error.response.data?.message || "Credenciales inválidas";
+  }
+  if (error?.message?.includes("Network Error")) {
+    return "Error de red. Verifica tu conexión";
+  }
+  return "Error de conexión";
+};
 
 export const useAuth = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const setUser = useAuthStore((state) => state.setUser);
   const clearAuth = useAuthStore((state) => state.clearAuth);
   const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
 
+  /**
+   * Autentica al usuario. En caso de éxito navega a la ruta por defecto de su
+   * grupo. Lanza un Error con mensaje amigable si falla (lo consume el Action
+   * del LoginForm para el estado pending/error de React 19).
+   */
   const login = async (username, password) => {
-    setLoading(true);
-    setError(null);
     try {
       const { access, refresh } = await authService.auth(username, password);
 
-      // Decodificar el token para obtener la info del usuario
       const payload = parseJwt(access);
       if (!payload) {
         throw new Error("No se pudo decodificar el token");
@@ -32,7 +49,8 @@ export const useAuth = () => {
         groups = [],
       } = payload;
 
-      const group = validateGroups(groups);
+      // Mayor privilegio gana cuando hay varios grupos.
+      const group = resolvePrimaryGroup(groups);
 
       setUser({
         id,
@@ -40,62 +58,17 @@ export const useAuth = () => {
         first_name: firstName,
         last_name: lastName,
         groups,
-        group: group,
+        group,
         token: access,
         refreshToken: refresh,
       });
 
-      redirectBasedGroup(groups);
+      navigate(getDefaultRouteForGroup(group), { replace: true });
 
       return { access, refresh };
     } catch (error) {
-      let errorMessage = "Error de conexión";
-
-      if (error.response) {
-        errorMessage =
-          error.response.status === 404
-            ? "Usuario no encontrado"
-            : error.response.data?.message || "Credenciales inválidas";
-      } else if (error.message.includes("Network Error")) {
-        errorMessage = "Error de red. Verifica tu conexión";
-      }
-
-      setError(errorMessage);
       clearAuth();
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const redirectBasedGroup = (groups = []) => {
-    const userGroups = groups;
-
-    if (userGroups.length === 0) {
-      navigate("/unauthorized", { replace: true });
-      return;
-    }
-
-    if (userGroups.includes("Administrativo")) {
-      navigate("/ficha-ingreso", { replace: true });
-    } else if (userGroups.includes("Tecnico")) {
-      navigate("/", { replace: true });
-    } else if (userGroups.includes("Administrador")) {
-      navigate("/", { replace: true });
-    } else {
-      navigate("/unauthorized", { replace: true });
-    }
-  };
-
-  const validateGroups = (groups = []) => {
-    if (groups.includes("Administrativo")) {
-      return "Administrativo";
-    } else if (groups.includes("Tecnico")) {
-      return "Tecnico";
-    } else if (groups.includes("Administrador")) {
-      return "Administrador";
-    } else {
-      return "Unauthorized";
+      throw new Error(getAuthErrorMessage(error));
     }
   };
 
@@ -107,10 +80,7 @@ export const useAuth = () => {
   return {
     isAuthenticated: !!user.token,
     token: user.token || null,
-    authLoading: loading,
-    authError: error,
     login,
     logout,
-    clearError: () => setError(null),
   };
 };

@@ -1,4 +1,3 @@
-import { encryptedStorage } from "@/utils/encryptedStorage";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
@@ -17,16 +16,19 @@ const initialState = {
 
 export const useAuthStore = create()(
   persist(
-    // eslint-disable-next-line no-unused-vars
-    (set, _get) => ({
+    (set) => ({
       user: initialState.user,
-      setUser: (user) => set((state) => ({ ...state, user: { ...state.user, ...user } })),
+      setUser: (user) =>
+        set((state) => ({ ...state, user: { ...state.user, ...user } })),
       clearAuth: () => set({ user: initialState.user }),
     }),
     {
       name: "auth-storage",
-      storage: createJSONStorage(() => encryptedStorage),
-      // storage: encryptedStorage,
+      // sessionStorage síncrono: la rehidratación ocurre antes de que corran
+      // los loaders de las rutas, por lo que el token está disponible en el
+      // primer render (incluido hard-reload). El almacenamiento en cliente NO
+      // es una frontera de seguridad: el backend valida cada petición.
+      storage: createJSONStorage(() => sessionStorage),
     }
   )
 );

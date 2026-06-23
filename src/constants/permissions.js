@@ -85,39 +85,5 @@ export const GROUP_PERMISSIONS = {
   ],
 };
 
-// Rutas accesibles por grupo
-export const GROUP_ROUTES = {
-  [USER_GROUPS.ADMINISTRADOR]: [
-    "/",
-    "/ficha-ingreso",
-    "/ficha-ingreso/:idFichaIngreso",
-    "/ficha-ingreso/detail/:idFichaIngreso",
-    "/ficha-tecnica/:idFichaIngreso", // Solo edición
-    "/ficha-tecnica/detail/:idFichaIngreso",
-    "/ficha-toner",
-    "/ficha-servicio",
-    "/inventory",
-  ],
-
-  [USER_GROUPS.TECNICO]: [
-    "/",
-    "/ficha-ingreso",
-    "/ficha-ingreso/:idFichaIngreso",
-    "/ficha-ingreso/detail/:idFichaIngreso",
-    "/ficha-tecnica/:idFichaIngreso", // Solo edición
-    "/ficha-tecnica/detail/:idFichaIngreso",
-    "/ficha-toner",
-    "/ficha-servicio",
-    "/inventory",
-  ],
-
-  [USER_GROUPS.ADMINISTRATIVO]: [
-    "/",
-    "/ficha-ingreso",
-    "/ficha-ingreso/:idFichaIngreso",
-    "/ficha-ingreso/detail/:idFichaIngreso",
-    "/ficha-toner",
-    "/ficha-servicio",
-    "/inventory",
-  ],
-};
+// El acceso por ruta se declara en la config de rutas (src/routes/routes.jsx)
+// mediante el loader protect(PERMISSIONS.X). Una sola fuente de verdad.

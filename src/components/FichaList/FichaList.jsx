@@ -13,8 +13,9 @@ import { Badge } from "@/components/ui/badge";
 import { Edit, Eye, Plus, Wrench } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
-import { usePermission } from "@/hooks/usePermission";
+import { usePermissions } from "@/hooks/usePermissions";
 import { PERMISSIONS, USER_GROUPS } from "@/constants/permissions";
+import { getDetailRoute, getEditRoute } from "@/utils/navigation";
 import { FichaListPaginate } from "./FichaListPaginate";
 import { FichaListTable } from "./FichaListTable";
 import { FichaListFilter } from "./FichaListFilter";
@@ -27,7 +28,7 @@ export const FichaList = () => {
   const navigate = useNavigate();
   const { fichasTecnicas, loading, refreshData } = useFichaTecnica(true);
 
-  const { userGroup, hasPermission } = usePermission();
+  const { userGroup, hasPermission } = usePermissions();
   const [sorting, setSorting] = useState([
     { id: "status", desc: false },
     { id: "date_in", desc: true },
@@ -342,58 +343,28 @@ export const FichaList = () => {
 
   // Función para renderizar el botón de editar según permisos
   const renderEditButton = (fichaId) => {
-    // Administradores: pueden editar fichas técnicas
-    if (
-      userGroup === USER_GROUPS.ADMINISTRADOR &&
-      hasPermission(PERMISSIONS.TECHNICAL_SHEET_EDIT)
-    ) {
-      return (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => navigate(`/ficha-tecnica/${fichaId}`)}
-          title="Editar como Ficha Técnica"
-        >
-          <Edit className="h-4 w-4" />
-        </Button>
-      );
-    }
+    const isAdministrativo = userGroup === USER_GROUPS.ADMINISTRATIVO;
+    const requiredPermission = isAdministrativo
+      ? PERMISSIONS.FICHA_INGRESO_EDIT
+      : PERMISSIONS.TECHNICAL_SHEET_EDIT;
 
-    // Técnicos: pueden editar fichas técnicas
-    if (
-      userGroup === USER_GROUPS.TECNICO &&
-      hasPermission(PERMISSIONS.TECHNICAL_SHEET_EDIT)
-    ) {
-      return (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => navigate(`/ficha-tecnica/${fichaId}`)}
-          title="Editar como Ficha Técnica"
-        >
-          <Edit className="h-4 w-4" />
-        </Button>
-      );
-    }
+    const editRoute = getEditRoute(userGroup, fichaId);
+    if (!editRoute || !hasPermission(requiredPermission)) return null;
 
-    // Administrativos: pueden editar fichas de ingreso
-    if (
-      userGroup === USER_GROUPS.ADMINISTRATIVO &&
-      hasPermission(PERMISSIONS.FICHA_INGRESO_EDIT)
-    ) {
-      return (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => navigate(`/ficha-ingreso/${fichaId}`)}
-          title="Editar Ficha de Ingreso"
-        >
-          <Edit className="h-4 w-4" />
-        </Button>
-      );
-    }
-
-    return null;
+    return (
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => navigate(editRoute)}
+        title={
+          isAdministrativo
+            ? "Editar Ficha de Ingreso"
+            : "Editar como Ficha Técnica"
+        }
+      >
+        <Edit className="h-4 w-4" />
+      </Button>
+    );
   };
 
   // Determinar la ruta para crear nueva ficha según el grupo del usuario
@@ -407,13 +378,7 @@ export const FichaList = () => {
 
   // Ver detalle de ficha
   const handleView = (id) => {
-    if (userGroup === USER_GROUPS.TECNICO) {
-      navigate(`/ficha-tecnica/detail/${id}`);
-    } else if (userGroup === USER_GROUPS.ADMINISTRATIVO) {
-      navigate(`/ficha-ingreso/detail/${id}`);
-    } else if (userGroup === USER_GROUPS.ADMINISTRADOR) {
-      navigate(`/ficha-ingreso/detail/${id}`);
-    }
+    navigate(getDetailRoute(userGroup, id));
   };
 
   return (
