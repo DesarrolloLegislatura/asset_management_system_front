@@ -1,4 +1,4 @@
-import axiosService from "./axiosService";
+import axiosService from "@/shared/api/axiosService";
 const statusService = {
   getById: async (id) => {
     return await axiosService.get(`/tds/status/${id}`);

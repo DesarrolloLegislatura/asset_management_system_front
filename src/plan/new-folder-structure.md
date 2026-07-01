@@ -85,7 +85,7 @@ sheet, skeleton, table, tabs` (15 archivos).
 - **Hecho cuando:** `grep -rn "components/ui" src` = 0 resultados;
   `npm run build` y `npm run lint` pasan; login y listado renderizan igual que antes.
 
-### F2 — `shared/api`: mover el cliente Axios base
+### F2 — `shared/api`: mover el cliente Axios base ✅ COMPLETADO
 
 **Mover** `src/api/axiosService.js` → `src/shared/api/axiosService.js` (`git mv`).
 

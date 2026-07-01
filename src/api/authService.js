@@ -1,4 +1,4 @@
-import axiosService from "./axiosService";
+import axiosService from "@/shared/api/axiosService";
 const authService = {
   auth: async (username, password) => {
     try {
