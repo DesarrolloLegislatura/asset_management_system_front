@@ -10,7 +10,7 @@ import { PERMISSIONS } from "@/constants/permissions.js";
 import { FichaList } from "@/components/FichaList/FichaList.jsx";
 import { FichaDetail } from "@/components/FichaDetail/FichaDetail.jsx";
 import { FichaServicioForm } from "@/components/FichaServicion/FichaServicioForm.jsx";
-import { requireAuth, protect, redirectIfAuthenticated } from "./guards.js";
+import { requireAuth, protect, redirectIfAuthenticated } from "@/shared/auth/guards.js";
 
 const routes = [
   {

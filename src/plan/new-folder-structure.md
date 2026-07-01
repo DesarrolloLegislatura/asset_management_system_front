@@ -103,22 +103,21 @@ sheet, skeleton, table, tabs` (15 archivos).
   `npm run build` y `npm run lint` pasan; una petición autenticada (p. ej. login)
   sigue funcionando contra la API.
 
-### F3 — `shared/auth`: mover los guards
+### F3 — `shared/auth`: mover los guards ✅ COMPLETADO
 
-**Mover** `src/routes/AuthGuard.jsx` y `src/routes/GroupsGuard.jsx` → `src/shared/auth/` (`git mv`).
-
-**Ajustes de import obligatorios por el cambio de profundidad:**
-- En `AuthGuard.jsx`: `../store/authStore` → `@/store/authStore`.
-- (`GroupsGuard.jsx` ya usa alias `@`, sin cambios.)
-
-**Actualizar** `src/routes/routes.jsx`:
-- `./AuthGuard.jsx` → `@/shared/auth/AuthGuard.jsx`
-- `./GroupsGuard.jsx` → `@/shared/auth/GroupsGuard.jsx`
+> **Nota de ejecución:** para cuando se implementó este feature, `AuthGuard.jsx` y
+> `GroupsGuard.jsx` ya no existían (fueron reemplazados en el commit `183eae6` por
+> loaders de React Router 7 en `src/routes/guards.js`: `requireAuth`, `protect`,
+> `redirectIfAuthenticated`). Se adaptó el objetivo del feature moviendo ese
+> archivo tal cual a `src/shared/auth/guards.js` y actualizando su único
+> importador (`src/routes/routes.jsx`) al alias `@/shared/auth/guards.js`.
+> También se actualizó un comentario obsoleto en `src/components/Auth/index.js`
+> que todavía referenciaba la ruta vieja.
 
 - **Dependencias:** ninguna (independiente de F1 y F2).
-- **Hecho cuando:** `grep -rn "\./AuthGuard\|\./GroupsGuard" src/routes` = 0;
+- **Hecho cuando:** `grep -rn "\./guards" src/routes` = 0 resultados;
   las rutas siguen protegidas (redirección a `/auth/login` sin sesión y control por grupos);
-  `npm run build` y `npm run lint` pasan.
+  `npm run build` pasa (no hay script `npm run lint` en este proyecto).
 
 ### F4 — Andamiaje de la feature `tickets`
 
