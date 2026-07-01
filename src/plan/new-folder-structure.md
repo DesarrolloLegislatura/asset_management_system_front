@@ -119,7 +119,7 @@ sheet, skeleton, table, tabs` (15 archivos).
   las rutas siguen protegidas (redirección a `/auth/login` sin sesión y control por grupos);
   `npm run build` pasa (no hay script `npm run lint` en este proyecto).
 
-### F4 — Andamiaje de la feature `tickets`
+### F4 — Andamiaje de la feature `tickets` ✅ COMPLETADO
 
 **Crear** el árbol bajo `src/features/tickets/` (carpetas vacías con `.gitkeep`
 donde no haya contenido aún):
