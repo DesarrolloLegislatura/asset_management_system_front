@@ -7,8 +7,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/shared/ui/button";
+import { Badge } from "@/shared/ui/badge";
 
 import { Edit, Eye, Plus, Wrench } from "lucide-react";
 import { useNavigate } from "react-router";

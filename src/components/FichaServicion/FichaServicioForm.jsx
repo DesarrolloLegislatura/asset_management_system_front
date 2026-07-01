@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/button";
 import {
   Form,
   FormControl,
@@ -6,16 +6,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/shared/ui/form";
+import { Input } from "@/shared/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+} from "@/shared/ui/select";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import {
   AREAS_MOCK,
   BUILDINGS_MOCK,
@@ -23,7 +23,7 @@ import {
   SERVICIOS_MOCK,
   TIPOS_BIEN_MOCK,
 } from "@/data/fichaServicioData";
-import { SearchableSelect } from "@/components/ui/searchable-select";
+import { SearchableSelect } from "@/shared/ui/searchable-select";
 import { Plus, Trash2, ClipboardList } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";

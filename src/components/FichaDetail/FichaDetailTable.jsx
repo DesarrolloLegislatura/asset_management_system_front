@@ -1,4 +1,4 @@
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/shared/ui/tabs";
 import { FichaTabInfoBien } from "./FichaTabInfoBien";
 import { FichaTabInfoContacto } from "./FichaTabInfoContacto";
 import { FichaTabResolucionTecnica } from "./FichaTabResolucionTecnica";

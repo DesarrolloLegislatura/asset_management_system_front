@@ -1,10 +1,10 @@
 import { Printer } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
-import { Button } from "../ui/button";
+import { Button } from "@/shared/ui/button";
 import { useRef } from "react";
 import PropTypes from "prop-types";
 import { ContentPrintFichaIngreso } from "../Print/ContentPrintFichaIngreso";
-import { ScissorsLine } from "../ui/ScissorsLine";
+import { ScissorsLine } from "@/shared/ui/ScissorsLine";
 
 export const FichaIngresoPrint = ({ fichaTecnicaById }) => {
   const contentRef = useRef(null);

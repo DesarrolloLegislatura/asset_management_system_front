@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { Badge } from "@/shared/ui/badge";
 import { InventorySerch } from "@/components/Iventario/InventorySerch";
 import { useTheme } from "@/hooks/useTheme";
 

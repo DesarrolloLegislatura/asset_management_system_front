@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import { useAsset } from "../../hooks/useAsset";
 import { Search } from "lucide-react";
-import { Input } from "../ui/input";
+import { Input } from "@/shared/ui/input";
 
 export const InventorySerch = ({
   value,

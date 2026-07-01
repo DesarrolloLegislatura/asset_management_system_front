@@ -1,7 +1,7 @@
 import { useEffect, useState, lazy } from "react";
 import { useNavigate, useParams } from "react-router";
 import { ArrowLeft, Pencil } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/button";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { useAuthStore } from "@/store/authStore";
 import { getEditRoute } from "@/utils/navigation";

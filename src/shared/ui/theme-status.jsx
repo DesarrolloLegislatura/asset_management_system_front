@@ -1,5 +1,5 @@
 import { useTheme } from "@/contexts/ThemeContext";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/shared/ui/badge";
 
 export function ThemeStatus() {
   const { theme, isDark } = useTheme();

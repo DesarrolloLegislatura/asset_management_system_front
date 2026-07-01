@@ -1,13 +1,13 @@
 import { Filter, Search, X } from "lucide-react";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Button } from "@/shared/ui/button";
+import { Input } from "@/shared/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/shared/ui/select";
 
 import PropTypes from "prop-types";
 export const FichaListFilter = ({

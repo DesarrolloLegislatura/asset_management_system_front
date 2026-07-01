@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/button";
 import {
   Form,
   FormControl,
@@ -6,15 +6,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/shared/ui/form";
+import { Input } from "@/shared/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/shared/ui/select";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { useStatus } from "@/hooks/useStatus";
 import { useAuthStore } from "@/store/authStore";
@@ -23,7 +23,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router";
 import { Plus } from "lucide-react";
 import { InventorySerch } from "../Iventario/InventorySerch";
-import { Card, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardHeader, CardTitle } from "@/shared/ui/card";
 import { LoadingPage } from "../Pages/LoadingPage";
 
 export function FichaIngresoForm() {

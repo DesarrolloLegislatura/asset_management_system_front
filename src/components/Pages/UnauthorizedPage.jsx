@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { Button } from "../ui/button";
+import { Button } from "@/shared/ui/button";
 import { ArrowLeft } from "lucide-react";
 
 export const Unauthorized = () => {

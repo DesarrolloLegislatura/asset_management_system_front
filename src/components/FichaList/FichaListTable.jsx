@@ -5,10 +5,10 @@ import {
   TableRow,
   TableCell,
   TableHead,
-} from "../ui/table";
+} from "@/shared/ui/table";
 import { ArrowUp, ArrowDown, RefreshCw } from "lucide-react";
 import { flexRender } from "@tanstack/react-table";
-import { Button } from "../ui/button";
+import { Button } from "@/shared/ui/button";
 import { usePermissions } from "@/hooks/usePermissions";
 import { PERMISSIONS } from "@/constants/permissions";
 

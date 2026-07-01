@@ -1,7 +1,7 @@
 import { Computer, MessageSquare } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { TabsContent } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { Separator } from "@/shared/ui/separator";
+import { TabsContent } from "@/shared/ui/tabs";
 
 export const FichaTabInfoBien = ({ fichaTecnicaById }) => {
   return (

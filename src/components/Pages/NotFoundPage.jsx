@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/button";
 import { ArrowLeft } from "lucide-react";
 
 const NotFoundPage = () => {

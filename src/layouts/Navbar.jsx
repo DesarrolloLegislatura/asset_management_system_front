@@ -6,13 +6,13 @@ import {
   SheetTitle,
   SheetDescription,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
+} from "@/shared/ui/sheet";
+import { Button } from "@/shared/ui/button";
 import { Menu, User, LogOut, FilePenLine, ExternalLink } from "lucide-react";
 import { Sidebar } from "./Sidebar";
 import { useAuthStore } from "@/store/authStore";
 import { useNavigate } from "react-router";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { ThemeToggle } from "@/shared/ui/theme-toggle";
 
 export function Navbar() {
   const user = useAuthStore((state) => state.user);

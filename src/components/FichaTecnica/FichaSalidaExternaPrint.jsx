@@ -1,9 +1,9 @@
 import { Printer } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
-import { Button } from "../ui/button";
+import { Button } from "@/shared/ui/button";
 import { useRef } from "react";
 import { ContentPrintFichaTecnica } from "../Print/ContentPrintFichaTecnica";
-import { ScissorsLine } from "../ui/ScissorsLine";
+import { ScissorsLine } from "@/shared/ui/ScissorsLine";
 import { ContentPrintFichaSalidaExterna } from "../Print/ContentPrintFichaSalidaExterna";
 
 export const FichaSalidaExternaPrint = ({ fichaTecnicaById }) => {

@@ -5,7 +5,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { useStatus } from "@/hooks/useStatus";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/button";
 import {
   Form,
   FormControl,
@@ -13,17 +13,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/shared/ui/form";
+import { Input } from "@/shared/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+} from "@/shared/ui/select";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { Badge } from "@/shared/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -31,7 +31,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/shared/ui/dialog";
 import { ChevronDown, ChevronUp, Loader2, Edit, Trash2 } from "lucide-react";
 // import { ASSISTANCE_TYPES } from "@/constants/assistance";
 import { LoadingPage } from "../Pages/LoadingPage";
