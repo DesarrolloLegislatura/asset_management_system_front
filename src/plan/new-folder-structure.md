@@ -158,7 +158,7 @@ donde no haya contenido aún):
   `MainLayout` (confirmado, responde 200 en el server de dev); las rutas de
   fichas siguen intactas; `npm run build` pasa (no hay script `npm run lint`).
 
-### F6 — Documentar la convención feature-based
+### F6 — Documentar la convención feature-based ✅ COMPLETADO
 
 **Crear** `src/features/README.md` describiendo:
 - Propósito de `shared/` vs `features/` y la regla `shared → features`.
