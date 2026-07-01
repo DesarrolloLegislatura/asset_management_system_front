@@ -11,6 +11,7 @@ import { FichaList } from "@/components/FichaList/FichaList.jsx";
 import { FichaDetail } from "@/components/FichaDetail/FichaDetail.jsx";
 import { FichaServicioForm } from "@/components/FichaServicion/FichaServicioForm.jsx";
 import { requireAuth, protect, redirectIfAuthenticated } from "@/shared/auth/guards.js";
+import { ticketsRoutes } from "@/features/tickets";
 
 const routes = [
   {
@@ -77,6 +78,9 @@ const routes = [
         element: <FichaServicioForm />,
         loader: protect(PERMISSIONS.FICHA_SERVICIO_CREATE),
       },
+      // Feature piloto tickets (andamiaje, sin permiso propio todavía;
+      // protegida solo por el gate de sesión del layout padre).
+      ...ticketsRoutes,
     ],
   },
   {

@@ -141,19 +141,22 @@ donde no haya contenido aún):
   el placeholder compila; `npm run build` y `npm run lint` pasan.
   (Todavía no navegable — eso es F5.)
 
-### F5 — Montaje de las rutas de tickets en el router raíz
+### F5 — Montaje de las rutas de tickets en el router raíz ✅ COMPLETADO
 
-**Editar** `src/routes/routes.jsx`:
-- Importar `ticketsRoutes` desde `@/features/tickets`.
-- Insertar la(s) ruta(s) como hijas de `MainLayout` (dentro de `AuthGuard`),
-  envueltas en `GroupsGuard` siguiendo la convención existente.
+> **Nota de ejecución:** igual que en F3, no existen `AuthGuard`/`GroupsGuard`
+> como componentes envolventes; el gate de sesión es el `loader: requireAuth`
+> del propio `MainLayout` y el control por grupo es `loader: protect(PERMISSIONS.X)`
+> por ruta hija. Como F4 es solo andamiaje sin lógica de negocio, no se creó un
+> permiso nuevo (`PERMISSIONS.TICKETS_*`) — eso sería lógica funcional real,
+> fuera de alcance. La ruta `tickets` quedó como hija de `MainLayout` heredando
+> únicamente el gate de sesión (`requireAuth`), sin `protect()` adicional.
 
 - **Dependencias:** F4 (las rutas existen) y F3 (los guards viven en `shared/auth`).
 - **Notas:** no se añade enlace en `Sidebar`/`Navbar` (tocaría layout legacy;
   queda como sub-paso opcional fuera del núcleo estructural).
 - **Hecho cuando:** navegar a `/tickets` renderiza el placeholder dentro de
-  `MainLayout` + `AuthGuard`; las rutas de fichas siguen intactas;
-  `npm run build` y `npm run lint` pasan.
+  `MainLayout` (confirmado, responde 200 en el server de dev); las rutas de
+  fichas siguen intactas; `npm run build` pasa (no hay script `npm run lint`).
 
 ### F6 — Documentar la convención feature-based
 
