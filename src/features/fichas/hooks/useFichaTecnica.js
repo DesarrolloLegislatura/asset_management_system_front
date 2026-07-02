@@ -1,4 +1,4 @@
-import fichaTecnicaService from "@/api/fichaTecnicaService";
+import fichaTecnicaService from "../api/fichaTecnicaService";
 import { useCallback, useReducer, useEffect } from "react";
 
 // Reducer para manejar estados relacionados

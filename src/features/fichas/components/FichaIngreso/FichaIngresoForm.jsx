@@ -15,8 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui/select";
-import { useFichaTecnica } from "@/hooks/useFichaTecnica";
-import { useStatus } from "@/hooks/useStatus";
+import { useFichaTecnica } from "../../hooks/useFichaTecnica";
+import { useStatus } from "../../hooks/useStatus";
 import { useAuthStore } from "@/shared/auth/authStore";
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";

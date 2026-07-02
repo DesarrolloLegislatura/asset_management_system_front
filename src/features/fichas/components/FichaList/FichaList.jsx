@@ -12,7 +12,7 @@ import { Badge } from "@/shared/ui/badge";
 
 import { Edit, Eye, Plus, Wrench } from "lucide-react";
 import { useNavigate } from "react-router";
-import { useFichaTecnica } from "@/hooks/useFichaTecnica";
+import { useFichaTecnica } from "../../hooks/useFichaTecnica";
 import { usePermissions } from "@/shared/auth/usePermissions";
 import { PERMISSIONS, USER_GROUPS } from "@/shared/auth/permissions";
 import { getDetailRoute, getEditRoute } from "@/shared/lib/navigation";

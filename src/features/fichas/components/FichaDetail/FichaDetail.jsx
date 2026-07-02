@@ -2,7 +2,7 @@ import { useEffect, useState, lazy } from "react";
 import { useNavigate, useParams } from "react-router";
 import { ArrowLeft, Pencil } from "lucide-react";
 import { Button } from "@/shared/ui/button";
-import { useFichaTecnica } from "@/hooks/useFichaTecnica";
+import { useFichaTecnica } from "../../hooks/useFichaTecnica";
 import { useAuthStore } from "@/shared/auth/authStore";
 import { getEditRoute } from "@/shared/lib/navigation";
 import { FichaDetailTable } from "./FichaDetailTable";

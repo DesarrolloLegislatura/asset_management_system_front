@@ -1,9 +1,9 @@
-import statusService from "@/api/statusService";
+import statusService from "../api/statusService";
 import { useEffect, useMemo, useState } from "react";
 import {
   ALLOWED_STATES_BY_CONTEXT,
   getTransitionsByCurrentState,
-} from "@/constants/statusTransitions";
+} from "../constants/statusTransitions";
 
 export const useStatus = () => {
   const [status, setStatus] = useState([]);

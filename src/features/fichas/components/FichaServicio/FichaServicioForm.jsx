@@ -22,7 +22,7 @@ import {
   REALIZADO_POR_MOCK,
   SERVICIOS_MOCK,
   TIPOS_BIEN_MOCK,
-} from "@/data/fichaServicioData";
+} from "../../data/fichaServicioData";
 import { SearchableSelect } from "@/shared/ui/searchable-select";
 import { Plus, Trash2, ClipboardList } from "lucide-react";
 import { useEffect, useState } from "react";

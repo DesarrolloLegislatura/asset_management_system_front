@@ -1,0 +1,1 @@
+export { fichasRoutes } from "./routes";
