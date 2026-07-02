@@ -1,4 +1,4 @@
-import { useTheme } from "@/contexts/ThemeContext";
+import { useTheme } from "@/shared/theme/ThemeContext";
 import { Badge } from "@/shared/ui/badge";
 
 export function ThemeStatus() {

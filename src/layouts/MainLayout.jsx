@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 import { Navbar } from "./Navbar";
-import { useThemeWatcher } from "@/hooks/useThemeWatcher";
+import { useThemeWatcher } from "@/shared/theme/useThemeWatcher";
 
 export const MainLayout = () => {
   // Monitorear cambios de tema

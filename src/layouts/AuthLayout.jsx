@@ -1,6 +1,6 @@
 import { FilePenLine } from "lucide-react";
 import { Outlet } from "react-router";
-import { useThemeWatcher } from "@/hooks/useThemeWatcher";
+import { useThemeWatcher } from "@/shared/theme/useThemeWatcher";
 
 export const AuthLayout = () => {
   // Monitorear cambios de tema
