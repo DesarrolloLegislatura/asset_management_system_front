@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router";
-import { AuthLayout } from "../layouts/AuthLayout.jsx";
-import { MainLayout } from "../layouts/MainLayout";
+import { AuthLayout } from "@/shared/layouts/AuthLayout.jsx";
+import { MainLayout } from "@/shared/layouts/MainLayout";
 import { LoginForm } from "@/shared/auth/components/LoginForm.jsx";
 import { FichaTecnicaForm } from "@/components/FichaTecnica/FichaTecnicaForm.jsx";
 import { FichaIngresoForm } from "@/components/FichaIngreso/FichaIngresoForm.jsx";
