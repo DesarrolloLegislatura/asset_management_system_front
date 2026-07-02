@@ -143,7 +143,7 @@ El flat config actual solo matchea `**/*.{js,jsx}`; sin esto, los `.ts/.tsx` que
   `.js/.jsx`/`vite.config.js`) es idéntico con y sin el bloque `.ts/.tsx` nuevo (comparado con
   `git stash` del `eslint.config.js`), confirmando que el legacy no cambió de comportamiento.
 
-## F4 — Borde tipado de `shared/` vía `.d.ts` de acompañamiento
+## F4 — Borde tipado de `shared/` vía `.d.ts` de acompañamiento ✅ COMPLETADO
 
 Tipa el límite que los features consumen, **sin** reescribir el JS de `shared/`.
 
@@ -163,6 +163,14 @@ Tipa el límite que los features consumen, **sin** reescribir el JS de `shared/`
   - Desde un archivo `.ts`, `import axiosService from "@/shared/api/axiosService"` resuelve a
     `AxiosInstance` tipado; los guards importados exponen sus firmas.
   - `pnpm run typecheck` sigue en 0.
+- **Nota de ejecución**: `guards.d.ts` tipa `requireAuth` con el shape real de `user` leído de
+  `src/store/authStore.js` (interfaz `AuthUser`: `id`, `username`, `first_name`, `last_name`,
+  `token`, `refreshToken`, `groups`, `group`) y `protect`/`redirectIfAuthenticated` como loaders
+  de `react-router` (`LoaderFunctionArgs`, ya tipado nativamente por el paquete, sin
+  `@types/react-router` adicional). Verificado con un `.ts` de prueba (creado y borrado): los
+  tipos resuelven correctamente y un acceso a una propiedad inexistente de `AuthUser` es
+  detectado por `tsc` (confirmado quitando un `@ts-expect-error` a propósito y viendo el error
+  `TS2339`, luego revertido).
 
 ## F5 — Convertir el andamiaje de `tickets` a `.ts/.tsx`
 
