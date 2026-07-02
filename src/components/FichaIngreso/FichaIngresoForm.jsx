@@ -24,7 +24,7 @@ import { Link, useNavigate, useParams } from "react-router";
 import { Plus } from "lucide-react";
 import { InventorySerch } from "../Iventario/InventorySerch";
 import { Card, CardHeader, CardTitle } from "@/shared/ui/card";
-import { LoadingPage } from "../Pages/LoadingPage";
+import { LoadingPage } from "@/shared/pages/LoadingPage";
 
 export function FichaIngresoForm() {
   const { idFichaIngreso } = useParams();

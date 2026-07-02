@@ -34,7 +34,7 @@ import {
 } from "@/shared/ui/dialog";
 import { ChevronDown, ChevronUp, Loader2, Edit, Trash2 } from "lucide-react";
 // import { ASSISTANCE_TYPES } from "@/constants/assistance";
-import { LoadingPage } from "../Pages/LoadingPage";
+import { LoadingPage } from "@/shared/pages/LoadingPage";
 
 export function FichaTecnicaForm() {
   const { idFichaIngreso } = useParams();

@@ -6,8 +6,8 @@ import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { useAuthStore } from "@/store/authStore";
 import { getEditRoute } from "@/shared/lib/navigation";
 import { FichaDetailTable } from "./FichaDetailTable";
-import { LoadingPage } from "../Pages/LoadingPage";
-import NotFound from "../Pages/NotFoundPage";
+import { LoadingPage } from "@/shared/pages/LoadingPage";
+import NotFound from "@/shared/pages/NotFoundPage";
 
 const FichaTecnicaPrint = lazy(() =>
   import("../FichaTecnica/FichaTecnicaPrint").then((module) => ({
