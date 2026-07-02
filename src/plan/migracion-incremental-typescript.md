@@ -172,7 +172,7 @@ Tipa el límite que los features consumen, **sin** reescribir el JS de `shared/`
   detectado por `tsc` (confirmado quitando un `@ts-expect-error` a propósito y viendo el error
   `TS2339`, luego revertido).
 
-## F5 — Convertir el andamiaje de `tickets` a `.ts/.tsx`
+## F5 — Convertir el andamiaje de `tickets` a `.ts/.tsx` ✅ COMPLETADO
 
 `tickets` como primer feature en TypeScript completo: prueba viva de todo el andamiaje.
 
@@ -202,6 +202,22 @@ Tipa el límite que los features consumen, **sin** reescribir el JS de `shared/`
   - `pnpm build` verde (incluye el gate `tsc --noEmit`); `pnpm run typecheck` en 0.
   - La ruta `/tickets` renderiza la `TicketsPage` placeholder igual que antes.
   - No queda ningún import roto hacia `@/features/tickets`.
+- **Nota de ejecución — adición a F4 descubierta durante F5**: al convertir `TicketsPage.tsx`,
+  `tsc` reportó `className` como prop **requerida** en `Card`/`CardHeader`/`CardTitle`/
+  `CardContent` (`src/shared/ui/card.jsx`). Es el mismo problema que F4 resolvió para
+  `shared/api`/`shared/auth`, pero `shared/ui` no estaba cubierto: sin `.d.ts`, la inferencia
+  de TS sobre JS (`allowJs`, `checkJs: false`) trata cada prop desestructurada sin valor por
+  defecto como requerida. Se agregó `src/shared/ui/card.d.ts` (mismo patrón de F4: declaración
+  de acompañamiento, `card.jsx` sin tocar) tipando los 7 componentes exportados con
+  `ComponentProps<"div">`. **Implicación para el futuro**: cualquier feature en TS que consuma
+  un componente de `shared/ui` sin `.d.ts` propio pisará el mismo error; se resuelve caso a
+  caso, agregando el `.d.ts` correspondiente cuando se lo encuentra (coherente con "colocar
+  primero, extraer/tipar después").
+- **Nota de ejecución — verificación de `/tickets`**: confirmado con el dev server
+  (`pnpm dev`) + `curl`: `GET /tickets` → `200` (shell SPA), y Vite/SWC transforma
+  `src/features/tickets/pages/TicketsPage.tsx` sin error de módulo (`200` al pedirlo
+  directamente). No se usó un navegador real en esta verificación (decisión tomada con el
+  autor del repo, que además ya tenía el dev server abierto en su propio navegador).
 
 ---
 
