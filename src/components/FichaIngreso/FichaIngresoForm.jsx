@@ -22,7 +22,7 @@ import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router";
 import { Plus } from "lucide-react";
-import { InventorySerch } from "../Iventario/InventorySerch";
+import { InventorySerch } from "@/features/inventario";
 import { Card, CardHeader, CardTitle } from "@/shared/ui/card";
 import { LoadingPage } from "@/shared/pages/LoadingPage";
 

@@ -1,4 +1,4 @@
-import assetsService from "@/api/assetsService";
+import assetsService from "../api/assetsService";
 import { useEffect, useState } from "react";
 
 export const useAsset = () => {
