@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { useLocation } from "react-router";
 import { usePermissions } from "@/hooks/usePermissions";
-import { getFilteredNavigation } from "@/utils/navigation";
+import { getFilteredNavigation } from "@/shared/lib/navigation";
 
 export function Sidebar() {
   const location = useLocation();

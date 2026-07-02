@@ -1,4 +1,4 @@
-import { cn } from "@/utils/utils";
+import { cn } from "@/shared/lib/utils";
 
 function Skeleton({ className, ...props }) {
   return (

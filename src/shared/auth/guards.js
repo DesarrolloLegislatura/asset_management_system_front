@@ -1,7 +1,7 @@
 import { redirect } from "react-router";
 import { useAuthStore } from "@/store/authStore";
 import { can } from "@/lib/authz";
-import { getDefaultRouteForGroup } from "@/utils/navigation";
+import { getDefaultRouteForGroup } from "@/shared/lib/navigation";
 
 /**
  * Loaders de protección de rutas (React Router 7 data mode).

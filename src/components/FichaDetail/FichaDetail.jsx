@@ -4,7 +4,7 @@ import { ArrowLeft, Pencil } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { useAuthStore } from "@/store/authStore";
-import { getEditRoute } from "@/utils/navigation";
+import { getEditRoute } from "@/shared/lib/navigation";
 import { FichaDetailTable } from "./FichaDetailTable";
 import { LoadingPage } from "../Pages/LoadingPage";
 import NotFound from "../Pages/NotFoundPage";

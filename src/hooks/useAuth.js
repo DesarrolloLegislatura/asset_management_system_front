@@ -3,7 +3,7 @@ import { parseJwt } from "@/utils/jwt";
 import { useAuthStore } from "@/store/authStore";
 import { useNavigate } from "react-router";
 import { resolvePrimaryGroup } from "@/lib/authz";
-import { getDefaultRouteForGroup } from "@/utils/navigation";
+import { getDefaultRouteForGroup } from "@/shared/lib/navigation";
 
 /**
  * Deriva un mensaje de error amigable a partir del error de red/HTTP.

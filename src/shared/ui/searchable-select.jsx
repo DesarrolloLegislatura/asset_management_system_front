@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "./input";
-import { cn } from "@/utils/utils";
+import { cn } from "@/shared/lib/utils";
 import PropTypes from "prop-types";
 
 export function SearchableSelect({

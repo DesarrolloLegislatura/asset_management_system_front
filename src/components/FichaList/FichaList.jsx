@@ -15,7 +15,7 @@ import { useNavigate } from "react-router";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { usePermissions } from "@/hooks/usePermissions";
 import { PERMISSIONS, USER_GROUPS } from "@/constants/permissions";
-import { getDetailRoute, getEditRoute } from "@/utils/navigation";
+import { getDetailRoute, getEditRoute } from "@/shared/lib/navigation";
 import { FichaListPaginate } from "./FichaListPaginate";
 import { FichaListTable } from "./FichaListTable";
 import { FichaListFilter } from "./FichaListFilter";
