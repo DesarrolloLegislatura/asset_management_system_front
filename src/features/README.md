@@ -67,8 +67,19 @@ feature (o un dominio legacy) realmente lo necesita reutilizar.
 
 ## Migración de dominios legacy
 
-Los dominios legacy (`FichaTecnica`, `FichaIngreso`, `FichaServicio`,
-`Iventario`, etc., hoy bajo `src/components/`, `src/api/`, `src/store/`)
-no se migran en bloque. Se migrarán uno a uno en el futuro, replicando el
-mismo andamiaje usado en `tickets` (F4/F5 de
-`src/plan/new-folder-structure.md`).
+**Completada** (ver `src/plan/migracion-legacy-feature-based.md`):
+
+- Los dominios de negocio viven en `src/features/`: `fichas` (ingreso,
+  técnica, servicio, detail, list, print), `inventario` y `tickets`.
+- `shared/` se amplió con la infra transversal: `theme/` (contexto y hooks
+  de tema), `layouts/` (AuthLayout, MainLayout, Navbar, Sidebar), `pages/`
+  (páginas de estado/error), `lib/` (`cn()`, navegación) y `auth/` completo
+  (store, jwt, authz, permissions, hooks, servicio y LoginForm).
+- Ya no existen `src/components/`, `src/api/`, `src/hooks/`, `src/store/`,
+  `src/utils/`, `src/lib/`, `src/constants/`, `src/contexts/`, `src/data/`
+  ni `src/layouts/`.
+
+**Excepción a "features nuevos en TS"**: `fichas` e `inventario` se
+migraron de forma mecánica (mover + actualizar imports) y permanecen en
+`.js/.jsx`, salvo sus fronteras (`routes.tsx`/`index.ts`). Su conversión a
+TypeScript es trabajo futuro, archivo a archivo.
