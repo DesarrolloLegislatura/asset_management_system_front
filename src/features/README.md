@@ -24,22 +24,40 @@ Un feature puede incluir, según lo que necesite:
 - `components/` — componentes de UI internos del feature.
 - `hooks/` — hooks de React propios del dominio.
 - `store/` — estado (Zustand) propio del dominio.
-- `pages/` — componentes de página, montados desde `routes.jsx`.
+- `pages/` — componentes de página, montados desde `routes.tsx`.
 - `schemas/` — validaciones (Zod) del dominio.
 - `constants/` — constantes propias del dominio.
-- `routes.jsx` — sub-rutas del módulo, consumidas por el router raíz.
-- `index.js` — API pública del feature.
+- `types/` — tipos de dominio propios del feature.
+- `routes.tsx` — sub-rutas del módulo, consumidas por el router raíz.
+- `index.ts` — API pública del feature.
 
 No todos los segmentos son obligatorios: solo se crean los que el feature
 realmente necesita.
 
-## Frontera pública vía `index.js`
+## Frontera pública vía `index.ts`
 
 Todo lo que un feature expone hacia el resto de la app pasa por su
-`index.js` (p. ej. `export { ticketsRoutes } from "./routes"`). Otro
+`index.ts` (p. ej. `export { ticketsRoutes } from "./routes"`). Otro
 módulo (incluido otro feature) no debe importar archivos internos de un
 feature directamente (`@/features/tickets/pages/TicketsPage` desde afuera
 está prohibido); debe importar desde `@/features/tickets`.
+
+## TypeScript en features nuevos
+
+Los features nuevos (p. ej. `tickets`) se escriben **completos en
+`.ts/.tsx`**. El legacy (`src/components`, `src/api`, `src/store`, etc.) y
+`shared/` permanecen en `.js/.jsx`; su borde hacia TS se tipa con `.d.ts`
+de acompañamiento co-locados (ver `src/plan/migracion-incremental-typescript.md`).
+
+Convenciones para el código nuevo en TS/TSX (React 19):
+
+- No usar `React.FC`; tipar props con `interface`/`type` propios.
+- `ref` como prop normal (React 19 no necesita `forwardRef`).
+- Usar `JSX.Element` importado de `"react"` (`import type { JSX } from "react"`),
+  no el global `JSX` (deprecado en `@types/react` 19).
+- `import type` para imports solo-tipo (lo exige `verbatimModuleSyntax` del
+  `tsconfig.json`).
+- Si `index.ts` re-exporta tipos, usar `export type`.
 
 ## Colocar primero, extraer después
 
