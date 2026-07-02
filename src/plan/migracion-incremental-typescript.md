@@ -122,7 +122,7 @@ Vite/SWC transpilan TS **sin** chequear tipos; sin gate, los errores de tipo nun
   - `pnpm build` ejecuta `tsc --noEmit` antes de `vite build`; un error de tipo introducido a
     propósito hace fallar el build (y luego se revierte).
 
-## F3 — Soporte de TypeScript en ESLint
+## F3 — Soporte de TypeScript en ESLint ✅ COMPLETADO
 
 El flat config actual solo matchea `**/*.{js,jsx}`; sin esto, los `.ts/.tsx` quedan sin lint.
 
@@ -137,6 +137,11 @@ El flat config actual solo matchea `**/*.{js,jsx}`; sin esto, los `.ts/.tsx` que
   - `npx eslint` sobre un `.tsx` del feature `tickets` funciona (parser TS activo, sin falsos
     errores de sintaxis).
   - El lint de los `.js/.jsx` legacy no cambia de comportamiento.
+- **Nota de ejecución**: verificado con un `.tsx` de prueba (creado y luego borrado) que
+  `@typescript-eslint/no-unused-vars` dispara correctamente sobre TSX. El conteo de problemas
+  de `npx eslint .` sobre el repo (280: 276 errores, 4 warnings, todos preexistentes en
+  `.js/.jsx`/`vite.config.js`) es idéntico con y sin el bloque `.ts/.tsx` nuevo (comparado con
+  `git stash` del `eslint.config.js`), confirmando que el legacy no cambió de comportamiento.
 
 ## F4 — Borde tipado de `shared/` vía `.d.ts` de acompañamiento
 
