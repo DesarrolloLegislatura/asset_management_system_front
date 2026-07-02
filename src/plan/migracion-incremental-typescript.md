@@ -79,7 +79,7 @@ de `shared/`) listo y validado, con `tickets` como prueba viva.
 
 ---
 
-## F1 — Toolchain TypeScript + `tsconfig.json`
+## F1 — Toolchain TypeScript + `tsconfig.json` ✅ COMPLETADO
 
 Fundación: instala TS y hace que el proyecto reconozca `.ts/.tsx` sin romper el JS actual.
 
@@ -100,8 +100,12 @@ Fundación: instala TS y hace que el proyecto reconozca `.ts/.tsx` sin romper el
   - `npx tsc --noEmit` corre **sin errores** sobre el repo actual (el JS legacy no se chequea;
     se verifica que `src/types/api.d.ts` no rompe).
   - El alias `@/*` sigue resolviendo en el editor vía `tsconfig.json`.
+- **Nota de ejecución**: TypeScript 6.0 deprecó `baseUrl` como opción standalone
+  (`TS5101`). Se quitó del `tsconfig.json`: no hacía falta, `paths` con rutas relativas
+  (`./src/*`) se resuelve automáticamente respecto a la ubicación del propio `tsconfig.json`
+  desde TS 4.1+. El alias `@/*` sigue funcionando igual.
 
-## F2 — Script `typecheck` + gate de tipos en build
+## F2 — Script `typecheck` + gate de tipos en build ✅ COMPLETADO
 
 Vite/SWC transpilan TS **sin** chequear tipos; sin gate, los errores de tipo nunca se detectan.
 
