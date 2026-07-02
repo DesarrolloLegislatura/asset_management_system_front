@@ -1,12 +1,12 @@
 import { createBrowserRouter } from "react-router";
 import { AuthLayout } from "../layouts/AuthLayout.jsx";
 import { MainLayout } from "../layouts/MainLayout";
-import { LoginForm } from "../components/Auth/LoginForm.jsx";
+import { LoginForm } from "@/shared/auth/components/LoginForm.jsx";
 import { FichaTecnicaForm } from "@/components/FichaTecnica/FichaTecnicaForm.jsx";
 import { FichaIngresoForm } from "@/components/FichaIngreso/FichaIngresoForm.jsx";
 import NotFound from "@/shared/pages/NotFoundPage.jsx";
 import { Unauthorized } from "@/shared/pages/UnauthorizedPage.jsx";
-import { PERMISSIONS } from "@/constants/permissions.js";
+import { PERMISSIONS } from "@/shared/auth/permissions.js";
 import { FichaList } from "@/components/FichaList/FichaList.jsx";
 import { FichaDetail } from "@/components/FichaDetail/FichaDetail.jsx";
 import { FichaServicioForm } from "@/components/FichaServicion/FichaServicioForm.jsx";

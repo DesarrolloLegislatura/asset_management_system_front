@@ -1,8 +1,8 @@
-import authService from "@/api/authService";
-import { parseJwt } from "@/utils/jwt";
-import { useAuthStore } from "@/store/authStore";
+import authService from "./authService";
+import { parseJwt } from "./jwt";
+import { useAuthStore } from "./authStore";
 import { useNavigate } from "react-router";
-import { resolvePrimaryGroup } from "@/lib/authz";
+import { resolvePrimaryGroup } from "./authz";
 import { getDefaultRouteForGroup } from "@/shared/lib/navigation";
 
 /**

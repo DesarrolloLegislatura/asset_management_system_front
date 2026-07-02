@@ -10,7 +10,7 @@ import {
 import { Button } from "@/shared/ui/button";
 import { Menu, User, LogOut, FilePenLine, ExternalLink } from "lucide-react";
 import { Sidebar } from "./Sidebar";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/shared/auth/authStore";
 import { useNavigate } from "react-router";
 import { ThemeToggle } from "@/shared/ui/theme-toggle";
 

@@ -2,7 +2,7 @@ import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "../useAuth";
 import { CircleAlert } from "lucide-react";
 import { useActionState } from "react";
 import { z } from "zod";

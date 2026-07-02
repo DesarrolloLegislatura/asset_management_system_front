@@ -1,6 +1,6 @@
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/shared/auth/authStore";
 import axios from "axios";
-import { isTokenExpired } from "@/utils/jwt";
+import { isTokenExpired } from "@/shared/auth/jwt";
 
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 

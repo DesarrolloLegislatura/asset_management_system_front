@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useForm } from "react-hook-form";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/shared/auth/authStore";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { useStatus } from "@/hooks/useStatus";
 

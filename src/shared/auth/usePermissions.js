@@ -1,11 +1,11 @@
 import { useMemo } from "react";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "./authStore";
 import {
   getPermissionsForGroup,
   can as canForGroup,
   canAny as canAnyForGroup,
   canAll as canAllForGroup,
-} from "@/lib/authz";
+} from "./authz";
 
 /**
  * Hook único de autorización. Deriva los permisos del grupo del usuario

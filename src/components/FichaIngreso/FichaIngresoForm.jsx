@@ -17,7 +17,7 @@ import {
 } from "@/shared/ui/select";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
 import { useStatus } from "@/hooks/useStatus";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/shared/auth/authStore";
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router";

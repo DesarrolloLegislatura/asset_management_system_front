@@ -9,8 +9,8 @@ import {
 import { ArrowUp, ArrowDown, RefreshCw } from "lucide-react";
 import { flexRender } from "@tanstack/react-table";
 import { Button } from "@/shared/ui/button";
-import { usePermissions } from "@/hooks/usePermissions";
-import { PERMISSIONS } from "@/constants/permissions";
+import { usePermissions } from "@/shared/auth/usePermissions";
+import { PERMISSIONS } from "@/shared/auth/permissions";
 
 export const FichaListTable = ({
   table,

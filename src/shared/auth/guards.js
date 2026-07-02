@@ -1,6 +1,6 @@
 import { redirect } from "react-router";
-import { useAuthStore } from "@/store/authStore";
-import { can } from "@/lib/authz";
+import { useAuthStore } from "./authStore";
+import { can } from "./authz";
 import { getDefaultRouteForGroup } from "@/shared/lib/navigation";
 
 /**

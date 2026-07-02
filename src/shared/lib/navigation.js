@@ -1,4 +1,4 @@
-import { PERMISSIONS, USER_GROUPS } from "@/constants/permissions";
+import { PERMISSIONS, USER_GROUPS } from "@/shared/auth/permissions";
 import { ClipboardCheck, Wrench } from "lucide-react";
 
 /**

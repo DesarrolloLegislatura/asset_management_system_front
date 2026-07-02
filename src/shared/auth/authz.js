@@ -1,4 +1,4 @@
-import { GROUP_PERMISSIONS, USER_GROUPS } from "@/constants/permissions";
+import { GROUP_PERMISSIONS, USER_GROUPS } from "./permissions";
 
 /**
  * Capa pura de autorización (sin React ni hooks).
