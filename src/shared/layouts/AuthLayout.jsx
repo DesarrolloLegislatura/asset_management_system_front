@@ -14,7 +14,7 @@ export const AuthLayout = () => {
             <div className="flex h-10 w-10 items-center justify-center  text-primary">
               <FilePenLine size={34} className="text-green-600" />
             </div>
-            Ficha Tecnica
+            Plataforma Central de TI
           </a>
         </div>
         <div className="flex flex-1 items-center justify-center">

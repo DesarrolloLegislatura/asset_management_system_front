@@ -9,12 +9,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/ui/table";
-import { useTicketStatuses } from "../hooks/useTicketStatuses";
+import {
+  useTicketStatuses,
+  useSetTicketStatusActive,
+} from "../hooks/useTicketStatuses";
 import { TicketStatusFormDialog } from "../components/TicketStatusAdmin/TicketStatusFormDialog";
 import { TicketStatusDeleteDialog } from "../components/TicketStatusAdmin/TicketStatusDeleteDialog";
 
 export const TicketStatusAdminPage = () => {
   const { data: statuses = [], isLoading } = useTicketStatuses();
+  const setActive = useSetTicketStatusActive();
 
   return (
     <div className="p-6">
@@ -62,9 +66,22 @@ export const TicketStatusAdminPage = () => {
                   <TableCell>{status.name}</TableCell>
                   <TableCell>{status.description || "—"}</TableCell>
                   <TableCell>
-                    <Badge variant={status.active ? "default" : "outline"}>
-                      {status.active ? "Sí" : "No"}
-                    </Badge>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setActive.mutate({
+                          id: status.id as number,
+                          active: !status.active,
+                        })
+                      }
+                      disabled={setActive.isPending}
+                      className="cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+                      title="Alternar activo/inactivo"
+                    >
+                      <Badge variant={status.active ? "default" : "outline"}>
+                        {status.active ? "Sí" : "No"}
+                      </Badge>
+                    </button>
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-1">

@@ -75,6 +75,16 @@ export const catalogService = {
     );
     return data;
   },
+  patchServiceType: async (
+    id: number,
+    body: Partial<ServiceTypeInput>
+  ): Promise<ServiceType> => {
+    const { data } = await axiosService.patch<ServiceType>(
+      `${SERVICE_TYPE_URL}${id}/`,
+      body
+    );
+    return data;
+  },
   removeServiceType: async (id: number): Promise<void> => {
     await axiosService.delete(`${SERVICE_TYPE_URL}${id}/`);
   },
@@ -102,6 +112,16 @@ export const catalogService = {
     body: TaskCategoryInput
   ): Promise<TaskCategory> => {
     const { data } = await axiosService.put<TaskCategory>(
+      `${TASK_CATEGORY_URL}${id}/`,
+      body
+    );
+    return data;
+  },
+  patchTaskCategory: async (
+    id: number,
+    body: Partial<TaskCategoryInput>
+  ): Promise<TaskCategory> => {
+    const { data } = await axiosService.patch<TaskCategory>(
       `${TASK_CATEGORY_URL}${id}/`,
       body
     );

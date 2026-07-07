@@ -27,6 +27,14 @@ export const ticketStatusService = {
     return data;
   },
 
+  setActive: async (id: number, active: boolean): Promise<TicketStatus> => {
+    const { data } = await axiosService.patch<TicketStatus>(
+      `${BASE_URL}${id}/`,
+      { active }
+    );
+    return data;
+  },
+
   remove: async (id: number): Promise<void> => {
     await axiosService.delete(`${BASE_URL}${id}/`);
   },

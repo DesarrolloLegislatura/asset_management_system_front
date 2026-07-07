@@ -45,6 +45,18 @@ export const useUpdateTicketStatus = () => {
   });
 };
 
+export const useSetTicketStatusActive = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, active }: { id: number; active: boolean }) =>
+      ticketStatusService.setActive(id, active),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ticketKeys.statuses() });
+    },
+  });
+};
+
 export const useDeleteTicketStatus = () => {
   const queryClient = useQueryClient();
 

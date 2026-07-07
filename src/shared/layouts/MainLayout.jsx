@@ -25,7 +25,7 @@ export const MainLayout = () => {
         {/* Footer opcional */}
         <footer className="bg-card border-t border-border">
           <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Sistema de Fichas - Poder Legislativo
+            © {new Date().getFullYear()} Plataforma Central de TI - Poder Legislativo
             del Chaco
             {/* Mostrar título de la página actual */}
             <span className="font-medium text-foreground"> - By Adrian</span>

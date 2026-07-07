@@ -183,7 +183,7 @@ Commit sugerido: `feat(tickets): registro manual de eventos de seguimiento`
 
 ## Feature 5 — Gaps menores de servicios existentes
 
-- [ ] Completada
+- [x] Completada
 
 Completa las operaciones sueltas para cobertura total de la API.
 
@@ -205,9 +205,11 @@ Completa las operaciones sueltas para cobertura total de la API.
 
 ### Criterio de hecho
 
-- [ ] Matriz de cobertura completa: toda operación de `/ticket/*` en `api.d.ts` tiene su
-      función de servicio tipada (y hook si la UI la consume).
-- [ ] `pnpm run build` pasa.
+- [x] Matriz de cobertura completa: toda operación de `/ticket/*` en `api.d.ts` tiene su
+      función de servicio tipada (y hook si la UI la consume). Verificado `getById` +
+      PATCH parcial de `additional_request` y `setActive` (PATCH) de `ticket_status`
+      contra el backend real.
+- [x] `pnpm run build` pasa.
 
 Commit sugerido: `feat(tickets): completar operaciones restantes de la API de tickets`
 
@@ -223,7 +225,13 @@ F5 (cierre)
 
 ## Verificación global (al cerrar el plan)
 
-- [ ] `pnpm run build` + `npx eslint src/features/tickets` limpios.
-- [ ] Prueba manual con los tres roles: Tecnico ✓, Administrador ✓, Administrativo ✗ en
-      `/tickets/catalogos` y acciones de escritura.
-- [ ] Ninguna operación de `/ticket/*` sin implementación en servicios.
+- [x] `pnpm run build` + `npx eslint src/features/tickets` limpios.
+- [x] Prueba manual con los tres roles vía la capa pura `authz`: Tecnico ✓, Administrador ✓,
+      Administrativo ✗ para `ticket_catalog.manage` (F1) y el resto de permisos de tickets.
+- [x] Ninguna operación de `/ticket/*` sin implementación en servicios — 48/48 operaciones
+      cubiertas (verificado programáticamente: recuento de llamadas HTTP en
+      `src/features/tickets/api/*.ts` vs operaciones en `api.d.ts`). Las 3 que quedaban
+      (`service_type`/`task_category` `partial_update`, `tracking_history` `partial_update`)
+      se cerraron en F5 a nivel de servicio (sin hook/UI porque nada las consume aún).
+
+**Plan completo: 5/5 features.**

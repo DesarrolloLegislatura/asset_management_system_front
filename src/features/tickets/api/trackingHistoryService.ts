@@ -52,6 +52,17 @@ export const trackingHistoryService = {
     return data;
   },
 
+  patch: async (
+    id: number,
+    body: Partial<TrackingHistoryInput>
+  ): Promise<TrackingHistoryEntry> => {
+    const { data } = await axiosService.patch<TrackingHistoryEntry>(
+      `${BASE_URL}${id}/`,
+      body
+    );
+    return data;
+  },
+
   remove: async (id: number): Promise<void> => {
     await axiosService.delete(`${BASE_URL}${id}/`);
   },

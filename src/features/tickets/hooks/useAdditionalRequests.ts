@@ -15,6 +15,14 @@ export const useAdditionalRequestsByTicket = (ticketId: number) => {
   });
 };
 
+export const useAdditionalRequest = (id: number) => {
+  return useQuery({
+    queryKey: ticketKeys.additionalRequest(id),
+    queryFn: () => additionalRequestService.getById(id),
+    enabled: !!id,
+  });
+};
+
 export const useCreateAdditionalRequest = (ticketId: number) => {
   const queryClient = useQueryClient();
 
@@ -40,6 +48,25 @@ export const useUpdateAdditionalRequest = (ticketId: number) => {
       id: number;
       body: AdditionalRequestInput;
     }) => additionalRequestService.update(id, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ticketKeys.additionalRequests(ticketId),
+      });
+    },
+  });
+};
+
+export const usePatchAdditionalRequest = (ticketId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      id,
+      body,
+    }: {
+      id: number;
+      body: Partial<AdditionalRequestInput>;
+    }) => additionalRequestService.patch(id, body),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ticketKeys.additionalRequests(ticketId),

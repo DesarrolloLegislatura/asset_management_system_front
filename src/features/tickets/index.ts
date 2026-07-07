@@ -4,6 +4,7 @@ export {
   useTicketStatus,
   useCreateTicketStatus,
   useUpdateTicketStatus,
+  useSetTicketStatusActive,
   useDeleteTicketStatus,
 } from "./hooks/useTicketStatuses";
 export {
@@ -36,8 +37,10 @@ export {
 } from "./hooks/useCatalogs";
 export {
   useAdditionalRequestsByTicket,
+  useAdditionalRequest,
   useCreateAdditionalRequest,
   useUpdateAdditionalRequest,
+  usePatchAdditionalRequest,
   useDeleteAdditionalRequest,
 } from "./hooks/useAdditionalRequests";
 export {
