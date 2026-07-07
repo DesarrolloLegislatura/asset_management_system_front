@@ -219,6 +219,286 @@ export interface paths {
         patch: operations["tds_tds_partial_update"];
         trace?: never;
     };
+    "/ticket/additional_request/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ticket_additional_request_list"];
+        put?: never;
+        post: operations["ticket_additional_request_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ticket/additional_request/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Pedido Adicional. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        get: operations["ticket_additional_request_read"];
+        put: operations["ticket_additional_request_update"];
+        post?: never;
+        delete: operations["ticket_additional_request_delete"];
+        options?: never;
+        head?: never;
+        patch: operations["ticket_additional_request_partial_update"];
+        trace?: never;
+    };
+    "/ticket/priority/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ticket_priority_list"];
+        put?: never;
+        post: operations["ticket_priority_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ticket/priority/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Prioridad. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        get: operations["ticket_priority_read"];
+        put: operations["ticket_priority_update"];
+        post?: never;
+        delete: operations["ticket_priority_delete"];
+        options?: never;
+        head?: never;
+        patch: operations["ticket_priority_partial_update"];
+        trace?: never;
+    };
+    "/ticket/provider_company/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ticket_provider_company_list"];
+        put?: never;
+        post: operations["ticket_provider_company_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ticket/provider_company/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Empresa Proveedora. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        get: operations["ticket_provider_company_read"];
+        put: operations["ticket_provider_company_update"];
+        post?: never;
+        delete: operations["ticket_provider_company_delete"];
+        options?: never;
+        head?: never;
+        patch: operations["ticket_provider_company_partial_update"];
+        trace?: never;
+    };
+    "/ticket/service_type/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ticket_service_type_list"];
+        put?: never;
+        post: operations["ticket_service_type_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ticket/service_type/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Tipo Servicio. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        get: operations["ticket_service_type_read"];
+        put: operations["ticket_service_type_update"];
+        post?: never;
+        delete: operations["ticket_service_type_delete"];
+        options?: never;
+        head?: never;
+        patch: operations["ticket_service_type_partial_update"];
+        trace?: never;
+    };
+    "/ticket/task_category/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ticket_task_category_list"];
+        put?: never;
+        post: operations["ticket_task_category_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ticket/task_category/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Categoria Tarea. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        get: operations["ticket_task_category_read"];
+        put: operations["ticket_task_category_update"];
+        post?: never;
+        delete: operations["ticket_task_category_delete"];
+        options?: never;
+        head?: never;
+        patch: operations["ticket_task_category_partial_update"];
+        trace?: never;
+    };
+    "/ticket/ticket/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ticket_ticket_list"];
+        put?: never;
+        post: operations["ticket_ticket_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ticket/ticket/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Ticket Externo. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        get: operations["ticket_ticket_read"];
+        put: operations["ticket_ticket_update"];
+        post?: never;
+        delete: operations["ticket_ticket_delete"];
+        options?: never;
+        head?: never;
+        patch: operations["ticket_ticket_partial_update"];
+        trace?: never;
+    };
+    "/ticket/ticket_status/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ticket_ticket_status_list"];
+        put?: never;
+        post: operations["ticket_ticket_status_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ticket/ticket_status/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Estado Ticket. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        get: operations["ticket_ticket_status_read"];
+        put: operations["ticket_ticket_status_update"];
+        post?: never;
+        delete: operations["ticket_ticket_status_delete"];
+        options?: never;
+        head?: never;
+        patch: operations["ticket_ticket_status_partial_update"];
+        trace?: never;
+    };
+    "/ticket/tracking_history/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ticket_tracking_history_list"];
+        put?: never;
+        post: operations["ticket_tracking_history_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ticket/tracking_history/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Historial Seguimiento. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        get: operations["ticket_tracking_history_read"];
+        put: operations["ticket_tracking_history_update"];
+        post?: never;
+        delete: operations["ticket_tracking_history_delete"];
+        options?: never;
+        head?: never;
+        patch: operations["ticket_tracking_history_partial_update"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -364,6 +644,8 @@ export interface components {
             readonly id?: number;
             /** Inventario */
             inventory?: number | null;
+            /** Dirección de red */
+            networkaddress?: string | null;
             /** Descripción */
             description?: string | null;
             /** Tipo Bien */
@@ -557,13 +839,229 @@ export interface components {
             status?: number[];
             users?: number[];
         };
+        AdditionalRequests: {
+            /** ID */
+            readonly id?: number;
+            /** Sequence */
+            sequence: number;
+            /** Request description */
+            request_description: string;
+            /** Resolution description */
+            resolution_description?: string | null;
+            /**
+             * Request date
+             * Format: date-time
+             */
+            request_date?: string | null;
+            /**
+             * Completion date
+             * Format: date-time
+             */
+            completion_date?: string | null;
+            /** Activo */
+            active?: boolean;
+            /**
+             * Fecha de creación
+             * Format: date-time
+             */
+            readonly createdat?: string;
+            /**
+             * Fecha de actualización
+             * Format: date-time
+             */
+            readonly updatedat?: string;
+            /** Request status */
+            request_status?: number | null;
+            /** Priority */
+            priority?: number | null;
+            /** Parent ticket */
+            parent_ticket: number;
+            /** Usuario solicitante interno */
+            internal_requester?: number | null;
+        };
+        Priorities: {
+            /** ID */
+            readonly id?: number;
+            /** Name */
+            name: string;
+            /** Code */
+            code: string;
+            /** Activo */
+            active?: boolean;
+            /**
+             * Fecha de creación
+             * Format: date-time
+             */
+            readonly createdat?: string;
+            /**
+             * Fecha de actualización
+             * Format: date-time
+             */
+            readonly updatedat?: string;
+        };
+        ProviderCompanies: {
+            /** ID */
+            readonly id?: number;
+            /** Name */
+            name: string;
+            /** Support portal url */
+            support_portal_url?: string | null;
+            /** Contact name */
+            contact_name?: string | null;
+            /** Contact email */
+            contact_email?: string | null;
+            /** Activo */
+            active?: boolean;
+            /**
+             * Fecha de creación
+             * Format: date-time
+             */
+            readonly createdat?: string;
+            /**
+             * Fecha de actualización
+             * Format: date-time
+             */
+            readonly updatedat?: string;
+        };
+        ServiceTypes: {
+            /** ID */
+            readonly id?: number;
+            /** Name */
+            name: string;
+        };
+        TaskCategories: {
+            /** ID */
+            readonly id?: number;
+            /** Name */
+            name: string;
+        };
+        ExternalTickets: {
+            /** ID */
+            readonly id?: number;
+            /** External ticket number */
+            external_ticket_number?: string | null;
+            /** Simple action number */
+            simple_action_number?: string | null;
+            /** General title */
+            general_title: string;
+            /** Description */
+            description?: string | null;
+            /** Context */
+            context?: string | null;
+            /** Direct ticket url */
+            direct_ticket_url?: string | null;
+            /**
+             * External opening date
+             * Format: date-time
+             */
+            external_opening_date?: string | null;
+            /**
+             * External closing date
+             * Format: date-time
+             */
+            external_closing_date?: string | null;
+            /** Activo */
+            active?: boolean;
+            /**
+             * Fecha de creación
+             * Format: date-time
+             */
+            readonly createdat?: string;
+            /**
+             * Fecha de actualización
+             * Format: date-time
+             */
+            readonly updatedat?: string;
+            /** Category */
+            category?: number | null;
+            /** Service type */
+            service_type?: number | null;
+            /** Global status */
+            global_status?: number | null;
+            /** Priority */
+            priority?: number | null;
+            /** Company */
+            company: number;
+            /** Usuario que registro */
+            registration_agent?: number | null;
+        };
+        TicketStatuses: {
+            /** ID */
+            readonly id?: number;
+            /** Code */
+            code: string;
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string | null;
+            /** Activo */
+            active?: boolean;
+            /**
+             * Fecha de creación
+             * Format: date-time
+             */
+            readonly createdat?: string;
+            /**
+             * Fecha de actualización
+             * Format: date-time
+             */
+            readonly updatedat?: string;
+        };
+        TrackingHistory: {
+            /** ID */
+            readonly id?: number;
+            /**
+             * Event date
+             * Format: date-time
+             */
+            event_date?: string | null;
+            /** Update source */
+            update_source?: string | null;
+            /** Comment */
+            comment?: string | null;
+            /** Activo */
+            active?: boolean;
+            /**
+             * Fecha de creación
+             * Format: date-time
+             */
+            readonly createdat?: string;
+            /**
+             * Fecha de actualización
+             * Format: date-time
+             */
+            readonly updatedat?: string;
+            /** Previous status */
+            previous_status?: number | null;
+            /** New status */
+            new_status?: number | null;
+            /** Additional request */
+            additional_request: number;
+            /** Usuario que registro */
+            registered_by_user?: number | null;
+        };
     };
     responses: never;
     parameters: never;
     requestBodies: {
+        Priorities: {
+            content: {
+                "application/json": components["schemas"]["Priorities"];
+            };
+        };
         Status: {
             content: {
                 "application/json": components["schemas"]["Status"];
+            };
+        };
+        ProviderCompanies: {
+            content: {
+                "application/json": components["schemas"]["ProviderCompanies"];
+            };
+        };
+        TrackingHistory: {
+            content: {
+                "application/json": components["schemas"]["TrackingHistory"];
             };
         };
         Assets: {
@@ -571,9 +1069,19 @@ export interface components {
                 "application/json": components["schemas"]["Assets"];
             };
         };
+        ExternalTickets: {
+            content: {
+                "application/json": components["schemas"]["ExternalTickets"];
+            };
+        };
         TechnicalDataSheetsWrite: {
             content: {
                 "application/json": components["schemas"]["TechnicalDataSheetsWrite"];
+            };
+        };
+        TicketStatuses: {
+            content: {
+                "application/json": components["schemas"]["TicketStatuses"];
             };
         };
         Document: {
@@ -584,6 +1092,21 @@ export interface components {
         TypeDocument: {
             content: {
                 "application/json": components["schemas"]["TypeDocument"];
+            };
+        };
+        AdditionalRequests: {
+            content: {
+                "application/json": components["schemas"]["AdditionalRequests"];
+            };
+        };
+        ServiceTypes: {
+            content: {
+                "application/json": components["schemas"]["ServiceTypes"];
+            };
+        };
+        TaskCategories: {
+            content: {
+                "application/json": components["schemas"]["TaskCategories"];
             };
         };
     };
@@ -1258,6 +1781,998 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["TechnicalDataSheetsRead"];
+                };
+            };
+        };
+    };
+    ticket_additional_request_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdditionalRequests"][];
+                };
+            };
+        };
+    };
+    ticket_additional_request_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["AdditionalRequests"];
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdditionalRequests"];
+                };
+            };
+        };
+    };
+    ticket_additional_request_read: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Pedido Adicional. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdditionalRequests"];
+                };
+            };
+        };
+    };
+    ticket_additional_request_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Pedido Adicional. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["AdditionalRequests"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdditionalRequests"];
+                };
+            };
+        };
+    };
+    ticket_additional_request_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Pedido Adicional. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ticket_additional_request_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Pedido Adicional. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["AdditionalRequests"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdditionalRequests"];
+                };
+            };
+        };
+    };
+    ticket_priority_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Priorities"][];
+                };
+            };
+        };
+    };
+    ticket_priority_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["Priorities"];
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Priorities"];
+                };
+            };
+        };
+    };
+    ticket_priority_read: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Prioridad. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Priorities"];
+                };
+            };
+        };
+    };
+    ticket_priority_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Prioridad. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["Priorities"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Priorities"];
+                };
+            };
+        };
+    };
+    ticket_priority_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Prioridad. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ticket_priority_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Prioridad. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["Priorities"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Priorities"];
+                };
+            };
+        };
+    };
+    ticket_provider_company_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProviderCompanies"][];
+                };
+            };
+        };
+    };
+    ticket_provider_company_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["ProviderCompanies"];
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProviderCompanies"];
+                };
+            };
+        };
+    };
+    ticket_provider_company_read: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Empresa Proveedora. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProviderCompanies"];
+                };
+            };
+        };
+    };
+    ticket_provider_company_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Empresa Proveedora. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["ProviderCompanies"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProviderCompanies"];
+                };
+            };
+        };
+    };
+    ticket_provider_company_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Empresa Proveedora. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ticket_provider_company_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Empresa Proveedora. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["ProviderCompanies"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProviderCompanies"];
+                };
+            };
+        };
+    };
+    ticket_service_type_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTypes"][];
+                };
+            };
+        };
+    };
+    ticket_service_type_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["ServiceTypes"];
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTypes"];
+                };
+            };
+        };
+    };
+    ticket_service_type_read: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Tipo Servicio. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTypes"];
+                };
+            };
+        };
+    };
+    ticket_service_type_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Tipo Servicio. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["ServiceTypes"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTypes"];
+                };
+            };
+        };
+    };
+    ticket_service_type_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Tipo Servicio. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ticket_service_type_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Tipo Servicio. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["ServiceTypes"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTypes"];
+                };
+            };
+        };
+    };
+    ticket_task_category_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TaskCategories"][];
+                };
+            };
+        };
+    };
+    ticket_task_category_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["TaskCategories"];
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TaskCategories"];
+                };
+            };
+        };
+    };
+    ticket_task_category_read: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Categoria Tarea. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TaskCategories"];
+                };
+            };
+        };
+    };
+    ticket_task_category_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Categoria Tarea. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["TaskCategories"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TaskCategories"];
+                };
+            };
+        };
+    };
+    ticket_task_category_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Categoria Tarea. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ticket_task_category_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Categoria Tarea. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["TaskCategories"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TaskCategories"];
+                };
+            };
+        };
+    };
+    ticket_ticket_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExternalTickets"][];
+                };
+            };
+        };
+    };
+    ticket_ticket_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["ExternalTickets"];
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExternalTickets"];
+                };
+            };
+        };
+    };
+    ticket_ticket_read: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Ticket Externo. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExternalTickets"];
+                };
+            };
+        };
+    };
+    ticket_ticket_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Ticket Externo. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["ExternalTickets"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExternalTickets"];
+                };
+            };
+        };
+    };
+    ticket_ticket_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Ticket Externo. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ticket_ticket_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Ticket Externo. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["ExternalTickets"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExternalTickets"];
+                };
+            };
+        };
+    };
+    ticket_ticket_status_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TicketStatuses"][];
+                };
+            };
+        };
+    };
+    ticket_ticket_status_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["TicketStatuses"];
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TicketStatuses"];
+                };
+            };
+        };
+    };
+    ticket_ticket_status_read: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Estado Ticket. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TicketStatuses"];
+                };
+            };
+        };
+    };
+    ticket_ticket_status_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Estado Ticket. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["TicketStatuses"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TicketStatuses"];
+                };
+            };
+        };
+    };
+    ticket_ticket_status_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Estado Ticket. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ticket_ticket_status_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Estado Ticket. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["TicketStatuses"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TicketStatuses"];
+                };
+            };
+        };
+    };
+    ticket_tracking_history_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrackingHistory"][];
+                };
+            };
+        };
+    };
+    ticket_tracking_history_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["TrackingHistory"];
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrackingHistory"];
+                };
+            };
+        };
+    };
+    ticket_tracking_history_read: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Historial Seguimiento. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrackingHistory"];
+                };
+            };
+        };
+    };
+    ticket_tracking_history_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Historial Seguimiento. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["TrackingHistory"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrackingHistory"];
+                };
+            };
+        };
+    };
+    ticket_tracking_history_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Historial Seguimiento. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ticket_tracking_history_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Historial Seguimiento. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: components["requestBodies"]["TrackingHistory"];
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TrackingHistory"];
                 };
             };
         };

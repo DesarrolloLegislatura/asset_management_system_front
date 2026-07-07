@@ -763,20 +763,1130 @@
                     }
                 }
             ]
+        },
+        "/ticket/additional_request/": {
+            "get": {
+                "operationId": "ticket_additional_request_list",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/AdditionalRequests"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "post": {
+                "operationId": "ticket_additional_request_create",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/AdditionalRequests"
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdditionalRequests"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": []
+        },
+        "/ticket/additional_request/{id}/": {
+            "get": {
+                "operationId": "ticket_additional_request_read",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdditionalRequests"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "put": {
+                "operationId": "ticket_additional_request_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/AdditionalRequests"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdditionalRequests"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "patch": {
+                "operationId": "ticket_additional_request_partial_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/AdditionalRequests"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdditionalRequests"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "delete": {
+                "operationId": "ticket_additional_request_delete",
+                "description": "",
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this Pedido Adicional.",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ]
+        },
+        "/ticket/priority/": {
+            "get": {
+                "operationId": "ticket_priority_list",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Priorities"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "post": {
+                "operationId": "ticket_priority_create",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/Priorities"
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Priorities"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": []
+        },
+        "/ticket/priority/{id}/": {
+            "get": {
+                "operationId": "ticket_priority_read",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Priorities"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "put": {
+                "operationId": "ticket_priority_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/Priorities"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Priorities"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "patch": {
+                "operationId": "ticket_priority_partial_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/Priorities"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Priorities"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "delete": {
+                "operationId": "ticket_priority_delete",
+                "description": "",
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this Prioridad.",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ]
+        },
+        "/ticket/provider_company/": {
+            "get": {
+                "operationId": "ticket_provider_company_list",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ProviderCompanies"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "post": {
+                "operationId": "ticket_provider_company_create",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ProviderCompanies"
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProviderCompanies"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": []
+        },
+        "/ticket/provider_company/{id}/": {
+            "get": {
+                "operationId": "ticket_provider_company_read",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProviderCompanies"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "put": {
+                "operationId": "ticket_provider_company_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ProviderCompanies"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProviderCompanies"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "patch": {
+                "operationId": "ticket_provider_company_partial_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ProviderCompanies"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProviderCompanies"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "delete": {
+                "operationId": "ticket_provider_company_delete",
+                "description": "",
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this Empresa Proveedora.",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ]
+        },
+        "/ticket/service_type/": {
+            "get": {
+                "operationId": "ticket_service_type_list",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ServiceTypes"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "post": {
+                "operationId": "ticket_service_type_create",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ServiceTypes"
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceTypes"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": []
+        },
+        "/ticket/service_type/{id}/": {
+            "get": {
+                "operationId": "ticket_service_type_read",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceTypes"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "put": {
+                "operationId": "ticket_service_type_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ServiceTypes"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceTypes"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "patch": {
+                "operationId": "ticket_service_type_partial_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ServiceTypes"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceTypes"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "delete": {
+                "operationId": "ticket_service_type_delete",
+                "description": "",
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this Tipo Servicio.",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ]
+        },
+        "/ticket/task_category/": {
+            "get": {
+                "operationId": "ticket_task_category_list",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TaskCategories"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "post": {
+                "operationId": "ticket_task_category_create",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/TaskCategories"
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TaskCategories"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": []
+        },
+        "/ticket/task_category/{id}/": {
+            "get": {
+                "operationId": "ticket_task_category_read",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TaskCategories"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "put": {
+                "operationId": "ticket_task_category_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/TaskCategories"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TaskCategories"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "patch": {
+                "operationId": "ticket_task_category_partial_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/TaskCategories"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TaskCategories"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "delete": {
+                "operationId": "ticket_task_category_delete",
+                "description": "",
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this Categoria Tarea.",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ]
+        },
+        "/ticket/ticket/": {
+            "get": {
+                "operationId": "ticket_ticket_list",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ExternalTickets"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "post": {
+                "operationId": "ticket_ticket_create",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ExternalTickets"
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExternalTickets"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": []
+        },
+        "/ticket/ticket/{id}/": {
+            "get": {
+                "operationId": "ticket_ticket_read",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExternalTickets"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "put": {
+                "operationId": "ticket_ticket_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ExternalTickets"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExternalTickets"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "patch": {
+                "operationId": "ticket_ticket_partial_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ExternalTickets"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExternalTickets"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "delete": {
+                "operationId": "ticket_ticket_delete",
+                "description": "",
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this Ticket Externo.",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ]
+        },
+        "/ticket/ticket_status/": {
+            "get": {
+                "operationId": "ticket_ticket_status_list",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TicketStatuses"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "post": {
+                "operationId": "ticket_ticket_status_create",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/TicketStatuses"
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TicketStatuses"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": []
+        },
+        "/ticket/ticket_status/{id}/": {
+            "get": {
+                "operationId": "ticket_ticket_status_read",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TicketStatuses"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "put": {
+                "operationId": "ticket_ticket_status_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/TicketStatuses"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TicketStatuses"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "patch": {
+                "operationId": "ticket_ticket_status_partial_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/TicketStatuses"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TicketStatuses"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "delete": {
+                "operationId": "ticket_ticket_status_delete",
+                "description": "",
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this Estado Ticket.",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ]
+        },
+        "/ticket/tracking_history/": {
+            "get": {
+                "operationId": "ticket_tracking_history_list",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TrackingHistory"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "post": {
+                "operationId": "ticket_tracking_history_create",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/TrackingHistory"
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrackingHistory"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": []
+        },
+        "/ticket/tracking_history/{id}/": {
+            "get": {
+                "operationId": "ticket_tracking_history_read",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrackingHistory"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "put": {
+                "operationId": "ticket_tracking_history_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/TrackingHistory"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrackingHistory"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "patch": {
+                "operationId": "ticket_tracking_history_partial_update",
+                "description": "",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/TrackingHistory"
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrackingHistory"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "delete": {
+                "operationId": "ticket_tracking_history_delete",
+                "description": "",
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "ticket"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this Historial Seguimiento.",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ]
         }
     },
     "servers": [
         {
-            "url": "http://10.12.9.47:9002/api"
+            "url": "http://localhost:9002/api"
         }
     ],
     "components": {
         "requestBodies": {
+            "Priorities": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Priorities"
+                        }
+                    }
+                },
+                "required": true
+            },
             "Status": {
                 "content": {
                     "application/json": {
                         "schema": {
                             "$ref": "#/components/schemas/Status"
+                        }
+                    }
+                },
+                "required": true
+            },
+            "ProviderCompanies": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ProviderCompanies"
+                        }
+                    }
+                },
+                "required": true
+            },
+            "TrackingHistory": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/TrackingHistory"
                         }
                     }
                 },
@@ -792,11 +1902,31 @@
                 },
                 "required": true
             },
+            "ExternalTickets": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ExternalTickets"
+                        }
+                    }
+                },
+                "required": true
+            },
             "TechnicalDataSheetsWrite": {
                 "content": {
                     "application/json": {
                         "schema": {
                             "$ref": "#/components/schemas/TechnicalDataSheetsWrite"
+                        }
+                    }
+                },
+                "required": true
+            },
+            "TicketStatuses": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/TicketStatuses"
                         }
                     }
                 },
@@ -817,6 +1947,36 @@
                     "application/json": {
                         "schema": {
                             "$ref": "#/components/schemas/TypeDocument"
+                        }
+                    }
+                },
+                "required": true
+            },
+            "AdditionalRequests": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/AdditionalRequests"
+                        }
+                    }
+                },
+                "required": true
+            },
+            "ServiceTypes": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ServiceTypes"
+                        }
+                    }
+                },
+                "required": true
+            },
+            "TaskCategories": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/TaskCategories"
                         }
                     }
                 },
@@ -1186,6 +2346,11 @@
                         "type": "integer",
                         "maximum": 2147483647,
                         "minimum": -2147483648,
+                        "nullable": true
+                    },
+                    "networkaddress": {
+                        "title": "Dirección de red",
+                        "type": "string",
                         "nullable": true
                     },
                     "description": {
@@ -1619,6 +2784,434 @@
                             "type": "integer"
                         },
                         "uniqueItems": true
+                    }
+                }
+            },
+            "AdditionalRequests": {
+                "required": [
+                    "sequence",
+                    "request_description",
+                    "parent_ticket"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "sequence": {
+                        "title": "Sequence",
+                        "type": "integer",
+                        "maximum": 2147483647,
+                        "minimum": -2147483648
+                    },
+                    "request_description": {
+                        "title": "Request description",
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "resolution_description": {
+                        "title": "Resolution description",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "request_date": {
+                        "title": "Request date",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "completion_date": {
+                        "title": "Completion date",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "active": {
+                        "title": "Activo",
+                        "type": "boolean"
+                    },
+                    "createdat": {
+                        "title": "Fecha de creación",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "updatedat": {
+                        "title": "Fecha de actualización",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "request_status": {
+                        "title": "Request status",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "priority": {
+                        "title": "Priority",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "parent_ticket": {
+                        "title": "Parent ticket",
+                        "type": "integer"
+                    },
+                    "internal_requester": {
+                        "title": "Usuario solicitante interno",
+                        "type": "integer",
+                        "nullable": true
+                    }
+                }
+            },
+            "Priorities": {
+                "required": [
+                    "name",
+                    "code"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "code": {
+                        "title": "Code",
+                        "type": "string",
+                        "maxLength": 50,
+                        "minLength": 1
+                    },
+                    "active": {
+                        "title": "Activo",
+                        "type": "boolean"
+                    },
+                    "createdat": {
+                        "title": "Fecha de creación",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "updatedat": {
+                        "title": "Fecha de actualización",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    }
+                }
+            },
+            "ProviderCompanies": {
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "maxLength": 255,
+                        "minLength": 1
+                    },
+                    "support_portal_url": {
+                        "title": "Support portal url",
+                        "type": "string",
+                        "maxLength": 500,
+                        "nullable": true
+                    },
+                    "contact_name": {
+                        "title": "Contact name",
+                        "type": "string",
+                        "maxLength": 255,
+                        "nullable": true
+                    },
+                    "contact_email": {
+                        "title": "Contact email",
+                        "type": "string",
+                        "maxLength": 255,
+                        "nullable": true
+                    },
+                    "active": {
+                        "title": "Activo",
+                        "type": "boolean"
+                    },
+                    "createdat": {
+                        "title": "Fecha de creación",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "updatedat": {
+                        "title": "Fecha de actualización",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    }
+                }
+            },
+            "ServiceTypes": {
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 1
+                    }
+                }
+            },
+            "TaskCategories": {
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 1
+                    }
+                }
+            },
+            "ExternalTickets": {
+                "required": [
+                    "general_title",
+                    "company"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "external_ticket_number": {
+                        "title": "External ticket number",
+                        "type": "string",
+                        "maxLength": 100,
+                        "nullable": true
+                    },
+                    "simple_action_number": {
+                        "title": "Simple action number",
+                        "type": "string",
+                        "maxLength": 100,
+                        "nullable": true
+                    },
+                    "general_title": {
+                        "title": "General title",
+                        "type": "string",
+                        "maxLength": 500,
+                        "minLength": 1
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "context": {
+                        "title": "Context",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "direct_ticket_url": {
+                        "title": "Direct ticket url",
+                        "type": "string",
+                        "maxLength": 500,
+                        "nullable": true
+                    },
+                    "external_opening_date": {
+                        "title": "External opening date",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "external_closing_date": {
+                        "title": "External closing date",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "active": {
+                        "title": "Activo",
+                        "type": "boolean"
+                    },
+                    "createdat": {
+                        "title": "Fecha de creación",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "updatedat": {
+                        "title": "Fecha de actualización",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "category": {
+                        "title": "Category",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "service_type": {
+                        "title": "Service type",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "global_status": {
+                        "title": "Global status",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "priority": {
+                        "title": "Priority",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "company": {
+                        "title": "Company",
+                        "type": "integer"
+                    },
+                    "registration_agent": {
+                        "title": "Usuario que registro",
+                        "type": "integer",
+                        "nullable": true
+                    }
+                }
+            },
+            "TicketStatuses": {
+                "required": [
+                    "code",
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "code": {
+                        "title": "Code",
+                        "type": "string",
+                        "maxLength": 50,
+                        "minLength": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "active": {
+                        "title": "Activo",
+                        "type": "boolean"
+                    },
+                    "createdat": {
+                        "title": "Fecha de creación",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "updatedat": {
+                        "title": "Fecha de actualización",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    }
+                }
+            },
+            "TrackingHistory": {
+                "required": [
+                    "additional_request"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "event_date": {
+                        "title": "Event date",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "update_source": {
+                        "title": "Update source",
+                        "type": "string",
+                        "maxLength": 100,
+                        "nullable": true
+                    },
+                    "comment": {
+                        "title": "Comment",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "active": {
+                        "title": "Activo",
+                        "type": "boolean"
+                    },
+                    "createdat": {
+                        "title": "Fecha de creación",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "updatedat": {
+                        "title": "Fecha de actualización",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "previous_status": {
+                        "title": "Previous status",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "new_status": {
+                        "title": "New status",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "additional_request": {
+                        "title": "Additional request",
+                        "type": "integer"
+                    },
+                    "registered_by_user": {
+                        "title": "Usuario que registro",
+                        "type": "integer",
+                        "nullable": true
                     }
                 }
             }

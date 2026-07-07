@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "generate:api": "openapi-typescript swagger-v3.json -o src/types/api.d.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "4.1.2",
@@ -50,6 +51,7 @@
     "eslint-plugin-react-hooks": "5.0.0",
     "eslint-plugin-react-refresh": "0.4.18",
     "globals": "15.14.0",
+    "openapi-typescript": "7.13.0",
     "typescript": "6.0.3",
     "typescript-eslint": "8.62.1",
     "vite": "6.3.5"
