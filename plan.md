@@ -144,7 +144,7 @@ Commit sugerido: `feat(tickets): ABM de empresas proveedoras`
 
 ## Feature 4 — Escritura de tracking_history (registrar evento manual)
 
-- [ ] Completada
+- [x] Completada
 
 Alcance completo confirmado: el historial se registra manualmente desde el frontend.
 
@@ -172,9 +172,10 @@ Alcance completo confirmado: el historial se registra manualmente desde el front
 
 ### Criterio de hecho
 
-- [ ] Registrar/editar/eliminar un evento de seguimiento desde el detalle del pedido, end-to-end.
-- [ ] El timeline se actualiza sin recargar.
-- [ ] `pnpm run build` pasa.
+- [x] Registrar/editar/eliminar un evento de seguimiento desde el detalle del pedido, end-to-end
+      (verificado create+update(PUT)+delete contra el backend real sobre additional_request:1).
+- [x] El timeline se actualiza sin recargar (invalidación de `ticketKeys.trackingHistory`).
+- [x] `pnpm run build` pasa.
 
 Commit sugerido: `feat(tickets): registro manual de eventos de seguimiento`
 

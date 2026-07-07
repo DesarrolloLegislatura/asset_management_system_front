@@ -40,7 +40,12 @@ export {
   useUpdateAdditionalRequest,
   useDeleteAdditionalRequest,
 } from "./hooks/useAdditionalRequests";
-export { useTrackingHistory } from "./hooks/useTrackingHistory";
+export {
+  useTrackingHistory,
+  useCreateTrackingEntry,
+  useUpdateTrackingEntry,
+  useDeleteTrackingEntry,
+} from "./hooks/useTrackingHistory";
 export type {
   TicketStatus,
   TicketStatusInput,
@@ -57,4 +62,5 @@ export type {
   AdditionalRequest,
   AdditionalRequestInput,
   TrackingHistoryEntry,
+  TrackingHistoryInput,
 } from "./types";

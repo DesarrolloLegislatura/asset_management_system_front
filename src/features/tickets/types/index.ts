@@ -35,3 +35,8 @@ export type AdditionalRequestInput = Omit<
 >;
 
 export type TrackingHistoryEntry = components["schemas"]["TrackingHistory"];
+
+export type TrackingHistoryInput = Omit<
+  TrackingHistoryEntry,
+  "id" | "createdat" | "updatedat"
+>;
