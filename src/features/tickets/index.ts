@@ -6,4 +6,21 @@ export {
   useUpdateTicketStatus,
   useDeleteTicketStatus,
 } from "./hooks/useTicketStatuses";
-export type { TicketStatus, TicketStatusInput } from "./types";
+export {
+  useTickets,
+  useTicket,
+  useCreateTicket,
+  useUpdateTicket,
+  useChangeTicketStatus,
+  useDeleteTicket,
+} from "./hooks/useTickets";
+export type {
+  TicketStatus,
+  TicketStatusInput,
+  Ticket,
+  TicketInput,
+  Priority,
+  ServiceType,
+  TaskCategory,
+  ProviderCompany,
+} from "./types";
