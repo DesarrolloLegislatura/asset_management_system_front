@@ -14,6 +14,19 @@ export {
   useChangeTicketStatus,
   useDeleteTicket,
 } from "./hooks/useTickets";
+export {
+  usePriorities,
+  useServiceTypes,
+  useTaskCategories,
+  useProviderCompanies,
+} from "./hooks/useCatalogs";
+export {
+  useAdditionalRequestsByTicket,
+  useCreateAdditionalRequest,
+  useUpdateAdditionalRequest,
+  useDeleteAdditionalRequest,
+} from "./hooks/useAdditionalRequests";
+export { useTrackingHistory } from "./hooks/useTrackingHistory";
 export type {
   TicketStatus,
   TicketStatusInput,
@@ -23,4 +36,7 @@ export type {
   ServiceType,
   TaskCategory,
   ProviderCompany,
+  AdditionalRequest,
+  AdditionalRequestInput,
+  TrackingHistoryEntry,
 } from "./types";

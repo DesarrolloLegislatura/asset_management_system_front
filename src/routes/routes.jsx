@@ -33,8 +33,7 @@ const routes = [
     children: [
       // Dominio fichas (rutas y permisos definidos en el propio feature).
       ...fichasRoutes,
-      // Feature piloto tickets (andamiaje, sin permiso propio todavía;
-      // protegida solo por el gate de sesión del layout padre).
+      // Dominio tickets (rutas y permisos definidos en el propio feature).
       ...ticketsRoutes,
     ],
   },

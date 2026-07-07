@@ -17,3 +17,12 @@ export type Priority = components["schemas"]["Priorities"];
 export type ServiceType = components["schemas"]["ServiceTypes"];
 export type TaskCategory = components["schemas"]["TaskCategories"];
 export type ProviderCompany = components["schemas"]["ProviderCompanies"];
+
+export type AdditionalRequest = components["schemas"]["AdditionalRequests"];
+
+export type AdditionalRequestInput = Omit<
+  AdditionalRequest,
+  "id" | "createdat" | "updatedat"
+>;
+
+export type TrackingHistoryEntry = components["schemas"]["TrackingHistory"];

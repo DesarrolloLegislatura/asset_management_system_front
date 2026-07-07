@@ -30,6 +30,13 @@ export const PERMISSIONS = {
   // Inventario
   INVENTORY_VIEW: "inventory.view",
   INVENTORY_SEARCH: "inventory.search",
+
+  // Tickets (rol operativo: Tecnico; Administrador hereda por el spread)
+  TICKET_VIEW: "ticket.view",
+  TICKET_CREATE: "ticket.create",
+  TICKET_EDIT: "ticket.edit",
+  TICKET_DELETE: "ticket.delete",
+  TICKET_STATUS_MANAGE: "ticket_status.manage",
 };
 
 // Mapeo de permisos por grupo
@@ -63,6 +70,13 @@ export const GROUP_PERMISSIONS = {
     // Inventario (solo visualización)
     PERMISSIONS.INVENTORY_VIEW,
     PERMISSIONS.INVENTORY_SEARCH,
+
+    // Tickets (acceso completo)
+    PERMISSIONS.TICKET_VIEW,
+    PERMISSIONS.TICKET_CREATE,
+    PERMISSIONS.TICKET_EDIT,
+    PERMISSIONS.TICKET_DELETE,
+    PERMISSIONS.TICKET_STATUS_MANAGE,
   ],
 
   [USER_GROUPS.ADMINISTRATIVO]: [

@@ -1,5 +1,5 @@
 import { PERMISSIONS, USER_GROUPS } from "@/shared/auth/permissions";
-import { ClipboardCheck, Wrench } from "lucide-react";
+import { ClipboardCheck, Ticket, Wrench } from "lucide-react";
 
 /**
  * Definición de items de navegación con sus permisos requeridos
@@ -28,6 +28,24 @@ export const navigationItems = [
     href: "/ficha-servicio",
     icon: Wrench,
     permission: PERMISSIONS.FICHA_SERVICIO_VIEW,
+  },
+  {
+    title: "Tickets",
+    href: "/tickets",
+    icon: Ticket,
+    permission: PERMISSIONS.TICKET_VIEW,
+    children: [
+      {
+        title: "Ver Tickets",
+        href: "/tickets",
+        permission: PERMISSIONS.TICKET_VIEW,
+      },
+      {
+        title: "Estados",
+        href: "/tickets/estados",
+        permission: PERMISSIONS.TICKET_STATUS_MANAGE,
+      },
+    ],
   },
 ];
 
