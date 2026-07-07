@@ -5,6 +5,7 @@ import { TicketsPage } from "./pages/TicketsPage";
 import { TicketDetail } from "./components/TicketDetail/TicketDetail";
 import { TicketForm } from "./components/TicketForm/TicketForm";
 import { TicketStatusAdminPage } from "./pages/TicketStatusAdminPage";
+import { TicketCatalogAdminPage } from "./pages/TicketCatalogAdminPage";
 
 export const ticketsRoutes: RouteObject[] = [
   {
@@ -31,5 +32,10 @@ export const ticketsRoutes: RouteObject[] = [
     path: "tickets/estados",
     element: <TicketStatusAdminPage />,
     loader: protect(PERMISSIONS.TICKET_STATUS_MANAGE),
+  },
+  {
+    path: "tickets/catalogos",
+    element: <TicketCatalogAdminPage />,
+    loader: protect(PERMISSIONS.TICKET_CATALOG_MANAGE),
   },
 ];

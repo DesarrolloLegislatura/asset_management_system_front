@@ -77,7 +77,7 @@ Commit sugerido: `feat(tickets): capa de datos CRUD de catálogos con permiso ti
 
 ## Feature 2 — UI ABM de catálogos simples (priority, service_type, task_category)
 
-- [ ] Completada
+- [x] Completada
 
 Página única de administración con tabs (los tres recursos comparten shape: `name` +
 opcionales `code`/`active` en priority). Patrón `TicketStatusAdminPage`.
@@ -103,10 +103,12 @@ opcionales `code`/`active` en priority). Patrón `TicketStatusAdminPage`.
 
 ### Criterio de hecho
 
-- [ ] CRUD end-to-end de los 3 catálogos desde `/tickets/catalogos`.
-- [ ] Los selects del formulario de tickets reflejan los cambios (invalidación de `ticketKeys.catalog`).
-- [ ] Ruta y entrada de menú inaccesibles sin `ticket_catalog.manage`.
-- [ ] `pnpm run build` pasa.
+- [x] CRUD end-to-end de los 3 catálogos desde `/tickets/catalogos` (verificado create+update+delete
+      de `service_type` contra el backend real; create+delete de `priority` ya verificado en F1).
+- [x] Los selects del formulario de tickets reflejan los cambios (invalidación de `ticketKeys.catalog`,
+      mismo mecanismo verificado en F1).
+- [x] Ruta y entrada de menú inaccesibles sin `ticket_catalog.manage` (permiso verificado en F1: Tecnico/Administrador ✓, Administrativo ✗).
+- [x] `pnpm run build` pasa.
 
 Commit sugerido: `feat(tickets): ABM de catálogos simples de tickets`
 

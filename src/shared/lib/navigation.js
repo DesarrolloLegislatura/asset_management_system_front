@@ -45,6 +45,11 @@ export const navigationItems = [
         href: "/tickets/estados",
         permission: PERMISSIONS.TICKET_STATUS_MANAGE,
       },
+      {
+        title: "Catálogos",
+        href: "/tickets/catalogos",
+        permission: PERMISSIONS.TICKET_CATALOG_MANAGE,
+      },
     ],
   },
 ];
