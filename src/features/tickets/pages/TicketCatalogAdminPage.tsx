@@ -2,17 +2,24 @@ import { Plus, Pencil } from "lucide-react";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
-import { usePriorities, useServiceTypes, useTaskCategories } from "../hooks/useCatalogs";
+import {
+  usePriorities,
+  useServiceTypes,
+  useTaskCategories,
+  useProviderCompanies,
+} from "../hooks/useCatalogs";
 import { CatalogTable, type CatalogColumn } from "../components/CatalogAdmin/CatalogTable";
 import { PriorityFormDialog } from "../components/CatalogAdmin/PriorityFormDialog";
 import { SimpleCatalogFormDialog } from "../components/CatalogAdmin/SimpleCatalogFormDialog";
+import { ProviderCompanyFormDialog } from "../components/CatalogAdmin/ProviderCompanyFormDialog";
 import { CatalogDeleteDialog } from "../components/CatalogAdmin/CatalogDeleteDialog";
-import type { Priority, ServiceType, TaskCategory } from "../types";
+import type { Priority, ServiceType, TaskCategory, ProviderCompany } from "../types";
 
 export const TicketCatalogAdminPage = () => {
   const { data: priorities = [], isLoading: loadingPriorities } = usePriorities();
   const { data: serviceTypes = [], isLoading: loadingServiceTypes } = useServiceTypes();
   const { data: taskCategories = [], isLoading: loadingTaskCategories } = useTaskCategories();
+  const { data: companies = [], isLoading: loadingCompanies } = useProviderCompanies();
 
   const priorityColumns: CatalogColumn<Priority>[] = [
     { key: "name", header: "Nombre", render: (row) => row.name },
@@ -32,12 +39,35 @@ export const TicketCatalogAdminPage = () => {
     { key: "name", header: "Nombre", render: (row) => row.name },
   ];
 
+  const companyColumns: CatalogColumn<ProviderCompany>[] = [
+    { key: "name", header: "Nombre", render: (row) => row.name },
+    {
+      key: "contact_name",
+      header: "Contacto",
+      render: (row) => row.contact_name || "—",
+    },
+    {
+      key: "contact_email",
+      header: "Email",
+      render: (row) => row.contact_email || "—",
+    },
+    {
+      key: "active",
+      header: "Activo",
+      render: (row) => (
+        <Badge variant={row.active ? "default" : "outline"}>
+          {row.active ? "Sí" : "No"}
+        </Badge>
+      ),
+    },
+  ];
+
   return (
     <div className="p-6">
       <div className="mb-6">
         <h1 className="text-2xl font-bold tracking-tight">Catálogos de Tickets</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Administración de prioridades, tipos de servicio y categorías
+          Administración de prioridades, tipos de servicio, categorías y empresas
         </p>
       </div>
 
@@ -46,6 +76,7 @@ export const TicketCatalogAdminPage = () => {
           <TabsTrigger value="priorities">Prioridades</TabsTrigger>
           <TabsTrigger value="serviceTypes">Tipos de servicio</TabsTrigger>
           <TabsTrigger value="taskCategories">Categorías</TabsTrigger>
+          <TabsTrigger value="companies">Empresas</TabsTrigger>
         </TabsList>
 
         <TabsContent value="priorities" className="py-4 space-y-4">
@@ -155,6 +186,43 @@ export const TicketCatalogAdminPage = () => {
                 />
                 <CatalogDeleteDialog
                   resource="taskCategory"
+                  id={row.id as number}
+                  label={row.name}
+                />
+              </>
+            )}
+          />
+        </TabsContent>
+
+        <TabsContent value="companies" className="py-4 space-y-4">
+          <div className="flex justify-end">
+            <ProviderCompanyFormDialog
+              mode="create"
+              trigger={
+                <Button size="sm">
+                  <Plus className="h-4 w-4 mr-2" /> Nueva empresa
+                </Button>
+              }
+            />
+          </div>
+          <CatalogTable<ProviderCompany>
+            columns={companyColumns}
+            rows={companies}
+            isLoading={loadingCompanies}
+            emptyMessage="No hay empresas registradas."
+            renderActions={(row) => (
+              <>
+                <ProviderCompanyFormDialog
+                  mode="edit"
+                  company={row}
+                  trigger={
+                    <Button variant="ghost" size="sm">
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                  }
+                />
+                <CatalogDeleteDialog
+                  resource="providerCompany"
                   id={row.id as number}
                   label={row.name}
                 />

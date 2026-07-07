@@ -14,3 +14,19 @@ export const simpleCatalogSchema = z.object({
 });
 
 export type SimpleCatalogFormValues = z.infer<typeof simpleCatalogSchema>;
+
+export const providerCompanySchema = z.object({
+  name: z.string().min(1, "El nombre es obligatorio"),
+  support_portal_url: z
+    .union([z.literal(""), z.string().url("URL inválida")])
+    .optional()
+    .default(""),
+  contact_name: z.string().optional().default(""),
+  contact_email: z
+    .union([z.literal(""), z.string().email("Email inválido")])
+    .optional()
+    .default(""),
+  active: z.boolean().default(true),
+});
+
+export type ProviderCompanyFormValues = z.infer<typeof providerCompanySchema>;

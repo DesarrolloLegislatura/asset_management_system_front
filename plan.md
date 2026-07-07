@@ -116,7 +116,7 @@ Commit sugerido: `feat(tickets): ABM de catálogos simples de tickets`
 
 ## Feature 3 — UI ABM de empresas proveedoras (provider_company)
 
-- [ ] Completada
+- [x] Completada
 
 Form más rico (`name` obligatorio + `support_portal_url`, `contact_name`, `contact_email`, `active`).
 
@@ -134,8 +134,9 @@ Form más rico (`name` obligatorio + `support_portal_url`, `contact_name`, `cont
 
 ### Criterio de hecho
 
-- [ ] CRUD end-to-end de empresas; emails/URLs inválidos rechazados por Zod.
-- [ ] `pnpm run build` pasa.
+- [x] CRUD end-to-end de empresas; emails/URLs inválidos rechazados por Zod (verificado con
+      casos válidos/inválidos vía script) y create+delete contra el backend real.
+- [x] `pnpm run build` pasa.
 
 Commit sugerido: `feat(tickets): ABM de empresas proveedoras`
 
