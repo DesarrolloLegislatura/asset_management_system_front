@@ -1,4 +1,4 @@
-import { FilePenLine } from "lucide-react";
+import {  Layers3 } from "lucide-react";
 import { Outlet } from "react-router";
 import { useThemeWatcher } from "@/shared/theme/useThemeWatcher";
 
@@ -12,7 +12,7 @@ export const AuthLayout = () => {
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="#" className="flex items-center gap-2 font-medium">
             <div className="flex h-10 w-10 items-center justify-center  text-primary">
-              <FilePenLine size={34} className="text-green-600" />
+              <Layers3 size={34} className="text-green-600" />
             </div>
             Plataforma Central de TI
           </a>

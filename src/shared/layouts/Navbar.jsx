@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from "@/shared/ui/sheet";
 import { Button } from "@/shared/ui/button";
-import { Menu, User, LogOut, FilePenLine, ExternalLink } from "lucide-react";
+import { Menu, User, LogOut,  ExternalLink, Layers3 } from "lucide-react";
 import { Sidebar } from "./Sidebar";
 import { useAuthStore } from "@/shared/auth/authStore";
 import { useNavigate } from "react-router";
@@ -35,11 +35,13 @@ export function Navbar() {
         <Link to="/" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded  flex items-center justify-center">
             <span className="text-primary font-bold">
-              <FilePenLine className="text-green-600" />
+              {/* <FilePenLine className="text-green-600" /> */}
+              <Layers3 className="h-8 w-8 text-green-600" />
+
             </span>
           </div>
           <h1 className="text-xl font-bold hidden md:block">
-            Sistema de Fichas
+            Plataforma Central de TI
           </h1>
         </Link>
 
