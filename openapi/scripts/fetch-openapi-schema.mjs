@@ -10,7 +10,7 @@ if (!SCHEMA_URL) {
   process.exit(1);
 }
 
-const OUT = fileURLToPath(new URL("../openapi/schema.json", import.meta.url));
+const OUT = fileURLToPath(new URL("../schema.json", import.meta.url));
 
 const res = await fetch(SCHEMA_URL, {
   headers: { Accept: "application/json" },

@@ -1,0 +1,3220 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Documentación API REST - App Documentos - SAB",
+    "description": "Documentación de la API REST de la aplicación de Documentos del Sistema de Administración de Bienes de la Dirección de Sistemas y Comunicaciones.",
+    "termsOfService": "https://www.google.com/policies/terms/",
+    "contact": {
+      "email": "desarrollo.legislaturachaco@gmail.com"
+    },
+    "license": {
+      "name": "BSD License"
+    },
+    "version": "v1"
+  },
+  "security": [
+    {
+      "Basic": []
+    }
+  ],
+  "paths": {
+    "/auth/login/": {
+      "post": {
+        "operationId": "auth_login_create",
+        "description": "Takes a set of user credentials and returns an access and refresh JSON web\ntoken pair to prove the authentication of those credentials.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MyTokenObtainPair"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyTokenObtainPair"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/token/refresh/": {
+      "post": {
+        "operationId": "auth_token_refresh_create",
+        "description": "Takes a refresh type JSON web token and returns an access type JSON web\ntoken if the refresh token is valid.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenRefresh"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenRefresh"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/documents/document/": {
+      "get": {
+        "operationId": "documents_document_list",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Document"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "documents"
+        ]
+      },
+      "post": {
+        "operationId": "documents_document_create",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Document"
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Document"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "documents"
+        ]
+      },
+      "parameters": []
+    },
+    "/documents/document/{id}/": {
+      "get": {
+        "operationId": "documents_document_read",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Document"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "documents"
+        ]
+      },
+      "put": {
+        "operationId": "documents_document_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Document"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Document"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "documents"
+        ]
+      },
+      "patch": {
+        "operationId": "documents_document_partial_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Document"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Document"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "documents"
+        ]
+      },
+      "delete": {
+        "operationId": "documents_document_delete",
+        "description": "",
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "documents"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Documento.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "/documents/typedocument/": {
+      "get": {
+        "operationId": "documents_typedocument_list",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TypeDocument"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "documents"
+        ]
+      },
+      "post": {
+        "operationId": "documents_typedocument_create",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TypeDocument"
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TypeDocument"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "documents"
+        ]
+      },
+      "parameters": []
+    },
+    "/documents/typedocument/{id}/": {
+      "get": {
+        "operationId": "documents_typedocument_read",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TypeDocument"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "documents"
+        ]
+      },
+      "put": {
+        "operationId": "documents_typedocument_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TypeDocument"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TypeDocument"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "documents"
+        ]
+      },
+      "patch": {
+        "operationId": "documents_typedocument_partial_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TypeDocument"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TypeDocument"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "documents"
+        ]
+      },
+      "delete": {
+        "operationId": "documents_typedocument_delete",
+        "description": "",
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "documents"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Tipo de Documento.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "/tds/assets/": {
+      "get": {
+        "operationId": "tds_assets_list",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Assets"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "post": {
+        "operationId": "tds_assets_create",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Assets"
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Assets"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "parameters": []
+    },
+    "/tds/assets/{id}/": {
+      "get": {
+        "operationId": "tds_assets_read",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Assets"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "put": {
+        "operationId": "tds_assets_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Assets"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Assets"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "patch": {
+        "operationId": "tds_assets_partial_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Assets"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Assets"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "delete": {
+        "operationId": "tds_assets_delete",
+        "description": "",
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Bien.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "/tds/status/": {
+      "get": {
+        "operationId": "tds_status_list",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Status"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "post": {
+        "operationId": "tds_status_create",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Status"
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "parameters": []
+    },
+    "/tds/status/{id}/": {
+      "get": {
+        "operationId": "tds_status_read",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "put": {
+        "operationId": "tds_status_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Status"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "patch": {
+        "operationId": "tds_status_partial_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Status"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "delete": {
+        "operationId": "tds_status_delete",
+        "description": "",
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Estado.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "/tds/tds/": {
+      "get": {
+        "operationId": "tds_tds_list",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TechnicalDataSheetsRead"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "post": {
+        "operationId": "tds_tds_create",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TechnicalDataSheetsWrite"
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicalDataSheetsWrite"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "parameters": []
+    },
+    "/tds/tds/{id}/": {
+      "get": {
+        "operationId": "tds_tds_read",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicalDataSheetsRead"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "put": {
+        "operationId": "tds_tds_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TechnicalDataSheetsWrite"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicalDataSheetsWrite"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "patch": {
+        "operationId": "tds_tds_partial_update",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TechnicalDataSheetsRead"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TechnicalDataSheetsRead"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "delete": {
+        "operationId": "tds_tds_delete",
+        "description": "",
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "tds"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Ficha Técnica.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "/ticket/additional_request/": {
+      "get": {
+        "operationId": "ticket_additional_request_list",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdditionalRequests"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "post": {
+        "operationId": "ticket_additional_request_create",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/AdditionalRequests"
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdditionalRequests"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": []
+    },
+    "/ticket/additional_request/{id}/": {
+      "get": {
+        "operationId": "ticket_additional_request_read",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdditionalRequests"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "put": {
+        "operationId": "ticket_additional_request_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/AdditionalRequests"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdditionalRequests"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "patch": {
+        "operationId": "ticket_additional_request_partial_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/AdditionalRequests"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdditionalRequests"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "delete": {
+        "operationId": "ticket_additional_request_delete",
+        "description": "",
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Pedido Adicional.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "/ticket/priority/": {
+      "get": {
+        "operationId": "ticket_priority_list",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Priorities"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "post": {
+        "operationId": "ticket_priority_create",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Priorities"
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Priorities"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": []
+    },
+    "/ticket/priority/{id}/": {
+      "get": {
+        "operationId": "ticket_priority_read",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Priorities"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "put": {
+        "operationId": "ticket_priority_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Priorities"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Priorities"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "patch": {
+        "operationId": "ticket_priority_partial_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Priorities"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Priorities"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "delete": {
+        "operationId": "ticket_priority_delete",
+        "description": "",
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Prioridad.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "/ticket/provider_company/": {
+      "get": {
+        "operationId": "ticket_provider_company_list",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProviderCompanies"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "post": {
+        "operationId": "ticket_provider_company_create",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ProviderCompanies"
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderCompanies"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": []
+    },
+    "/ticket/provider_company/{id}/": {
+      "get": {
+        "operationId": "ticket_provider_company_read",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderCompanies"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "put": {
+        "operationId": "ticket_provider_company_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ProviderCompanies"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderCompanies"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "patch": {
+        "operationId": "ticket_provider_company_partial_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ProviderCompanies"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderCompanies"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "delete": {
+        "operationId": "ticket_provider_company_delete",
+        "description": "",
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Empresa Proveedora.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "/ticket/service_type/": {
+      "get": {
+        "operationId": "ticket_service_type_list",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceTypes"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "post": {
+        "operationId": "ticket_service_type_create",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ServiceTypes"
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceTypes"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": []
+    },
+    "/ticket/service_type/{id}/": {
+      "get": {
+        "operationId": "ticket_service_type_read",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceTypes"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "put": {
+        "operationId": "ticket_service_type_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ServiceTypes"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceTypes"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "patch": {
+        "operationId": "ticket_service_type_partial_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ServiceTypes"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceTypes"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "delete": {
+        "operationId": "ticket_service_type_delete",
+        "description": "",
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Tipo Servicio.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "/ticket/task_category/": {
+      "get": {
+        "operationId": "ticket_task_category_list",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskCategories"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "post": {
+        "operationId": "ticket_task_category_create",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TaskCategories"
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskCategories"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": []
+    },
+    "/ticket/task_category/{id}/": {
+      "get": {
+        "operationId": "ticket_task_category_read",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskCategories"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "put": {
+        "operationId": "ticket_task_category_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TaskCategories"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskCategories"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "patch": {
+        "operationId": "ticket_task_category_partial_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TaskCategories"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskCategories"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "delete": {
+        "operationId": "ticket_task_category_delete",
+        "description": "",
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Categoria Tarea.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "/ticket/ticket/": {
+      "get": {
+        "operationId": "ticket_ticket_list",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExternalTickets"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "post": {
+        "operationId": "ticket_ticket_create",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ExternalTickets"
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalTickets"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": []
+    },
+    "/ticket/ticket/{id}/": {
+      "get": {
+        "operationId": "ticket_ticket_read",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalTickets"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "put": {
+        "operationId": "ticket_ticket_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ExternalTickets"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalTickets"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "patch": {
+        "operationId": "ticket_ticket_partial_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ExternalTickets"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalTickets"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "delete": {
+        "operationId": "ticket_ticket_delete",
+        "description": "",
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Ticket Externo.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "/ticket/ticket_status/": {
+      "get": {
+        "operationId": "ticket_ticket_status_list",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TicketStatuses"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "post": {
+        "operationId": "ticket_ticket_status_create",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TicketStatuses"
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketStatuses"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": []
+    },
+    "/ticket/ticket_status/{id}/": {
+      "get": {
+        "operationId": "ticket_ticket_status_read",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketStatuses"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "put": {
+        "operationId": "ticket_ticket_status_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TicketStatuses"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketStatuses"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "patch": {
+        "operationId": "ticket_ticket_status_partial_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TicketStatuses"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketStatuses"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "delete": {
+        "operationId": "ticket_ticket_status_delete",
+        "description": "",
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Estado Ticket.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "/ticket/tracking_history/": {
+      "get": {
+        "operationId": "ticket_tracking_history_list",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TrackingHistory"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "post": {
+        "operationId": "ticket_tracking_history_create",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TrackingHistory"
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackingHistory"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": []
+    },
+    "/ticket/tracking_history/{id}/": {
+      "get": {
+        "operationId": "ticket_tracking_history_read",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackingHistory"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "put": {
+        "operationId": "ticket_tracking_history_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TrackingHistory"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackingHistory"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "patch": {
+        "operationId": "ticket_tracking_history_partial_update",
+        "description": "",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TrackingHistory"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackingHistory"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "delete": {
+        "operationId": "ticket_tracking_history_delete",
+        "description": "",
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ticket"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this Historial Seguimiento.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "servers": [
+    {
+      "url": "http://10.220.106.17:9002/api"
+    }
+  ],
+  "components": {
+    "requestBodies": {
+      "Priorities": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Priorities"
+            }
+          }
+        },
+        "required": true
+      },
+      "Status": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Status"
+            }
+          }
+        },
+        "required": true
+      },
+      "ProviderCompanies": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProviderCompanies"
+            }
+          }
+        },
+        "required": true
+      },
+      "TrackingHistory": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TrackingHistory"
+            }
+          }
+        },
+        "required": true
+      },
+      "Assets": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Assets"
+            }
+          }
+        },
+        "required": true
+      },
+      "ExternalTickets": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ExternalTickets"
+            }
+          }
+        },
+        "required": true
+      },
+      "TechnicalDataSheetsWrite": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TechnicalDataSheetsWrite"
+            }
+          }
+        },
+        "required": true
+      },
+      "TicketStatuses": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TicketStatuses"
+            }
+          }
+        },
+        "required": true
+      },
+      "Document": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Document"
+            }
+          }
+        },
+        "required": true
+      },
+      "TypeDocument": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TypeDocument"
+            }
+          }
+        },
+        "required": true
+      },
+      "AdditionalRequests": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AdditionalRequests"
+            }
+          }
+        },
+        "required": true
+      },
+      "ServiceTypes": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ServiceTypes"
+            }
+          }
+        },
+        "required": true
+      },
+      "TaskCategories": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TaskCategories"
+            }
+          }
+        },
+        "required": true
+      }
+    },
+    "securitySchemes": {
+      "Basic": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "MyTokenObtainPair": {
+        "required": [
+          "username",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "title": "Username",
+            "type": "string",
+            "minLength": 1
+          },
+          "password": {
+            "title": "Password",
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "TokenRefresh": {
+        "required": [
+          "refresh"
+        ],
+        "type": "object",
+        "properties": {
+          "refresh": {
+            "title": "Refresh",
+            "type": "string",
+            "minLength": 1
+          },
+          "access": {
+            "title": "Access",
+            "type": "string",
+            "readOnly": true,
+            "minLength": 1
+          }
+        }
+      },
+      "TypeDocument": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Nombre",
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1
+          },
+          "description": {
+            "title": "Descripción",
+            "type": "string",
+            "nullable": true
+          },
+          "active": {
+            "title": "Activo",
+            "type": "integer",
+            "maximum": 2147483647,
+            "minimum": -2147483648
+          },
+          "createdat": {
+            "title": "Fecha de creación",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedat": {
+            "title": "Fecha de actualización",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "User": {
+        "required": [
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "username": {
+            "title": "Nombre de usuario",
+            "description": "Obligatorio. Longitud máxima de 150 caracteres. Solo puede estar formado por letras, números y los caracteres @/./+/-/_.",
+            "type": "string",
+            "pattern": "^[\\w.@+-]+$",
+            "maxLength": 150,
+            "minLength": 1
+          },
+          "first_name": {
+            "title": "Nombre",
+            "type": "string",
+            "maxLength": 150
+          },
+          "last_name": {
+            "title": "Apellido",
+            "type": "string",
+            "maxLength": 150
+          }
+        }
+      },
+      "DocumentArea": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Nombre",
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      },
+      "AttachedDocument": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Nombre",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "type": {
+            "title": "Tipo",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "description": {
+            "title": "Descripción",
+            "type": "string",
+            "nullable": true
+          },
+          "date": {
+            "title": "Date",
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "company": {
+            "title": "Empresa",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "number": {
+            "title": "Numero",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "active": {
+            "title": "Activo",
+            "type": "integer",
+            "maximum": 2147483647,
+            "minimum": -2147483648
+          },
+          "createdat": {
+            "title": "Fecha de creación",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedat": {
+            "title": "Fecha de actualización",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "attached_type_document": {
+            "title": "Tipo de Documento adjunto",
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "RecursiveField": {
+        "type": "object",
+        "properties": {}
+      },
+      "Document": {
+        "required": [
+          "input_output",
+          "total_page",
+          "type_document",
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "number": {
+            "title": "Numero",
+            "type": "string",
+            "maxLength": 50,
+            "nullable": true
+          },
+          "year": {
+            "title": "Año",
+            "type": "string",
+            "maxLength": 10,
+            "nullable": true
+          },
+          "date": {
+            "title": "Fecha",
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "input_output": {
+            "title": "Ingreso/Egreso",
+            "type": "string",
+            "maxLength": 10,
+            "minLength": 1
+          },
+          "total_page": {
+            "title": "Foja",
+            "type": "integer",
+            "maximum": 2147483647,
+            "minimum": -2147483648
+          },
+          "scope_document": {
+            "title": "Alcance",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "description": {
+            "title": "Descripción",
+            "type": "string",
+            "nullable": true
+          },
+          "active": {
+            "title": "Activo",
+            "type": "integer",
+            "maximum": 2147483647,
+            "minimum": -2147483648
+          },
+          "type_document": {
+            "title": "Tipo de Documento",
+            "type": "integer"
+          },
+          "user": {
+            "title": "Usuario",
+            "type": "integer"
+          },
+          "area": {
+            "title": "Area",
+            "type": "integer",
+            "nullable": true
+          },
+          "bibliorato": {
+            "title": "Bibliorato",
+            "type": "integer",
+            "nullable": true
+          },
+          "reference": {
+            "title": "Referencia (Padre)",
+            "type": "integer",
+            "nullable": true
+          },
+          "attacheds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "nullable": true
+            },
+            "uniqueItems": true
+          },
+          "type_document_details": {
+            "$ref": "#/components/schemas/TypeDocument"
+          },
+          "user_details": {
+            "$ref": "#/components/schemas/User"
+          },
+          "area_details": {
+            "$ref": "#/components/schemas/DocumentArea"
+          },
+          "parent_info": {
+            "title": "Parent info",
+            "type": "string",
+            "readOnly": true
+          },
+          "attached_documents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttachedDocument"
+            },
+            "readOnly": true
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecursiveField"
+            },
+            "readOnly": true
+          },
+          "createdat": {
+            "title": "Fecha de creación",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedat": {
+            "title": "Fecha de actualización",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "Assets": {
+        "required": [
+          "typeasset",
+          "building",
+          "situation",
+          "weighting",
+          "state"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "inventory": {
+            "title": "Inventario",
+            "type": "integer",
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "nullable": true
+          },
+          "networkaddress": {
+            "title": "Dirección de red",
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "title": "Descripción",
+            "type": "string",
+            "nullable": true
+          },
+          "typeasset": {
+            "title": "Tipo Bien",
+            "type": "integer"
+          },
+          "area": {
+            "title": "Area",
+            "type": "integer",
+            "nullable": true
+          },
+          "building": {
+            "title": "Edificio",
+            "type": "integer"
+          },
+          "situation": {
+            "title": "Situación",
+            "type": "integer"
+          },
+          "weighting": {
+            "title": "Ponderación",
+            "type": "integer"
+          },
+          "state": {
+            "title": "Estado",
+            "type": "integer"
+          }
+        }
+      },
+      "Status": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Nombre",
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1
+          },
+          "description": {
+            "title": "Descripción",
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "TdsArea": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Nombre",
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1
+          },
+          "description": {
+            "title": "Descripción",
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "title": "Email",
+            "type": "string",
+            "maxLength": 50,
+            "nullable": true
+          },
+          "telephone": {
+            "title": "Teléfono",
+            "type": "string",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "active": {
+            "title": "Activo",
+            "type": "boolean"
+          },
+          "createdat": {
+            "title": "Fecha de creación",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedat": {
+            "title": "Fecha de actualización",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "Building": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Nombre",
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1
+          },
+          "description": {
+            "title": "Descripción",
+            "type": "string",
+            "nullable": true
+          },
+          "active": {
+            "title": "Activo",
+            "type": "boolean"
+          },
+          "createdat": {
+            "title": "Fecha de creación",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedat": {
+            "title": "Fecha de actualización",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "TdsStatusUser": {
+        "required": [
+          "tds"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "tds": {
+            "title": "Fichas Técnicas",
+            "type": "integer"
+          },
+          "status": {
+            "$ref": "#/components/schemas/Status"
+          },
+          "users": {
+            "$ref": "#/components/schemas/User"
+          },
+          "createdat": {
+            "title": "Fecha de creación",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedat": {
+            "title": "Fecha de actualización",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "TechnicalDataSheetsRead": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "act_simple": {
+            "title": "Actuación Simple",
+            "type": "string",
+            "maxLength": 200,
+            "nullable": true
+          },
+          "year_act_simple": {
+            "title": "Año Actualización Simple",
+            "type": "integer",
+            "maximum": 32767,
+            "minimum": 0,
+            "nullable": true
+          },
+          "user_description": {
+            "title": "Descripción del usuario",
+            "type": "string",
+            "nullable": true
+          },
+          "tech_description": {
+            "title": "Descripción del técnico",
+            "type": "string",
+            "nullable": true
+          },
+          "date": {
+            "title": "Fecha de repación",
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "user_pc": {
+            "title": "Usuario pc",
+            "type": "string",
+            "maxLength": 200,
+            "nullable": true
+          },
+          "pass_pc": {
+            "title": "Password usuario pc",
+            "type": "string",
+            "nullable": true
+          },
+          "contact_name": {
+            "title": "Nombre del contacto",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "contact_phone": {
+            "title": "Teléfono de contacto",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "means_application": {
+            "title": "Medio de solicitud",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "assistance": {
+            "title": "Tipo de asistencia",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "date_in": {
+            "title": "Fecha de ingreso",
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "date_out": {
+            "title": "Fecha de egreso",
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "retired_by": {
+            "title": "Retirado por",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "active": {
+            "title": "Activo",
+            "type": "boolean"
+          },
+          "createdat": {
+            "title": "Fecha de creación",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedat": {
+            "title": "Fecha de actualización",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "asset": {
+            "$ref": "#/components/schemas/Assets"
+          },
+          "area": {
+            "$ref": "#/components/schemas/TdsArea"
+          },
+          "building": {
+            "$ref": "#/components/schemas/Building"
+          },
+          "status_users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TdsStatusUser"
+            },
+            "readOnly": true
+          }
+        }
+      },
+      "TechnicalDataSheetsWrite": {
+        "required": [
+          "asset"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "act_simple": {
+            "title": "Actuación Simple",
+            "type": "string",
+            "maxLength": 200,
+            "nullable": true
+          },
+          "year_act_simple": {
+            "title": "Año Actualización Simple",
+            "type": "integer",
+            "maximum": 32767,
+            "minimum": 0,
+            "nullable": true
+          },
+          "user_description": {
+            "title": "Descripción del usuario",
+            "type": "string",
+            "nullable": true
+          },
+          "tech_description": {
+            "title": "Descripción del técnico",
+            "type": "string",
+            "nullable": true
+          },
+          "date": {
+            "title": "Fecha de repación",
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "user_pc": {
+            "title": "Usuario pc",
+            "type": "string",
+            "maxLength": 200,
+            "nullable": true
+          },
+          "pass_pc": {
+            "title": "Password usuario pc",
+            "type": "string",
+            "nullable": true
+          },
+          "contact_name": {
+            "title": "Nombre del contacto",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "contact_phone": {
+            "title": "Teléfono de contacto",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "means_application": {
+            "title": "Medio de solicitud",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "assistance": {
+            "title": "Tipo de asistencia",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "date_in": {
+            "title": "Fecha de ingreso",
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "date_out": {
+            "title": "Fecha de egreso",
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "retired_by": {
+            "title": "Retirado por",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "active": {
+            "title": "Activo",
+            "type": "boolean"
+          },
+          "asset": {
+            "title": "Asset",
+            "type": "integer"
+          },
+          "area": {
+            "title": "Area",
+            "type": "integer",
+            "nullable": true
+          },
+          "building": {
+            "title": "Building",
+            "type": "integer",
+            "nullable": true
+          },
+          "status": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "uniqueItems": true
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "AdditionalRequests": {
+        "required": [
+          "sequence",
+          "request_description",
+          "parent_ticket"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "sequence": {
+            "title": "Sequence",
+            "type": "integer",
+            "maximum": 2147483647,
+            "minimum": -2147483648
+          },
+          "request_description": {
+            "title": "Request description",
+            "type": "string",
+            "minLength": 1
+          },
+          "resolution_description": {
+            "title": "Resolution description",
+            "type": "string",
+            "nullable": true
+          },
+          "request_date": {
+            "title": "Request date",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "completion_date": {
+            "title": "Completion date",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "active": {
+            "title": "Activo",
+            "type": "boolean"
+          },
+          "createdat": {
+            "title": "Fecha de creación",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedat": {
+            "title": "Fecha de actualización",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "request_status": {
+            "title": "Request status",
+            "type": "integer",
+            "nullable": true
+          },
+          "priority": {
+            "title": "Priority",
+            "type": "integer",
+            "nullable": true
+          },
+          "parent_ticket": {
+            "title": "Parent ticket",
+            "type": "integer"
+          },
+          "internal_requester": {
+            "title": "Usuario solicitante interno",
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "Priorities": {
+        "required": [
+          "name",
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          },
+          "code": {
+            "title": "Code",
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1
+          },
+          "active": {
+            "title": "Activo",
+            "type": "boolean"
+          },
+          "createdat": {
+            "title": "Fecha de creación",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedat": {
+            "title": "Fecha de actualización",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "ProviderCompanies": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1
+          },
+          "support_portal_url": {
+            "title": "Support portal url",
+            "type": "string",
+            "maxLength": 500,
+            "nullable": true
+          },
+          "contact_name": {
+            "title": "Contact name",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "contact_email": {
+            "title": "Contact email",
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true
+          },
+          "active": {
+            "title": "Activo",
+            "type": "boolean"
+          },
+          "createdat": {
+            "title": "Fecha de creación",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedat": {
+            "title": "Fecha de actualización",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "ServiceTypes": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          }
+        }
+      },
+      "TaskCategories": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          }
+        }
+      },
+      "ExternalTickets": {
+        "required": [
+          "general_title",
+          "company"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "external_ticket_number": {
+            "title": "External ticket number",
+            "type": "string",
+            "maxLength": 100,
+            "nullable": true
+          },
+          "simple_action_number": {
+            "title": "Simple action number",
+            "type": "string",
+            "maxLength": 100,
+            "nullable": true
+          },
+          "general_title": {
+            "title": "General title",
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "nullable": true
+          },
+          "context": {
+            "title": "Context",
+            "type": "string",
+            "nullable": true
+          },
+          "direct_ticket_url": {
+            "title": "Direct ticket url",
+            "type": "string",
+            "maxLength": 500,
+            "nullable": true
+          },
+          "external_opening_date": {
+            "title": "External opening date",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "external_closing_date": {
+            "title": "External closing date",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "active": {
+            "title": "Activo",
+            "type": "boolean"
+          },
+          "createdat": {
+            "title": "Fecha de creación",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedat": {
+            "title": "Fecha de actualización",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "category": {
+            "title": "Category",
+            "type": "integer",
+            "nullable": true
+          },
+          "service_type": {
+            "title": "Service type",
+            "type": "integer",
+            "nullable": true
+          },
+          "global_status": {
+            "title": "Global status",
+            "type": "integer",
+            "nullable": true
+          },
+          "priority": {
+            "title": "Priority",
+            "type": "integer",
+            "nullable": true
+          },
+          "company": {
+            "title": "Company",
+            "type": "integer"
+          },
+          "registration_agent": {
+            "title": "Usuario que registro",
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "TicketStatuses": {
+        "required": [
+          "code",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "code": {
+            "title": "Code",
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "nullable": true
+          },
+          "active": {
+            "title": "Activo",
+            "type": "boolean"
+          },
+          "createdat": {
+            "title": "Fecha de creación",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedat": {
+            "title": "Fecha de actualización",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "TrackingHistory": {
+        "required": [
+          "additional_request"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "integer",
+            "readOnly": true
+          },
+          "event_date": {
+            "title": "Event date",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "update_source": {
+            "title": "Update source",
+            "type": "string",
+            "maxLength": 100,
+            "nullable": true
+          },
+          "comment": {
+            "title": "Comment",
+            "type": "string",
+            "nullable": true
+          },
+          "active": {
+            "title": "Activo",
+            "type": "boolean"
+          },
+          "createdat": {
+            "title": "Fecha de creación",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedat": {
+            "title": "Fecha de actualización",
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "previous_status": {
+            "title": "Previous status",
+            "type": "integer",
+            "nullable": true
+          },
+          "new_status": {
+            "title": "New status",
+            "type": "integer",
+            "nullable": true
+          },
+          "additional_request": {
+            "title": "Additional request",
+            "type": "integer"
+          },
+          "registered_by_user": {
+            "title": "Usuario que registro",
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}
