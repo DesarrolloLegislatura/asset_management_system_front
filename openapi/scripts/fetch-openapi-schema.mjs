@@ -24,16 +24,16 @@ const raw = await res.json();
 
 let spec;
 if (raw.swagger === "2.0") {
-  //const { openapi } = await converter.convertObj(raw, { patch: true, warnOnly: true });
-  //spec = openapi;
+  const { openapi } = await converter.convertObj(raw, { patch: true, warnOnly: true });
+  spec = openapi;
   console.log("Schema Swagger 2.0 detectado -> convertido a OpenAPI 3.0.");
 } else if (typeof raw.openapi === "string" && raw.openapi.startsWith("3.")) {
-  //spec = raw;
+  spec = raw;
   console.log(`Schema OpenAPI ${raw.openapi} detectado -> sin conversión.`);
 } else {
   console.error("El documento no es Swagger 2.0 ni OpenAPI 3.x. Abortando.");
   process.exit(1);
 }
 
-//await writeFile(OUT, JSON.stringify(spec, null, 2) + "\n");
+await writeFile(OUT, JSON.stringify(spec, null, 2) + "\n");
 console.log(`Snapshot escrito en ${OUT}`);
