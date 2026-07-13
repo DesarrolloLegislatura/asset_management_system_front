@@ -36,7 +36,6 @@ export const PERMISSIONS = {
   TICKET_CREATE: "ticket.create",
   TICKET_EDIT: "ticket.edit",
   TICKET_DELETE: "ticket.delete",
-  TICKET_STATUS_MANAGE: "ticket_status.manage",
   TICKET_CATALOG_MANAGE: "ticket_catalog.manage",
 };
 
@@ -77,7 +76,6 @@ export const GROUP_PERMISSIONS = {
     PERMISSIONS.TICKET_CREATE,
     PERMISSIONS.TICKET_EDIT,
     PERMISSIONS.TICKET_DELETE,
-    PERMISSIONS.TICKET_STATUS_MANAGE,
     PERMISSIONS.TICKET_CATALOG_MANAGE,
   ],
 

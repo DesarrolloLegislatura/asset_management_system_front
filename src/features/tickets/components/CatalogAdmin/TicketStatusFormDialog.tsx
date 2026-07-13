@@ -21,6 +21,13 @@ import {
 } from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/ui/select";
+import {
   useCreateTicketStatus,
   useUpdateTicketStatus,
 } from "../../hooks/useTicketStatuses";
@@ -139,6 +146,30 @@ export const TicketStatusFormDialog = ({
                   <FormControl>
                     <Input {...field} placeholder="Descripción opcional" />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="active"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Activo</FormLabel>
+                  <Select
+                    onValueChange={(value) => field.onChange(value === "true")}
+                    value={String(field.value)}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="true">Sí</SelectItem>
+                      <SelectItem value="false">No</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

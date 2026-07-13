@@ -8,18 +8,46 @@ import {
   useTaskCategories,
   useProviderCompanies,
 } from "../hooks/useCatalogs";
+import { useTicketStatuses } from "../hooks/useTicketStatuses";
 import { CatalogTable, type CatalogColumn } from "../components/CatalogAdmin/CatalogTable";
 import { PriorityFormDialog } from "../components/CatalogAdmin/PriorityFormDialog";
 import { SimpleCatalogFormDialog } from "../components/CatalogAdmin/SimpleCatalogFormDialog";
 import { ProviderCompanyFormDialog } from "../components/CatalogAdmin/ProviderCompanyFormDialog";
+import { TicketStatusFormDialog } from "../components/CatalogAdmin/TicketStatusFormDialog";
 import { CatalogDeleteDialog } from "../components/CatalogAdmin/CatalogDeleteDialog";
-import type { Priority, ServiceType, TaskCategory, ProviderCompany } from "../types";
+import type {
+  Priority,
+  ServiceType,
+  TaskCategory,
+  ProviderCompany,
+  TicketStatus,
+} from "../types";
 
 export const TicketCatalogAdminPage = () => {
   const { data: priorities = [], isLoading: loadingPriorities } = usePriorities();
   const { data: serviceTypes = [], isLoading: loadingServiceTypes } = useServiceTypes();
   const { data: taskCategories = [], isLoading: loadingTaskCategories } = useTaskCategories();
   const { data: companies = [], isLoading: loadingCompanies } = useProviderCompanies();
+  const { data: statuses = [], isLoading: loadingStatuses } = useTicketStatuses();
+
+  const statusColumns: CatalogColumn<TicketStatus>[] = [
+    { key: "code", header: "Código", render: (row) => row.code },
+    { key: "name", header: "Nombre", render: (row) => row.name },
+    {
+      key: "description",
+      header: "Descripción",
+      render: (row) => row.description || "—",
+    },
+    {
+      key: "active",
+      header: "Activo",
+      render: (row) => (
+        <Badge variant={row.active ? "default" : "outline"}>
+          {row.active ? "Sí" : "No"}
+        </Badge>
+      ),
+    },
+  ];
 
   const priorityColumns: CatalogColumn<Priority>[] = [
     { key: "name", header: "Nombre", render: (row) => row.name },
@@ -67,17 +95,55 @@ export const TicketCatalogAdminPage = () => {
       <div className="mb-6">
         <h1 className="text-2xl font-bold tracking-tight">Catálogos de Tickets</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Administración de prioridades, tipos de servicio, categorías y empresas
+          Administración de estados, prioridades, tipos de servicio, categorías y empresas
         </p>
       </div>
 
-      <Tabs defaultValue="priorities">
+      <Tabs defaultValue="statuses">
         <TabsList>
+          <TabsTrigger value="statuses">Estados</TabsTrigger>
           <TabsTrigger value="priorities">Prioridades</TabsTrigger>
           <TabsTrigger value="serviceTypes">Tipos de servicio</TabsTrigger>
           <TabsTrigger value="taskCategories">Categorías</TabsTrigger>
           <TabsTrigger value="companies">Empresas</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="statuses" className="py-4 space-y-4">
+          <div className="flex justify-end">
+            <TicketStatusFormDialog
+              mode="create"
+              trigger={
+                <Button size="sm">
+                  <Plus className="h-4 w-4 mr-2" /> Nuevo estado
+                </Button>
+              }
+            />
+          </div>
+          <CatalogTable<TicketStatus>
+            columns={statusColumns}
+            rows={statuses}
+            isLoading={loadingStatuses}
+            emptyMessage="No hay estados registrados."
+            renderActions={(row) => (
+              <>
+                <TicketStatusFormDialog
+                  mode="edit"
+                  status={row}
+                  trigger={
+                    <Button variant="ghost" size="sm">
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                  }
+                />
+                <CatalogDeleteDialog
+                  resource="ticketStatus"
+                  id={row.id as number}
+                  label={row.name}
+                />
+              </>
+            )}
+          />
+        </TabsContent>
 
         <TabsContent value="priorities" className="py-4 space-y-4">
           <div className="flex justify-end">

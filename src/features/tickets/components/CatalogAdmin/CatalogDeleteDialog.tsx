@@ -16,12 +16,14 @@ import {
   useDeleteTaskCategory,
   useDeleteProviderCompany,
 } from "../../hooks/useCatalogs";
+import { useDeleteTicketStatus } from "../../hooks/useTicketStatuses";
 
 type CatalogResource =
   | "priority"
   | "serviceType"
   | "taskCategory"
-  | "providerCompany";
+  | "providerCompany"
+  | "ticketStatus";
 
 interface CatalogDeleteDialogProps {
   resource: CatalogResource;
@@ -42,12 +44,14 @@ export const CatalogDeleteDialog = ({
   const deleteServiceType = useDeleteServiceType();
   const deleteTaskCategory = useDeleteTaskCategory();
   const deleteProviderCompany = useDeleteProviderCompany();
+  const deleteTicketStatus = useDeleteTicketStatus();
 
   const mutation = {
     priority: deletePriority,
     serviceType: deleteServiceType,
     taskCategory: deleteTaskCategory,
     providerCompany: deleteProviderCompany,
+    ticketStatus: deleteTicketStatus,
   }[resource];
 
   const handleConfirm = async () => {
