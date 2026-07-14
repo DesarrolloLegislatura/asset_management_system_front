@@ -10,25 +10,30 @@ import {
 } from "../ui/select";
 
 import PropTypes from "prop-types";
+import { useFichaFiltersStore } from "@/store/fichaFiltersStore";
+
 export const FichaListFilter = ({
   hasActiveFilters,
-  clearAllFilters,
-  inventoryFilter,
-  setInventoryFilter,
-  clearInventoryFilter,
-  statusFilter,
-  setStatusFilter,
-  clearStatusFilter,
   availableStatuses,
-  filteredData,
-  fichaNumberFilter,
-  setFichaNumberFilter,
-  clearFichaNumberFilter,
-  areaFilter,
-  setAreaFilter,
-  clearAreaFilter,
   availableAreas,
+  filteredData,
 }) => {
+  const {
+    fichaNumberFilter,
+    setFichaNumberFilter,
+    clearFichaNumberFilter,
+    inventoryFilter,
+    setInventoryFilter,
+    clearInventoryFilter,
+    statusFilter,
+    setStatusFilter,
+    clearStatusFilter,
+    areaFilter,
+    setAreaFilter,
+    clearAreaFilter,
+    clearAllFilters,
+  } = useFichaFiltersStore();
+
   return (
     <>
       {/* Filtros de búsqueda */}
@@ -196,20 +201,7 @@ export const FichaListFilter = ({
 
 FichaListFilter.propTypes = {
   hasActiveFilters: PropTypes.bool.isRequired,
-  clearAllFilters: PropTypes.func.isRequired,
-  inventoryFilter: PropTypes.string.isRequired,
-  setInventoryFilter: PropTypes.func.isRequired,
-  clearInventoryFilter: PropTypes.func.isRequired,
-  statusFilter: PropTypes.string.isRequired,
-  setStatusFilter: PropTypes.func.isRequired,
-  clearStatusFilter: PropTypes.func.isRequired,
   availableStatuses: PropTypes.array.isRequired,
-  filteredData: PropTypes.array.isRequired,
-  fichaNumberFilter: PropTypes.string.isRequired,
-  setFichaNumberFilter: PropTypes.func.isRequired,
-  clearFichaNumberFilter: PropTypes.func.isRequired,
-  areaFilter: PropTypes.string.isRequired,
-  setAreaFilter: PropTypes.func.isRequired,
-  clearAreaFilter: PropTypes.func.isRequired,
   availableAreas: PropTypes.array.isRequired,
+  filteredData: PropTypes.array.isRequired,
 };

@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Edit, Eye, Plus, Wrench } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useFichaTecnica } from "@/hooks/useFichaTecnica";
+import { useFichaFiltersStore } from "@/store/fichaFiltersStore";
 import { usePermissions } from "@/hooks/usePermissions";
 import { PERMISSIONS, USER_GROUPS } from "@/constants/permissions";
 import { getDetailRoute, getEditRoute } from "@/utils/navigation";
@@ -36,10 +37,11 @@ export const FichaList = () => {
   ]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
-  const [inventoryFilter, setInventoryFilter] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all"); // Cambiar valor inicial
-  const [fichaNumberFilter, setFichaNumberFilter] = useState("");
-  const [areaFilter, setAreaFilter] = useState("all"); // NUEVO: Filtro por área
+
+  // Filtros persistidos en sessionStorage: sobreviven a la navegación
+  // y solo se limpian con el botón "Limpiar todo"
+  const { fichaNumberFilter, inventoryFilter, statusFilter, areaFilter, clearAllFilters } =
+    useFichaFiltersStore();
 
   // Función helper para obtener el estado actual de una ficha de forma segura
   const getCurrentStatus = (ficha) => {
@@ -307,34 +309,6 @@ export const FichaList = () => {
     },
   });
 
-  // Función para limpiar el filtro de número de ficha
-  const clearFichaNumberFilter = () => {
-    setFichaNumberFilter("");
-  };
-
-  // Función para limpiar el filtro de inventario
-  const clearInventoryFilter = () => {
-    setInventoryFilter("");
-  };
-
-  // Función para limpiar el filtro de status
-  const clearStatusFilter = () => {
-    setStatusFilter("all"); // Cambiar a "all"
-  };
-
-  // NUEVO: Función para limpiar el filtro de área
-  const clearAreaFilter = () => {
-    setAreaFilter("all");
-  };
-
-  // Función para limpiar todos los filtros
-  const clearAllFilters = () => {
-    setInventoryFilter("");
-    setStatusFilter("all"); // Cambiar a "all"
-    setFichaNumberFilter("");
-    setAreaFilter("all"); // NUEVO: Limpiar filtro de área
-  };
-
   // Verificar si hay filtros activos - Actualizar lógica
   const hasActiveFilters =
     inventoryFilter.trim() !== "" ||
@@ -418,22 +392,9 @@ export const FichaList = () => {
         </div>
         <FichaListFilter
           hasActiveFilters={hasActiveFilters}
-          clearAllFilters={clearAllFilters}
-          inventoryFilter={inventoryFilter}
-          setInventoryFilter={setInventoryFilter}
-          clearInventoryFilter={clearInventoryFilter}
-          statusFilter={statusFilter}
-          setStatusFilter={setStatusFilter}
-          clearStatusFilter={clearStatusFilter}
           availableStatuses={availableStatuses}
-          filteredData={filteredData}
-          fichaNumberFilter={fichaNumberFilter}
-          setFichaNumberFilter={setFichaNumberFilter}
-          clearFichaNumberFilter={clearFichaNumberFilter}
-          areaFilter={areaFilter}
-          setAreaFilter={setAreaFilter}
-          clearAreaFilter={clearAreaFilter}
           availableAreas={availableAreas}
+          filteredData={filteredData}
         />
 
         <FichaListTable
