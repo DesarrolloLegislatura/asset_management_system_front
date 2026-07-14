@@ -19,6 +19,7 @@ import { getDetailRoute, getEditRoute } from "@/utils/navigation";
 import { FichaListPaginate } from "./FichaListPaginate";
 import { FichaListTable } from "./FichaListTable";
 import { FichaListFilter } from "./FichaListFilter";
+import { FichaListPrint } from "./FichaListPrint";
 
 const TECNICO_STATUSES = ["INGRESADO"];
 
@@ -412,6 +413,8 @@ export const FichaList = () => {
               Crear Nueva Ficha de Servicio
             </Button>
           </div>
+
+          <FichaListPrint table={table} />
         </div>
         <FichaListFilter
           hasActiveFilters={hasActiveFilters}
