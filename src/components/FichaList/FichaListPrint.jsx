@@ -29,7 +29,7 @@ export const FichaListPrint = ({ table }) => {
     contentRef,
     pageStyle: `
     @page {
-      size: A4;
+      size: A4 landscape;
       margin: 10mm;
     }
     @media print {
@@ -86,7 +86,16 @@ export const FichaListPrint = ({ table }) => {
         </div>
 
         {/* Tabla */}
-        <table className="w-full border-collapse text-[10px]">
+        <table className="w-full table-fixed border-collapse text-[10px]">
+          <colgroup>
+            <col style={{ width: "7%" }} />
+            <col style={{ width: "10%" }} />
+            <col style={{ width: "13%" }} />
+            <col style={{ width: "9%" }} />
+            <col style={{ width: "13%" }} />
+            <col style={{ width: "12%" }} />
+            <col style={{ width: "36%" }} />
+          </colgroup>
           <thead>
             <tr>
               <th className="border border-black p-1 text-left">N° de Ficha</th>
@@ -101,6 +110,9 @@ export const FichaListPrint = ({ table }) => {
               </th>
               <th className="border border-black p-1 text-left">Estado</th>
               <th className="border border-black p-1 text-left">Área</th>
+              <th className="border border-black p-1 text-left">
+                Descripción de la Resolución
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -110,20 +122,23 @@ export const FichaListPrint = ({ table }) => {
               return (
                 <tr key={ficha.id} className="print:break-inside-avoid">
                   <td className="border border-black p-1">{ficha.id}</td>
-                  <td className="border border-black p-1">
+                  <td className="border border-black p-1 break-words">
                     {ficha.asset?.inventory ?? ""}
                   </td>
-                  <td className="border border-black p-1">
+                  <td className="border border-black p-1 break-words">
                     {ficha.asset?.typeasset?.name ?? ""}
                   </td>
                   <td className="border border-black p-1">
                     {formatDate(ficha.date_in)}
                   </td>
-                  <td className="border border-black p-1 uppercase">
+                  <td className="border border-black p-1 uppercase break-words">
                     {status ?? "Sin estado"}
                   </td>
-                  <td className="border border-black p-1">
+                  <td className="border border-black p-1 break-words">
                     {ficha.area?.name ?? ficha.asset?.area?.name ?? ""}
+                  </td>
+                  <td className="border border-black p-1 whitespace-pre-wrap break-words">
+                    {ficha.tech_description ?? ""}
                   </td>
                 </tr>
               );
