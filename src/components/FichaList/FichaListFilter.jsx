@@ -10,6 +10,7 @@ import {
 } from "../ui/select";
 
 import PropTypes from "prop-types";
+import { SearchableSelect } from "../ui/searchable-select";
 import { useFichaFiltersStore } from "@/store/fichaFiltersStore";
 
 export const FichaListFilter = ({
@@ -153,19 +154,16 @@ export const FichaListFilter = ({
               Área
             </label>
             <div className="relative">
-              <Select value={areaFilter} onValueChange={setAreaFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Todas las áreas" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todas las áreas</SelectItem>
-                  {availableAreas.map((area) => (
-                    <SelectItem key={area} value={area}>
-                      {area}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <SearchableSelect
+                options={availableAreas.map((area) => ({
+                  id: area,
+                  name: area,
+                }))}
+                value={areaFilter === "all" ? "" : areaFilter}
+                onChange={(area) => setAreaFilter(area || "all")}
+                placeholder="Todas las áreas"
+                emptyMessage="No se encontró un área con ese nombre."
+              />
               {areaFilter !== "all" && (
                 <Button
                   variant="ghost"
