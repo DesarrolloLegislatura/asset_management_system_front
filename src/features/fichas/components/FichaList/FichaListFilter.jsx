@@ -10,25 +10,31 @@ import {
 } from "@/shared/ui/select";
 
 import PropTypes from "prop-types";
+import { SearchableSelect } from "@/shared/ui/searchable-select";
+import { useFichaFiltersStore } from "../../store/fichaFiltersStore";
+
 export const FichaListFilter = ({
   hasActiveFilters,
-  clearAllFilters,
-  inventoryFilter,
-  setInventoryFilter,
-  clearInventoryFilter,
-  statusFilter,
-  setStatusFilter,
-  clearStatusFilter,
   availableStatuses,
-  filteredData,
-  fichaNumberFilter,
-  setFichaNumberFilter,
-  clearFichaNumberFilter,
-  areaFilter,
-  setAreaFilter,
-  clearAreaFilter,
   availableAreas,
+  filteredData,
 }) => {
+  const {
+    fichaNumberFilter,
+    setFichaNumberFilter,
+    clearFichaNumberFilter,
+    inventoryFilter,
+    setInventoryFilter,
+    clearInventoryFilter,
+    statusFilter,
+    setStatusFilter,
+    clearStatusFilter,
+    areaFilter,
+    setAreaFilter,
+    clearAreaFilter,
+    clearAllFilters,
+  } = useFichaFiltersStore();
+
   return (
     <>
       {/* Filtros de búsqueda */}
@@ -148,19 +154,16 @@ export const FichaListFilter = ({
               Área
             </label>
             <div className="relative">
-              <Select value={areaFilter} onValueChange={setAreaFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Todas las áreas" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todas las áreas</SelectItem>
-                  {availableAreas.map((area) => (
-                    <SelectItem key={area} value={area}>
-                      {area}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <SearchableSelect
+                options={availableAreas.map((area) => ({
+                  id: area,
+                  name: area,
+                }))}
+                value={areaFilter === "all" ? "" : areaFilter}
+                onChange={(area) => setAreaFilter(area || "all")}
+                placeholder="Todas las áreas"
+                emptyMessage="No se encontró un área con ese nombre."
+              />
               {areaFilter !== "all" && (
                 <Button
                   variant="ghost"
@@ -196,20 +199,7 @@ export const FichaListFilter = ({
 
 FichaListFilter.propTypes = {
   hasActiveFilters: PropTypes.bool.isRequired,
-  clearAllFilters: PropTypes.func.isRequired,
-  inventoryFilter: PropTypes.string.isRequired,
-  setInventoryFilter: PropTypes.func.isRequired,
-  clearInventoryFilter: PropTypes.func.isRequired,
-  statusFilter: PropTypes.string.isRequired,
-  setStatusFilter: PropTypes.func.isRequired,
-  clearStatusFilter: PropTypes.func.isRequired,
   availableStatuses: PropTypes.array.isRequired,
-  filteredData: PropTypes.array.isRequired,
-  fichaNumberFilter: PropTypes.string.isRequired,
-  setFichaNumberFilter: PropTypes.func.isRequired,
-  clearFichaNumberFilter: PropTypes.func.isRequired,
-  areaFilter: PropTypes.string.isRequired,
-  setAreaFilter: PropTypes.func.isRequired,
-  clearAreaFilter: PropTypes.func.isRequired,
   availableAreas: PropTypes.array.isRequired,
+  filteredData: PropTypes.array.isRequired,
 };
