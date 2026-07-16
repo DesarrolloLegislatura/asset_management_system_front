@@ -12,11 +12,11 @@ import { Badge } from "@/shared/ui/badge";
 
 import { Edit, Eye, Plus, Wrench } from "lucide-react";
 import { useNavigate } from "react-router";
-import { useFichaTecnica } from "@/hooks/useFichaTecnica";
-import { useFichaFiltersStore } from "@/store/fichaFiltersStore";
-import { usePermissions } from "@/hooks/usePermissions";
-import { PERMISSIONS, USER_GROUPS } from "@/constants/permissions";
-import { getDetailRoute, getEditRoute } from "@/utils/navigation";
+import { useFichaTecnica } from "../../hooks/useFichaTecnica";
+import { useFichaFiltersStore } from "../../store/fichaFiltersStore";
+import { usePermissions } from "@/shared/auth/usePermissions";
+import { PERMISSIONS, USER_GROUPS } from "@/shared/auth/permissions";
+import { getDetailRoute, getEditRoute } from "@/shared/lib/navigation";
 import { FichaListPaginate } from "./FichaListPaginate";
 import { FichaListTable } from "./FichaListTable";
 import { FichaListFilter } from "./FichaListFilter";
