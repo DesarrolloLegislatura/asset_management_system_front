@@ -54,6 +54,7 @@ erDiagram
     service_types {
         INT id PK
         VARCHAR name
+        VARCHAR code
         TEXT description
         BOOLEAN active
         TIMESTAMPTZ createdat

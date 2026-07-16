@@ -51,7 +51,7 @@ JS and TS coexist deliberately (`allowJs: true`, `checkJs: false` — only `.ts/
 
 ## Migration context
 
-The move from the old `src/components`-based layout was executed per the plans in `src/plan/` (read them before restructuring anything). Intentional quirks preserved from the migration: legacy filenames keep their typos (e.g. `InventorySerch.jsx`); folder names correct them (`inventario`).
+The move from the old `src/components`-based layout was executed per the plans in `plans/` (read them before restructuring anything). Intentional quirks preserved from the migration: legacy filenames keep their typos (e.g. `InventorySerch.jsx`); folder names correct them (`inventario`).
 
 ## Gotchas
 
