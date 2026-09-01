@@ -459,6 +459,14 @@ export const AREAS_MOCK = [
     id: 115,
     name: "Dirección de Gestión de Sistemas",
   },
+  {
+    id: 116,
+    name: "Interbloque Chaco Puede",
+  },
+  {
+    id: 117,
+    name: "Dip. Blanc, Katia",
+  },
 ];
 
 export const BUILDINGS_MOCK = [
