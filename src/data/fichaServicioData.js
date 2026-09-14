@@ -467,6 +467,42 @@ export const AREAS_MOCK = [
     id: 117,
     name: "Dip. Blanc, Katia",
   },
+  {
+    id: 118,
+    name: "Dip. Maggio, Adelaida S.",
+  },
+  {
+    id: 119,
+    name: "Dip. Jarenko, Alexis Mayra Y.",
+  },
+  {
+    id: 120,
+    name: "Dip. Rodriguez, Maria Elena",
+  },
+  {
+    id: 121,
+    name: "Dip. Gomez, Jorge Fernando",
+  },
+  {
+    id: 122,
+    name: "Dip. Garcia, Ivan Joaquin",
+  },
+  {
+    id: 123,
+    name: "Dip. Reguera, Edgardo Gabriel",
+  },
+  {
+    id: 124,
+    name: "Dip. Chomiak, Maria Luisa",
+  },
+  {
+    id: 125,
+    name: "Dip. Fogar, Laura Karina",
+  },
+  {
+    id: 126,
+    name: "Dip. Moser, Luciano Graciano",
+  },
 ];
 
 export const BUILDINGS_MOCK = [
