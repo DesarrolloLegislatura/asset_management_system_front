@@ -40,7 +40,7 @@ React 19 + Vite 6.3.5 + TailwindCSS 4 + shadcn/ui (JSX, not TSX).
 - No TypeScript — all source is `.jsx`/`.js` with jsconfig.json for path resolution.
 - `package-lock.json` is gitignored. `pnpm-lock.yaml` is committed (required for Docker builds). Run `pnpm install` to regenerate.
 - ESLint config targets React 18.3 in settings but project uses React 19 — minor mismatch, don't "fix" it.
-- Dockerfile uses Node 22 (bookworm-slim) for build (pnpm 11 requires Node >= 22.13).
+- Dockerfile uses Node 22.23.4 (bookworm-slim) for build (pnpm 11 requires Node >= 22.13; 22.23.4 includes the October 2026 security fixes) and nginx 1.30.6-alpine in production (stable release that includes the nginx security advisories fixed in 1.30.6+).
 - Deploy CI (`.github/workflows/deploy.yml`) pushes to `main` via SSH + docker compose.
 
 ## Git

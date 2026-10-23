@@ -4,7 +4,7 @@ Frontend para el backend del sistema Asset Management System, construido con Rea
 
 ## Tecnologías y Versiones
 
-- **Node.js**: >=22.12.0
+- **Node.js**: 22.23.4
 - **React**: 19.0.0
 - **React DOM**: 19.0.0
 - **Vite**: 6.1.2

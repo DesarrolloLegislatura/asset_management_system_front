@@ -1,5 +1,5 @@
 # Etapa de construcción - Cambiar de alpine a bullseye
-FROM node:22-bookworm-slim as build
+FROM node:22.23.4-bookworm-slim as build
 
 # Establecer directorio de trabajo
 WORKDIR /app
@@ -18,7 +18,8 @@ COPY . .
 RUN pnpm run build
 
 # Etapa de producción
-FROM nginx:stable-alpine
+# 1.30.6 es la estable que incluye los parches de https://nginx.org/en/security_advisories.html (1.30.6+)
+FROM nginx:1.30.6-alpine
 
 # Copiar configuración personalizada de nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
